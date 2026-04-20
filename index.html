@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Financeiro</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+
+<link rel="icon" type="image/png" href="ganho.png">
+
+<style>
+@keyframes pulso {
+  0% { transform: scale(1); box-shadow: 0 0 5px #22c55e; }
+  50% { transform: scale(1.05); box-shadow: 0 0 15px #22c55e; }
+  100% { transform: scale(1); box-shadow: 0 0 5px #22c55e; }
+}
+.progress-bar.complete { animation: pulso 1s ease-in-out 2; }
+
+:root {
+  --bg: #0b1220;
+  --container: #111827;
+  --card: #111827;
+  --border: #1f2937;
+  --text: #e5e7eb;
+  --highlight: #22c55e;
+}
+
+body.light {
+  --bg: #f8f3fa;
+  --container: #ffffff;
+  --card: #f3e8f8;
+  --border: #c8a2e0;
+  --text: #000000;
+  --highlight: #22c55e;
+}
+
+body{
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui,Segoe UI,Roboto,Arial;
+  display:flex;
+  justify-content:center;
+  padding:30px;
+  transition:0.3s;
+}
+
+.container{
+  background: var(--container);
+  padding:24px;
+  width:720px;
+  max-width:100%;
+  border-radius:12px;
+  border:1px solid var(--border);
+  transition:0.3s;
+}
+
+h2{text-align:center;margin-bottom:10px;}
+
+/* Top-bar com botão circular */
+.top-bar{
+  display:flex;
+  justify-content:flex-end;
+  margin-bottom:15px;
+}
+#temaBtn{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  background: var(--highlight);
+  color: var(--text);
+  border:none;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(0,0,0,0.25);
+  transition:0.3s;
+}
+#temaBtn:hover{ transform: scale(1.1); }
+
+input, select{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius:6px;
+  color: var(--text);
+}
+
+button{
+  padding:10px 14px;
+  margin-top:10px;
+  margin-right:6px;
+  background: var(--highlight);
+  border:none;
+  border-radius:6px;
+  font-weight:600;
+  cursor:pointer;
+  color: var(--text);
+  transition:0.2s;
+}
+
+.botoes{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(100px,1fr));
+  gap:6px;
+}
+.botoes button:last-child{ grid-column:1/-1; }
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:15px;}
+.card{background:var(--card);padding:14px;border-radius:10px;text-align:center;font-size:14px;border:1px solid var(--border);}
+
+.progress{height:10px;background:var(--border);border-radius:10px;overflow:hidden;margin-top:5px;}
+.progress-bar{height:10px;background:var(--highlight);width:0%;transition:width 0.8s ease;}
+
+#diasRestantes{margin-top:10px;font-size:14px;text-align:center;color:var(--highlight);}
+#notificacao{position:fixed;top:20px;right:20px;background:var(--highlight);color:var(--text);padding:10px 16px;border-radius:8px;opacity:0;transform:translateY(-20px);transition:0.3s;font-weight:bold;}
+#notificacao.show{opacity:1;transform:translateY(0);}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:20px;
+  font-size:14px;
+}
+td,th{
+  border:1px solid var(--border);
+  padding:8px;
+  text-align:center;
+}
+th{background: var(--card);}
+.total-ok{color:var(--highlight);font-weight:bold}
+
+.status-card{margin-bottom:15px;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:10px;text-align:center;font-weight:600;box-shadow:0 6px 18px rgba(0,0,0,0.15);}
+.status-card span{color:var(--highlight);}
+canvas{margin-top:25px;}
+
+/* Responsividade */
+@media(max-width:768px){
+  .container{padding:15px;}
+  .botoes{grid-template-columns:1fr;}
+  .cards{grid-template-columns:1fr 1fr;}
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #22c55e;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  width: 160px;
+  background: #111827;
+  color: #e5e7eb;
+  text-align: left;
+  padding: 8px;
+  border-radius: 6px;
+  position: absolute;
+  z-index: 1;
+  bottom: 130%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: 0.3s;
+  font-size: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.tooltip:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.grafico-pizza-container{
+  width: 300px;
+  margin: 30px auto 0 auto;
+}
+
+
+.meta-box{
+  margin-top:8px;
+  padding:12px;
+  border-radius:10px;
+  background: rgba(34,197,94,0.08);
+  border:1px solid rgba(34,197,94,0.3);
+  text-align:center;
+}
+
+.meta-titulo{
+  font-size:15px;
+  font-weight:700;
+  color:#22c55e;
+  letter-spacing:1px;
+}
+
+.meta-sub{
+  font-size:12px;
+  opacity:0.7;
+  margin-top:2px;
+}
+
+</style>
+</head>
+
+<body>
+<div class="container">
+<h2>Financeiro</h2>
+<div class="top-bar">
+  <button id="temaBtn" onclick="alternarTema()">Dark</button>
+</div>
+
+<div class="status-card"><div id="diasRestantes"></div></div>
+
+<div class="cards">
+<div class="card" id="totalAno"></div>
+<div class="card" id="mediaAno"></div>
+<div class="card" id="melhorMes"></div>
+<div class="card" id="piorMes"></div>
+</div>
+
+<input id="valor" type="number" placeholder="Valor recebido">
+<!-- SUBSTITUA APENAS ESSA PARTE DO SELECT -->
+<select id="origem">
+ <option value="fixa">Renda Fixa</option>
+ <option value="variavel">Renda Variável</option>
+ <option value="rendimento">Rendimento</option>
+</select>
+
+<select id="mesSelecionado"></select>
+
+<input id="metaMes" type="number" min="0" placeholder="Meta mensal">
+<div class="progress"><div class="progress-bar" id="barraMetaMes"></div></div>
+<input id="metaAno" type="number" min="0" placeholder="Meta anual">
+<div class="progress"><div class="progress-bar" id="barraMetaAno"></div></div>
+
+<div class="botoes">
+<button onclick="salvar()">Salvar</button>
+<button onclick="apagar()">Apagar mês</button>
+<button onclick="apagarTudo()">Apagar tudo</button>
+<button onclick="exportar()">Exportar</button>
+<button onclick="importar()">Importar</button>
+<button onclick="gerarPDF()">Gerar PDF</button>
+<button onclick="apagarMetas()">Apagar metas</button>
+</div>
+
+<input type="file" id="fileInput" hidden>
+
+<table>
+<!-- SUBSTITUA O CABEÇALHO DA TABELA -->
+<thead>
+<tr>
+<th>Mês</th>
+<th>
+  Renda Fixa 
+<span class="tooltip">
+  ⓘ
+  <span class="tooltip-text">
+    Inclui:<br>
+    • Aluguel<br>
+    • Pé de meia<br>
+    • Trabalho
+  </span>
+</span>
+</th>
+<th>Renda Variável</th>
+<th>Rendimento</th>
+<th>Total</th>
+<th>Variação</th>
+</tr>
+</thead>
+<tbody id="tabela"></tbody>
+</table>
+
+<canvas id="grafico"></canvas>
+
+<div class="grafico-pizza-container">
+
+  <div style="text-align:center; margin-bottom:10px;">
+    <button id="modoPizzaBtn" onclick="alternarModoPizza()">Modo: Anual</button>
+  </div>
+
+  <canvas id="graficoPizza"></canvas>
+
+</div>
+
+<div id="telaMeta" style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:flex;
+align-items:center;
+justify-content:center;
+flex-direction:column;
+color:white;
+font-size:24px;
+z-index:999;
+opacity:0;
+pointer-events:none;
+transition:0.5s;
+">
+
+  <h1>🏆 META BATIDA!</h1>
+  <p id="textoMeta"></p>
+  <button onclick="fecharMeta()" style="margin-top:20px;">Continuar</button>
+
+</div>
+
+<div id="notificacao"></div>
+
+
+
+<script>
+
+  let modoPizza = localStorage.getItem("modoPizza") || "anual";
+
+// Exportar para JSON
+function exportar() {
+  const blob = new Blob([JSON.stringify(dados, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "dados-financeiros.json";
+  a.click();
+  notificar("Dados exportados!");
+}
+
+
+// Importar de JSON
+function importar() {
+  const fileInput = document.getElementById("fileInput");
+
+  fileInput.value = ""; // 🔥 força reset
+  fileInput.click();
+
+  fileInput.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      try {
+        let json = JSON.parse(reader.result);
+
+        console.log("JSON carregado:", json); // 🔥 debug
+
+        if (!Array.isArray(json)) {
+          throw "Não é um array";
+        }
+
+        // 🔥 força estrutura correta
+        dados = json.map(m => ({
+          fixa: Number(m.fixa) || 0,
+          variavel: Number(m.variavel) || 0,
+          rendimento: Number(m.rendimento) || 0
+        }));
+
+        // 🔥 garante 12 meses
+        while (dados.length < 12) {
+          dados.push({fixa:0, variavel:0, rendimento:0});
+        }
+
+        dados = dados.slice(0,12);
+
+        persistir();
+        render();
+        notificar("Dados importados!");
+      } catch (e) {
+        console.error(e);
+        alert("Arquivo inválido!");
+      }
+    };
+
+    reader.readAsText(file);
+  };
+}
+
+// Gerar PDF com gráfico
+function gerarPDF() {
+  const { jsPDF } = window.jspdf;
+  const pdf = new jsPDF();
+
+  const ano = new Date().getFullYear();
+  let total = dados.reduce((a, b) => a + totalMes(b), 0);
+
+  pdf.setFontSize(16);
+  pdf.text("Relatório Financeiro", 14, 20);
+  pdf.setFontSize(12);
+  pdf.text(`Ano: ${ano}`, 14, 30);
+  pdf.text(`Total: R$ ${total.toFixed(2)}`, 14, 40);
+
+  const img = grafico.toDataURL("image/png", 1.0);
+  pdf.addImage(img, "PNG", 14, 50, 180, 90);
+
+  pdf.save(`financeiro-${ano}.pdf`);
+  notificar("PDF gerado!");
+}
+
+// Meses
+const meses=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+const mesSelecionado=document.getElementById("mesSelecionado");
+meses.forEach((m,i)=>{let op=document.createElement("option");op.value=i;op.textContent=m;mesSelecionado.appendChild(op);});
+mesSelecionado.value=new Date().getMonth();
+
+
+let mesAtualSalvo = localStorage.getItem("mesAtual");
+
+if(mesAtualSalvo != mesSelecionado.value){
+  localStorage.removeItem("metaNotificada_" + mesSelecionado.value);
+  localStorage.setItem("mesAtual", mesSelecionado.value);
+}
+// Elementos
+const valor=document.getElementById("valor");
+const origem=document.getElementById("origem");
+const tabela=document.getElementById("tabela");
+const grafico=document.getElementById("grafico");
+const totalAno=document.getElementById("totalAno");
+const mediaAno=document.getElementById("mediaAno");
+const melhorMes=document.getElementById("melhorMes");
+const piorMes=document.getElementById("piorMes");
+const barraMetaMes=document.getElementById("barraMetaMes");
+const barraMetaAno=document.getElementById("barraMetaAno");
+const metaMesInput=document.getElementById("metaMes");
+const metaAnoInput=document.getElementById("metaAno");
+
+// Dados
+// SUBSTITUA A ESTRUTURA DOS DADOS
+let dados = JSON.parse(localStorage.getItem("dados")) || 
+Array.from({length:12},()=>({fixa:0,variavel:0,rendimento:0}));
+
+
+// 🔥 CORREÇÃO AQUI
+dados = dados.map(m => ({
+  fixa: m.fixa || 0,
+  variavel: m.variavel || 0,
+  rendimento: m.rendimento || 0
+}));
+
+let chart;
+let pizzaChart;
+
+function totalMes(m){return m.fixa+m.variavel+m.rendimento;}
+
+// Funções principais
+// SALVAR
+function salvar(){
+ let v=Number(valor.value); 
+ if(v<=0)return; 
+dados[Number(mesSelecionado.value)][origem.value] += v;
+ persistir(); 
+ valor.value=""; 
+ notificar(`+ R$ ${v.toFixed(2)}`); 
+ render();
+}
+// APAGAR
+function apagar(){
+ dados[mesSelecionado.value]={fixa:0,variavel:0,rendimento:0}; 
+ persistir(); 
+ render();
+}
+
+function apagarTudo(){
+  let senha = prompt("Digite a senha para apagar tudo:");
+
+  if(senha !== "3004"){
+    alert("Senha incorreta!");
+    return;
+  }
+
+  dados = Array.from({length:12},()=>({fixa:0,variavel:0,rendimento:0}));
+  persistir();
+  render();
+  notificar("Tudo apagado!");
+}
+
+function persistir(){localStorage.setItem("dados",JSON.stringify(dados)); salvarMetas();}
+function salvarMetas(){
+  const metas = {
+    mes: Number(metaMesInput.value) || 0,
+    ano: Number(metaAnoInput.value) || 0
+  };
+
+  localStorage.setItem("metas", JSON.stringify(metas));
+}
+function carregarMetas(){
+  let metas = JSON.parse(localStorage.getItem("metas"));
+
+  if(!metas) return;
+
+  metaMesInput.value = metas.mes ?? "";
+  metaAnoInput.value = metas.ano ?? "";
+}
+
+
+function fecharMeta(){
+  const tela = document.getElementById("telaMeta");
+  tela.style.opacity = "0";
+  tela.style.pointerEvents = "none";
+}
+
+let conquistas = Number(localStorage.getItem("conquistas")) || 0;
+
+function tocarSom(){
+  let audio = new Audio("https://www.soundjay.com/human/applause-01.mp3");
+  audio.play();
+}
+
+function mostrarConfete(){
+  const duration = 2000;
+  const end = Date.now() + duration;
+
+  (function frame() {
+    confetti({
+      particleCount: 8,
+      spread: 80,
+      startVelocity: 30,
+      origin: { x: Math.random(), y: Math.random() - 0.2 }
+    });
+
+    if (Date.now() < end) {
+      requestAnimationFrame(frame);
+    }
+  })();
+}
+
+function render(){
+
+  let mesIndex = Number(mesSelecionado.value);
+  let atual = totalMes(dados[mesIndex]);
+  let metaMes = Number(metaMesInput.value) || 0;
+
+
+
+
+  // 🔽 TABELA
+  tabela.innerHTML=""; 
+  let soma=0; 
+  let ant=null;
+
+  dados.forEach((m,i)=>{
+    let t=totalMes(m); 
+    soma+=t;
+
+    let v="-";
+    if(ant!==null && ant>0){
+      let calc=((t-ant)/ant)*100; 
+      v=calc>0?"↑ "+calc.toFixed(1)+"%":"↓ "+Math.abs(calc).toFixed(1)+"%";
+    }
+
+    tabela.innerHTML+=`
+    <tr>
+    <td>${meses[i]}</td>
+    <td>R$ ${m.fixa.toFixed(2)}</td>
+    <td>R$ ${m.variavel.toFixed(2)}</td>
+    <td>R$ ${m.rendimento.toFixed(2)}</td>
+    <td class="${metaMes > 0 && t >= metaMes ? 'total-ok' : ''}">R$ ${t.toFixed(2)}</td>
+    <td>${v}</td>
+    </tr>`;
+
+    ant = t;
+  });
+
+let key = "metaNotificada_" + mesSelecionado.value;
+let jaNotificou = localStorage.getItem(key);
+
+if(metaMes > 0 && atual >= metaMes){
+
+  let excesso = atual - metaMes;
+  let porcentagem = (atual / metaMes) * 100;
+
+  let valorFormatado = excesso.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL"
+  });
+
+  let mensagem = "";
+
+  if(porcentagem >= 200){
+    mensagem = "🚀 Dobrou a Meta";
+  } 
+  else if(porcentagem >= 130){
+    mensagem = `📊 Performance Elevada + ${valorFormatado}`;
+  } 
+  else if(porcentagem >= 110){
+    mensagem = `📈 ${valorFormatado} Acima da Meta`;
+  } 
+  else {
+    mensagem = "✅ Meta Atingida";
+  }
+
+  notificar(mensagem);
+}
+
+
+
+  // 📊 RESUMO
+  let totais=dados.map(totalMes);
+
+  totalAno.textContent = `Total: R$ ${soma.toFixed(2)}`;
+  let mesesComValor = totais.filter(v => v > 0);
+
+let media = mesesComValor.length > 0
+  ? soma / mesesComValor.length
+  : 0;
+
+mediaAno.textContent = `Média: R$ ${media.toFixed(2)}`;
+
+  melhorMes.textContent="Melhor: "+meses[totais.indexOf(Math.max(...totais))];
+let mesesValidos = totais
+  .map((v, i) => ({ valor: v, index: i }))
+  .filter(m => m.valor > 0);
+
+if(mesesValidos.length > 0){
+  let pior = mesesValidos.reduce((a, b) => a.valor < b.valor ? a : b);
+  piorMes.textContent = "Pior: " + meses[pior.index];
+} else {
+  piorMes.textContent = "Pior: -";
+}
+
+  // 🎯 BARRAS DE META
+  if(metaMes > 0){
+    let perc = (atual/metaMes)*100;
+
+    barraMetaMes.style.width = Math.min(perc,100) + "%";
+
+    if(perc < 50) barraMetaMes.style.background = "red";
+    else if(perc < 100) barraMetaMes.style.background = "orange";
+    else barraMetaMes.style.background = "#22c55e";
+  } else {
+    barraMetaMes.style.width = "0%";
+  }
+
+  let metaAno = Number(metaAnoInput.value)||0;
+  if(metaAno>0){
+    let percAno=(soma/metaAno)*100;
+    barraMetaAno.style.width=Math.min(percAno,100)+"%";
+  } else {
+    barraMetaAno.style.width="0%";
+  }
+
+  atualizarDias();
+  atualizarGrafico();
+  atualizarGraficoPizza();
+}
+
+function atualizarDias(){
+ let hoje=new Date();
+ let ultimo=new Date(hoje.getFullYear(),hoje.getMonth()+1,0);
+ let diasRestantesVal=ultimo.getDate()-hoje.getDate();
+
+ let atual=totalMes(dados[mesSelecionado.value]);
+ let meta=Number(metaMesInput.value)||0;
+
+ let texto=`Faltam <span>${diasRestantesVal}</span> dias`;
+
+  if(meta>0){
+   let falta=meta-atual;
+   let porDia = diasRestantesVal > 0 ? (falta/diasRestantesVal) : 0;
+
+   if(falta > 0){
+     texto += ` • Faltam <span>R$ ${falta.toFixed(2)}</span> (${porDia.toFixed(2)}/dia)`;
+   }
+}
+
+ let diaAtual = hoje.getDate();
+ let previsao = diaAtual > 0 ? (atual/diaAtual)*ultimo.getDate() : 0;
+
+ texto += `<br>Previsão: R$ ${previsao.toFixed(2)}`;
+
+ document.getElementById("diasRestantes").innerHTML = texto;
+}
+
+function atualizarGraficoPizza(){
+
+ if(pizzaChart) pizzaChart.destroy();
+
+ let fixa = 0;
+ let variavel = 0;
+ let rendimento = 0;
+
+ if(modoPizza === "anual"){
+   fixa = dados.reduce((acc, m) => acc + m.fixa, 0);
+   variavel = dados.reduce((acc, m) => acc + m.variavel, 0);
+   rendimento = dados.reduce((acc, m) => acc + m.rendimento, 0);
+ } else {
+   let mes = dados[mesSelecionado.value];
+   fixa = mes.fixa;
+   variavel = mes.variavel;
+   rendimento = mes.rendimento;
+ }
+
+ pizzaChart = new Chart(document.getElementById("graficoPizza"), {
+  type: "pie",
+  data: {
+    labels: ["Renda Fixa", "Renda Variável", "Rendimento"],
+    datasets: [{
+      data: [fixa, variavel, rendimento],
+      backgroundColor: ["#22c55e", "#3b82f6", "#a855f7"]
+    }]
+  },
+  options: {
+    plugins: {
+      legend: {
+        position: "bottom"
+      }
+    }
+  }
+ });
+
+}
+
+
+
+function alternarModoPizza(){
+  modoPizza = modoPizza === "anual" ? "mensal" : "anual";
+
+  localStorage.setItem("modoPizza", modoPizza);
+
+  const btnPizza = document.getElementById("modoPizzaBtn");
+if(btnPizza){
+  btnPizza.textContent =
+    "Modo: " + (modoPizza === "anual" ? "Anual" : "Mensal");
+}
+
+  atualizarGraficoPizza();
+}
+// GRÁFICO
+function atualizarGrafico(){
+  if(!modoPizza) modoPizza = "anual";
+ if(chart) chart.destroy(); 
+ chart=new Chart(grafico,{
+  type:"bar",
+  data:{
+    labels:meses,
+    datasets:[
+      {
+        label:"Renda Fixa",
+        data:dados.map(m=>m.fixa),
+        backgroundColor:"#22c55e"
+      },
+      {
+        label:"Renda Variável",
+        data:dados.map(m=>m.variavel),
+        backgroundColor:"#3b82f6"
+      },
+      {
+        label:"Rendimento",
+        data:dados.map(m=>m.rendimento),
+        backgroundColor:"#a855f7"
+      }
+    ]
+  },
+  options:{
+    responsive:true,
+    scales:{
+      x:{stacked:true},
+      y:{stacked:true,beginAtZero:true}
+    }
+  }
+ });
+}
+function notificar(texto){
+  const n=document.getElementById("notificacao");
+  n.textContent=texto;
+
+  n.style.background = "#22c55e";
+  n.style.boxShadow = "0 0 15px rgba(34,197,94,0.6)";
+
+  n.classList.add("show");
+  setTimeout(()=>{
+    n.classList.remove("show");
+  },2000);
+}
+
+mesSelecionado.addEventListener("change", () => {
+  localStorage.removeItem("metaNotificada_" + mesSelecionado.value);
+  render();
+});
+
+
+// Tema
+function alternarTema(){
+ const body=document.body;
+ const btn=document.getElementById("temaBtn");
+ body.classList.toggle("light");
+ btn.textContent=body.classList.contains("light")?"Light":"Dark";
+ localStorage.setItem("tema",body.classList.contains("light")?"light":"dark");
+}
+if(localStorage.getItem("tema")==="light"){document.body.classList.add("light");document.getElementById("temaBtn").textContent="Light";}
+
+metaMesInput.addEventListener("input", salvarMetas);
+metaAnoInput.addEventListener("input", salvarMetas);
+
+document.getElementById("modoPizzaBtn").textContent =
+  "Modo: " + (modoPizza === "anual" ? "Anual" : "Mensal");
+
+carregarMetas(); render();
+</script>
+</body>
+</html>
