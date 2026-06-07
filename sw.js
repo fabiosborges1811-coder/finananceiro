@@ -1,16 +1,8 @@
-const CACHE_NAME = "capita-v1";
-
-const urlsToCache = [
-  "/",
-  "/index.html",
-  "/manifest.json",
-  "/c.png"
-];
+const CACHE_NAME = "capita-v2";
 
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
   );
 });
 
