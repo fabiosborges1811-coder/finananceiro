@@ -214,7 +214,13 @@ body.dark .chart-btn.active{background:var(--ink3);color:var(--paper3);border-co
 .leg-dot{width:7px;height:7px;border-radius:2px;flex-shrink:0;display:inline-block}
 
 /* PIZZA */
-.pizza-wrap{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:center;min-height:140px}
+.pizza-wrap{
+    display:grid;
+    grid-template-columns:180px 1fr;
+    gap:24px;
+    align-items:center;
+    min-height:240px;
+}
 .pizza-legend{display:flex;flex-direction:column;gap:7px;min-width:0;justify-content:center}
 .plg-item{display:flex;align-items:center;gap:8px;min-width:0}
 .plg-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
@@ -450,6 +456,28 @@ body.dark .mob-logo-img{filter:invert(1) brightness(.85)}
   .kpi-strip{grid-template-columns:1fr 1fr}.growth-strip{grid-template-columns:1fr}
   .hero-val{font-size:28px}.kpi-val{font-size:13.5px}.kpi{padding:13px 14px}
 }
+
+.toast{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  padding:12px 16px;
+  border-radius:12px;
+  background:var(--surface,#111);
+  color:#fff;
+  font-size:14px;
+  opacity:0;
+  transform:translateY(10px);
+  transition:.25s;
+  z-index:9999;
+  pointer-events:none;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
 
 </style>
 </head>
@@ -854,6 +882,8 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
   </div>
 </div>
 
+<div id="toast" class="toast"></div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 // SPLASH
@@ -979,9 +1009,9 @@ const tColor=()=>isDark()?'#665f58':'#aaa';
 
 function buildEvo(){destroyChart('evo');const ds=[];if(chartMode==='bar'||chartMode==='both'){ds.push({label:'Receitas',data:rec.map(tRec),backgroundColor:isDark()?'rgba(45,189,110,.6)':'rgba(28,122,69,.75)',borderRadius:4,borderSkipped:false,type:'bar'});ds.push({label:'Despesas',data:Array.from({length:12},(_,i)=>tDes(i,des)),backgroundColor:isDark()?'rgba(232,85,85,.6)':'rgba(176,32,32,.7)',borderRadius:4,borderSkipped:false,type:'bar'})}if(chartMode==='line'||chartMode==='both'){ds.push({label:'Saldo',data:Array.from({length:12},(_,i)=>saldo(i)),type:'line',borderColor:isDark()?'#6090f8':'#4a70c8',backgroundColor:isDark()?'rgba(96,144,248,.06)':'rgba(74,112,200,.06)',tension:.45,pointRadius:3,pointBackgroundColor:isDark()?'#6090f8':'#4a70c8',fill:chartMode==='line'})}charts.evo=new Chart(g('chartEvo'),{type:'bar',data:{labels:MABR,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},scales:{x:{ticks:{color:tColor(),font:{size:10,family:'DM Mono,monospace'}},grid:{color:gColor()}},y:{beginAtZero:true,ticks:{color:tColor(),font:{size:10,family:'DM Mono,monospace'},callback:v=>(v>=1000?(v/1000).toFixed(0)+'k':v)},grid:{color:gColor()}}}}})}
 
-function buildPizzaRec(){destroyChart('pRec');let fixa,var_,rend;if(pizzaModeRec==='annual'){fixa=rec.reduce((a,m)=>a+(m.fixa||0),0);var_=rec.reduce((a,m)=>a+(m.variavel||0),0);rend=rec.reduce((a,m)=>a+(m.rendimento||0),0)}else{const mes=new Date().getMonth();fixa=rec[mes].fixa||0;var_=rec[mes].variavel||0;rend=rec[mes].rendimento||0}const total=fixa+var_+rend,pct=v=>total>0?Math.round(v/total*100):0;const itens=[{n:'Renda Fixa',v:fixa,c:'#1c7a45'},{n:'Renda Variável',v:var_,c:'#4a70c8'},{n:'Rendimento',v:rend,c:'#8250d2'}];charts.pRec=new Chart(g('chartPRec'),{type:'doughnut',data:{labels:itens.map(x=>x.n),datasets:[{data:itens.map(x=>x.v),backgroundColor:itens.map(x=>x.c),borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'74%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+fmt(c.raw)+' ('+pct(c.raw)+'%)'}}}}}); g('lgPRec').innerHTML=itens.filter(x=>x.v>0).map(x=>`<div class="plg-item"><span class="plg-dot" style="background:${x.c}"></span><div class="plg-name">${x.n}</div><div class="plg-val">${fmt(x.v)} · ${pct(x.v)}%</div></div>`).join('')}
+function buildPizzaRec(){destroyChart('pRec');let fixa,var_,rend;if(pizzaModeRec==='annual'){fixa=rec.reduce((a,m)=>a+(m.fixa||0),0);var_=rec.reduce((a,m)=>a+(m.variavel||0),0);rend=rec.reduce((a,m)=>a+(m.rendimento||0),0)}else{const mes=new Date().getMonth();fixa=rec[mes].fixa||0;var_=rec[mes].variavel||0;rend=rec[mes].rendimento||0}const total=fixa+var_+rend,pct=v=>total>0?Math.round(v/total*100):0;const itens=[{n:'Renda Fixa',v:fixa,c:'#1c7a45'},{n:'Renda Variável',v:var_,c:'#4a70c8'},{n:'Rendimento',v:rend,c:'#8250d2'}];charts.pRec=new Chart(g('chartPRec'),{type:'doughnut',data:{labels:itens.map(x=>x.n),datasets:[{data:itens.map(x=>x.v),backgroundColor:itens.map(x=>x.c),borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+fmt(c.raw)+' ('+pct(c.raw)+'%)'}}}}}); g('lgPRec').innerHTML=itens.filter(x=>x.v>0).map(x=>`<div class="plg-item"><span class="plg-dot" style="background:${x.c}"></span><div class="plg-name">${x.n}</div><div class="plg-val">${fmt(x.v)} · ${pct(x.v)}%</div></div>`).join('')}
 
-function buildPizzaDes(){destroyChart('pDes');let dados;if(pizzaModeDes==='annual')dados=CATS.map(c=>Array.from({length:12},(_,i)=>(des[i][c]||[]).reduce((s,e)=>s+(e.v||0),0)).reduce((a,b)=>a+b,0));else{const mes=new Date().getMonth();dados=CATS.map(c=>(des[mes][c]||[]).reduce((s,e)=>s+(e.v||0),0))}const total=dados.reduce((a,b)=>a+b,0),pct=v=>total>0?Math.round(v/total*100):0;const ativos=CATS.map((c,i)=>({c,v:dados[i],cor:CCLR[c],nome:CNAME[c]})).filter(x=>x.v>0);charts.pDes=new Chart(g('chartPDes'),{type:'doughnut',data:{labels:CATS.map(c=>CNAME[c]),datasets:[{data:dados,backgroundColor:CATS.map((c,i)=>dados[i]>0?CCLR[c]:'transparent'),borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'74%',plugins:{legend:{display:false},tooltip:{filter:item=>item.raw>0,callbacks:{label:c=>c.label+': '+fmt(c.raw)+' ('+pct(c.raw)+'%)'}}}}});g('lgPDes').innerHTML=ativos.length===0?'<div style="font-size:11.5px;color:var(--ink4);padding:8px 0">Nenhuma despesa lançada.</div>':ativos.map(x=>`<div class="plg-item"><span class="plg-dot" style="background:${x.cor}"></span><div class="plg-name">${x.nome}</div><div class="plg-val">${fmt(x.v)} · ${pct(x.v)}%</div></div>`).join('')}
+function buildPizzaDes(){destroyChart('pDes');let dados;if(pizzaModeDes==='annual')dados=CATS.map(c=>Array.from({length:12},(_,i)=>(des[i][c]||[]).reduce((s,e)=>s+(e.v||0),0)).reduce((a,b)=>a+b,0));else{const mes=new Date().getMonth();dados=CATS.map(c=>(des[mes][c]||[]).reduce((s,e)=>s+(e.v||0),0))}const total=dados.reduce((a,b)=>a+b,0),pct=v=>total>0?Math.round(v/total*100):0;const ativos=CATS.map((c,i)=>({c,v:dados[i],cor:CCLR[c],nome:CNAME[c]})).filter(x=>x.v>0);charts.pDes=new Chart(g('chartPDes'),{type:'doughnut',data:{labels:CATS.map(c=>CNAME[c]),datasets:[{data:dados,backgroundColor:CATS.map((c,i)=>dados[i]>0?CCLR[c]:'transparent'),borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{filter:item=>item.raw>0,callbacks:{label:c=>c.label+': '+fmt(c.raw)+' ('+pct(c.raw)+'%)'}}}}});g('lgPDes').innerHTML=ativos.length===0?'<div style="font-size:11.5px;color:var(--ink4);padding:8px 0">Nenhuma despesa lançada.</div>':ativos.map(x=>`<div class="plg-item"><span class="plg-dot" style="background:${x.cor}"></span><div class="plg-name">${x.nome}</div><div class="plg-val">${fmt(x.v)} · ${pct(x.v)}%</div></div>`).join('')}
 
 function buildCatSummary(){const el=g('catGrid');if(!el)return;const cv=CATS.map(c=>Array.from({length:12},(_,i)=>(des[i][c]||[]).reduce((s,e)=>s+(e.v||0),0)).reduce((a,b)=>a+b,0));const tot=cv.reduce((a,b)=>a+b,0),maxV=Math.max(...cv,1);el.innerHTML=CATS.map((cat,ci)=>{const v=cv[ci],p=tot>0?Math.round(v/tot*100):0,bp=Math.round(v/maxV*100);return`<div class="cat-item"><div class="cat-ico eic-${cat}"><svg><use href="#ico-${cat}"/></svg></div><div class="cat-name">${CNAME[cat]}</div><div class="cat-val">${v>0?fmt(v):'—'}</div><div class="cat-pct">${p}% do total</div><div class="cat-bar"><div class="cat-bar-fill" style="width:${bp}%;background:${CCLR[cat]}"></div></div></div>`}).join('')}
 
