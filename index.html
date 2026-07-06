@@ -114,8 +114,6 @@ body.dark .sidebar{background:#0a0905;border-right:1px solid var(--line2)}
   object-fit:contain;
 }
 
-.logo-name{font-family:var(--font-display);font-size:22px;letter-spacing:-.3px;color:rgba(240,237,232,.88);font-style:italic}
-.logo-sub{font-size:9px;color:rgba(240,237,232,.18);font-weight:500;letter-spacing:1.8px;text-transform:uppercase;margin-top:4px;padding-left:37px}
 .nav-group{font-size:8.5px;font-weight:600;color:rgba(240,237,232,.18);letter-spacing:1.8px;text-transform:uppercase;padding:0 22px;margin:10px 0 3px}
 .nav-item{display:flex;align-items:center;gap:10px;padding:10px 22px;font-size:12.5px;font-weight:400;color:rgba(240,237,232,.38);cursor:pointer;transition:.2s;border-left:2px solid transparent;user-select:none;-webkit-tap-highlight-color:transparent;position:relative}
 .nav-item:hover{color:rgba(240,237,232,.72);background:rgba(240,237,232,.04)}
@@ -163,7 +161,7 @@ body.dark .hero{background:#0f0e09;border:1px solid var(--line2)}
 .hero::before{content:'';position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(240,237,232,.04),transparent 65%);pointer-events:none}
 .hero-lbl{font-size:9px;font-weight:500;color:rgba(240,237,232,.28);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .hero-lbl::after{content:'';flex:1;height:1px;background:rgba(240,237,232,.06)}
-.hero-val{font-family:var(--font-display);font-size:48px;color:rgba(240,237,232,.94);letter-spacing:-2px;line-height:1;font-style:italic}
+.hero-val{font-family:var(--font-display);font-size:clamp(26px,7vw,48px);color:rgba(240,237,232,.94);letter-spacing:-2px;line-height:1;font-style:italic}
 .hero-val.neg{color:rgba(232,85,85,.82)}
 .hero-div{height:1px;background:rgba(240,237,232,.07);margin:22px 0}
 .hero-cols{display:flex;gap:28px;flex-wrap:wrap}
@@ -417,7 +415,7 @@ body.dark #toast{background:var(--paper3);color:var(--ink);border:1px solid var(
 #toast.show{opacity:1;transform:translateY(0)}
 
 /* MOBILE TOP */
-.mob-top{display:none;align-items:center;justify-content:space-between;padding:16px 15px 6px}
+.mob-top{display:none;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 16px) 15px 6px}
 .mob-logo{font-family:var(--font-display);font-size:20px;color:var(--ink);display:flex;align-items:center;gap:8px;font-style:italic;letter-spacing:-.3px}
 .mob-logo-img{width:20px;height:20px;object-fit:contain}
 body.dark .mob-logo-img{filter:invert(1) brightness(.85)}
@@ -429,32 +427,52 @@ body.dark .mob-logo-img{filter:invert(1) brightness(.85)}
 .mob-yarr svg{width:9px;height:9px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .mob-theme{width:34px;height:34px;border-radius:50%;background:var(--paper2);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .mob-theme svg{width:14px;height:14px;stroke:var(--ink3);fill:none;stroke-width:1.8;stroke-linecap:round}
+.mob-profile{width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--paper);border:1px solid var(--line2);display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent;font-family:var(--font-display);font-size:12px;font-weight:700;flex-shrink:0}
 .mob-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--paper2);border-top:1px solid var(--line2);padding:5px 2px env(safe-area-inset-bottom,8px);z-index:300;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
 .mob-nav-inner{display:flex}
-.mob-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:8px;font-weight:600;color:var(--ink5);cursor:pointer;border:none;background:none;padding:4px 2px;font-family:var(--font-body);text-transform:uppercase;letter-spacing:.7px;transition:.15s;-webkit-tap-highlight-color:transparent}
+.mob-nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:8.5px;font-weight:600;color:var(--ink5);cursor:pointer;border:none;background:none;padding:6px 2px;min-height:50px;font-family:var(--font-body);text-transform:uppercase;letter-spacing:.7px;transition:.15s;-webkit-tap-highlight-color:transparent}
 .mob-nav-btn.active{color:var(--ink)}
-.mob-nav-btn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:1px}
+.mob-nav-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;margin-bottom:1px}
 
 /* WIZARD OVERLAY */
 #wizOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;z-index:900;padding:0}
 #wizOverlay.open{display:flex}
-#wizModal{width:100%;max-width:520px;max-height:92vh;overflow-y:auto;background:var(--paper2);border:1px solid var(--line2);border-radius:20px 20px 0 0;padding:26px 22px 34px;box-shadow:var(--shadow-lg)}
+#wizModal{width:100%;max-width:520px;max-height:92vh;overflow-y:auto;background:var(--paper2);border:1px solid var(--line2);border-radius:20px 20px 0 0;padding:26px 22px calc(env(safe-area-inset-bottom,0px) + 34px);box-shadow:var(--shadow-lg)}
 @media(min-width:640px){#wizOverlay{align-items:center;padding:20px}#wizModal{border-radius:20px}}
+
+/* ACCOUNT SHEET (mobile) */
+#accOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:none;align-items:flex-end;justify-content:center;z-index:900}
+#accOverlay.open{display:flex}
+#accModal{width:100%;max-width:420px;background:var(--paper2);border:1px solid var(--line2);border-radius:20px 20px 0 0;padding:22px 20px calc(env(safe-area-inset-bottom,0px) + 26px);box-shadow:var(--shadow-lg)}
+@media(min-width:640px){#accOverlay{align-items:center}#accModal{border-radius:20px}}
+
+/* ACCESSIBILITY: focus states */
+.nav-item:focus-visible,.mob-nav-btn:focus-visible,.btn-primary:focus-visible,.btn-ghost:focus-visible,.chart-btn:focus-visible,.mode-btn:focus-visible,.yarr:focus-visible,.mob-yarr:focus-visible,.mob-theme:focus-visible,.mob-profile:focus-visible,.theme-toggle:focus-visible,.entry-del:focus-visible,.si-del:focus-visible,.dream-card:focus-visible,.sonho-item:focus-visible,.pizza-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+body.dark .nav-item:focus-visible,body.dark .mob-nav-btn:focus-visible,body.dark .btn-primary:focus-visible,body.dark .btn-ghost:focus-visible,body.dark .chart-btn:focus-visible,body.dark .mode-btn:focus-visible,body.dark .yarr:focus-visible,body.dark .mob-yarr:focus-visible,body.dark .mob-theme:focus-visible,body.dark .mob-profile:focus-visible,body.dark .theme-toggle:focus-visible,body.dark .entry-del:focus-visible,body.dark .si-del:focus-visible,body.dark .dream-card:focus-visible,body.dark .sonho-item:focus-visible{outline-color:var(--blue)}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}
+}
 
 @media(max-width:820px){
   .sidebar{display:none!important}.mob-top{display:flex!important}.mob-nav{display:block!important}
   .main{padding:0 14px 92px}.kpi-strip{grid-template-columns:1fr 1fr;gap:9px}
   .charts-grid{grid-template-columns:1fr}.growth-strip{grid-template-columns:1fr 1fr;gap:9px}
   .form-grid{grid-template-columns:1fr 1fr;gap:9px}.form-grid .btn-primary{grid-column:span 2}
-  .hero{padding:20px 20px}.hero-val{font-size:34px}.hero-cols{gap:16px}
+  .hero{padding:20px 20px}.hero-cols{gap:16px}
   .card-body{padding:14px 14px}.card-head{padding:12px 14px}.actions-row{gap:5px}
   #toast{bottom:90px;right:10px;left:10px}
   .pizza-wrap{grid-template-columns:1fr;gap:10px}.pizza-wrap>div:first-child{height:130px!important}.plg-name{white-space:normal}
+  /* Prevent iOS Safari auto-zoom on input focus by keeping form text at 16px+ on touch breakpoints */
+  input[type=number],input[type=text],input[type=email],input[type=password],select{font-size:16px}
+  /* Keep first table column visible while scrolling wide tables horizontally */
+  .tbl-scroll table thead th:first-child,.tbl-scroll table tbody td:first-child,.tbl-scroll table tfoot td:first-child{position:sticky;left:0;background:var(--paper2);z-index:1}
+  .tbl-scroll table tbody tr:hover td:first-child{background:var(--paper3)}
 }
 @media(max-width:480px){
   .form-grid{grid-template-columns:1fr}.form-grid .btn-primary{grid-column:span 1}
   .kpi-strip{grid-template-columns:1fr 1fr}.growth-strip{grid-template-columns:1fr}
-  .hero-val{font-size:28px}.kpi-val{font-size:13.5px}.kpi{padding:13px 14px}
+  .kpi-val{font-size:13.5px}.kpi{padding:13px 14px}
 }
 
 .toast{
@@ -478,6 +496,29 @@ body.dark .mob-logo-img{filter:invert(1) brightness(.85)}
   transform:translateY(0);
 }
 
+.logo-row{
+    display:flex;
+    flex-direction:column;   /* Um embaixo do outro */
+    align-items:center;      /* Centraliza */
+    justify-content:center;
+}
+
+.logo-name{
+    font-family:var(--font-display);
+    font-size:40px;
+    font-style:italic;
+    color:rgba(240,237,232,.88);
+    margin:0;
+}
+
+.logo-sub{
+    margin-top:10px;
+    font-size:9px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    color:rgba(255,255,255,.35);
+    text-align:center;
+}
 
 </style>
 </head>
@@ -532,11 +573,11 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
   <div class="auth-box" style="max-width:500px">
     <div class="auth-logo"><img class="auth-logo-img" src="icon-512.png" alt="Capita"><span class="auth-title">Configuração</span></div>
     <div class="config-notice"><strong>⚙️ Configure o backend Supabase (gratuito)</strong><ol><li>Acesse <strong>supabase.com</strong> → crie uma conta gratuita</li><li>Crie um novo projeto</li><li>Vá em <strong>Settings → API</strong></li><li>Copie a <code>Project URL</code> e a <code>anon public key</code></li><li>Cole abaixo e salve — depois execute o SQL gerado no Supabase</li></ol></div>
-    <div class="auth-field"><label>Supabase Project URL</label><input type="text" id="cfgUrl" placeholder="https://xxxxxxxxxxx.supabase.co"></div>
-    <div class="auth-field"><label>Supabase Anon Key</label><input type="text" id="cfgKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></div>
+    <div class="auth-field"><label for="cfgUrl">Supabase Project URL</label><input type="text" id="cfgUrl" placeholder="https://xxxxxxxxxxx.supabase.co"></div>
+    <div class="auth-field"><label for="cfgKey">Supabase Anon Key</label><input type="text" id="cfgKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></div>
     <button class="btn-primary auth-btn" onclick="salvarConfig()">Salvar e Continuar →</button>
     <div id="sqlBlock" style="display:none;margin-top:22px">
-      <div class="auth-field"><label>Execute este SQL no Supabase (SQL Editor):</label></div>
+      <div class="auth-field"><label for="sqlText">Execute este SQL no Supabase (SQL Editor):</label></div>
       <textarea id="sqlText" readonly style="width:100%;height:200px;background:var(--paper3);border:1px solid var(--line2);border-radius:10px;padding:14px;color:var(--ink);font-family:var(--font-mono);font-size:11px;resize:vertical"></textarea>
       <button class="btn-ghost" style="margin-top:8px;width:100%" onclick="copiarSQL()">📋 Copiar SQL</button>
       <p style="font-size:11.5px;color:var(--ink4);margin-top:12px;text-align:center">Após executar o SQL, recarregue a página.</p>
@@ -549,17 +590,17 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
   <div class="auth-box">
     <div class="auth-logo"><img class="auth-logo-img" src="icon-512.png" alt="Capita"><span class="auth-title">Capita</span></div>
     <p class="auth-sub">Finanças Pessoais · Sua conta</p>
-    <div id="authErr" class="auth-err"></div>
+    <div id="authErr" class="auth-err" role="alert"></div>
     <div id="loginForm">
-      <div class="auth-field"><label>Email</label><input type="email" id="loginEmail" placeholder="seu@email.com"></div>
-      <div class="auth-field"><label>Senha</label><input type="password" id="loginPass" placeholder="••••••••"></div>
+      <div class="auth-field"><label for="loginEmail">Email</label><input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"></div>
+      <div class="auth-field"><label for="loginPass">Senha</label><input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"></div>
       <button class="btn-primary auth-btn" id="loginBtn" onclick="fazerLogin()">Entrar</button>
       <div class="auth-switch">Não tem conta? <a onclick="mostrarCadastro()">Criar conta</a></div>
     </div>
     <div id="registerForm" style="display:none">
-      <div class="auth-field"><label>Nome</label><input type="text" id="regName" placeholder="Seu nome"></div>
-      <div class="auth-field"><label>Email</label><input type="email" id="regEmail" placeholder="seu@email.com"></div>
-      <div class="auth-field"><label>Senha</label><input type="password" id="regPass" placeholder="mínimo 6 caracteres"></div>
+      <div class="auth-field"><label for="regName">Nome</label><input type="text" id="regName" placeholder="Seu nome" autocomplete="name"></div>
+      <div class="auth-field"><label for="regEmail">Email</label><input type="email" id="regEmail" placeholder="seu@email.com" autocomplete="email"></div>
+      <div class="auth-field"><label for="regPass">Senha</label><input type="password" id="regPass" placeholder="mínimo 6 caracteres" autocomplete="new-password"></div>
       <button class="btn-primary auth-btn" id="regBtn" onclick="fazerCadastro()">Criar Conta</button>
       <div class="auth-switch">Já tem conta? <a onclick="mostrarLogin()">Entrar</a></div>
     </div>
@@ -568,22 +609,21 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 
 <!-- APP -->
 <div id="appScreen" style="display:none">
-  <div id="metaBanner"><span id="bannerTxt">Meta atingida!</span><button onclick="closeBanner()">×</button></div>
+  <div id="metaBanner" role="status"><span id="bannerTxt">Meta atingida!</span><button onclick="closeBanner()" aria-label="Fechar aviso">×</button></div>
   <div class="layout">
     <nav class="sidebar">
       <div class="logo-wrap">
-        <div class="logo-row">
-          <img class="logo-img" src="icon-512.png" alt="">
-          <span class="logo-name">Capita</span>
-        </div>
-        <div class="logo-sub">Finanças Pessoais</div>
-      </div>
+    <div class="logo-row">
+        <span class="logo-name">Capita</span>
+        <span class="logo-sub">Finanças Pessoais</span>
+    </div>
+</div>
       <div class="nav-group">Principal</div>
-      <div class="nav-item active" data-page="dashboard" onclick="navTo('dashboard')"><span class="nav-icon"><svg><use href="#ni-grid"/></svg></span>Visão Geral</div>
-      <div class="nav-item" data-page="receitas" onclick="navTo('receitas')"><span class="nav-icon"><svg><use href="#ni-up"/></svg></span>Receitas</div>
-      <div class="nav-item" data-page="despesas" onclick="navTo('despesas')"><span class="nav-icon"><svg><use href="#ni-down"/></svg></span>Despesas</div>
-      <div class="nav-item" data-page="relatorio" onclick="navTo('relatorio')"><span class="nav-icon"><svg><use href="#ni-doc"/></svg></span>Relatório</div>
-      <div class="nav-item" data-page="metas" onclick="navTo('metas')"><span class="nav-icon"><svg><use href="#ni-star"/></svg></span>Metas</div>
+      <div class="nav-item active" data-page="dashboard" onclick="navTo('dashboard')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-grid"/></svg></span>Visão Geral</div>
+      <div class="nav-item" data-page="receitas" onclick="navTo('receitas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-up"/></svg></span>Receitas</div>
+      <div class="nav-item" data-page="despesas" onclick="navTo('despesas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-down"/></svg></span>Despesas</div>
+      <div class="nav-item" data-page="relatorio" onclick="navTo('relatorio')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-doc"/></svg></span>Relatório</div>
+      <div class="nav-item" data-page="metas" onclick="navTo('metas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-star"/></svg></span>Metas</div>
       <div class="sidebar-foot">
         <div class="uca" id="sideUserCard">
           <div class="uca-av" id="sideAvatar">?</div>
@@ -593,9 +633,9 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
         <div class="year-card">
           <div class="year-card-lbl">Exercício</div>
           <div class="year-row">
-            <button class="yarr" onclick="mudarAno(-1)"><svg><use href="#ni-left"/></svg></button>
+            <button class="yarr" onclick="mudarAno(-1)" aria-label="Ano anterior"><svg><use href="#ni-left"/></svg></button>
             <span class="year-val" id="sidebarAno" onclick="goCurrentYear()">2026</span>
-            <button class="yarr" onclick="mudarAno(1)"><svg><use href="#ni-right"/></svg></button>
+            <button class="yarr" onclick="mudarAno(1)" aria-label="Ano seguinte"><svg><use href="#ni-right"/></svg></button>
           </div>
           <div class="year-quick" id="yearQuick"></div>
         </div>
@@ -608,16 +648,18 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 
     <main class="main">
       <div class="mob-top">
-        <div class="mob-logo"><img class="mob-logo-img" src="icon-512.png" alt="">Capita</div>
+        <div class="mob-logo">
+    Capita
+</div>
         <div class="mob-right">
           <div class="mob-year-pill">
             <span id="mobAno">2026</span>
             <div class="mob-yr-arrows">
-              <button class="mob-yarr" onclick="mudarAno(-1)"><svg><use href="#ni-left"/></svg></button>
-              <button class="mob-yarr" onclick="mudarAno(1)"><svg><use href="#ni-right"/></svg></button>
+              <button class="mob-yarr" onclick="mudarAno(-1)" aria-label="Ano anterior"><svg><use href="#ni-left"/></svg></button>
+              <button class="mob-yarr" onclick="mudarAno(1)" aria-label="Ano seguinte"><svg><use href="#ni-right"/></svg></button>
             </div>
           </div>
-          <button class="mob-theme" onclick="toggleTheme()"><svg id="mobThemeIco"><use href="#ni-sun"/></svg></button>
+          <button class="mob-profile" id="mobProfileBtn" onclick="abrirConta()" aria-label="Conta">?</button>
         </div>
       </div>
 
@@ -686,14 +728,14 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
           <div class="card-head"><span class="card-title">Lançar Receita</span></div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="field"><label>Valor (R$)</label><input type="number" id="recValor" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
-              <div class="field"><label>Categoria</label><select id="recOrigem"><option value="fixa">Renda Fixa</option><option value="variavel">Renda Variável</option><option value="rendimento">Rendimento</option></select></div>
-              <div class="field"><label>Mês</label><select id="recMes"></select></div>
+              <div class="field"><label for="recValor">Valor (R$)</label><input type="number" id="recValor" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
+              <div class="field"><label for="recOrigem">Categoria</label><select id="recOrigem"><option value="fixa">Renda Fixa</option><option value="variavel">Renda Variável</option><option value="rendimento">Rendimento</option></select></div>
+              <div class="field"><label for="recMes">Mês</label><select id="recMes"></select></div>
               <button class="btn-primary" onclick="salvarReceita()">+ Adicionar</button>
             </div>
             <div class="enter-hint"><kbd>Enter</kbd> para salvar rapidamente</div>
             <div style="margin-top:16px">
-              <div class="meta-block"><label>Meta Mensal de Receita (R$)</label><input type="number" id="metaRecMes" inputmode="decimal" placeholder="Ex: 5000" min="0"><div class="progress-row"><div class="progress-track"><div class="progress-fill" id="fillRecMes"></div></div><span class="meta-pct" id="pctRecMes">—</span></div></div>
+              <div class="meta-block"><label for="metaRecMes">Meta Mensal de Receita (R$)</label><input type="number" id="metaRecMes" inputmode="decimal" placeholder="Ex: 5000" min="0"><div class="progress-row"><div class="progress-track"><div class="progress-fill" id="fillRecMes"></div></div><span class="meta-pct" id="pctRecMes">—</span></div></div>
             </div>
             <div class="actions-row">
               <button class="btn-ghost" onclick="apagarMes()">Apagar mês</button>
@@ -725,20 +767,20 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
           <div class="card-head"><span class="card-title">Lançar Despesa</span></div>
           <div class="card-body">
             <div class="form-grid">
-              <div class="field"><label>Valor (R$)</label><input type="number" id="desValor" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
-              <div class="field"><label>Categoria</label><select id="desCategoria"><option value="moradia">Moradia</option><option value="alimentacao">Alimentação</option><option value="transporte">Transporte</option><option value="saude">Saúde</option><option value="lazer">Lazer</option><option value="educacao">Educação</option><option value="outros">Outros</option></select></div>
-              <div class="field"><label>Mês</label><select id="desMes"></select></div>
+              <div class="field"><label for="desValor">Valor (R$)</label><input type="number" id="desValor" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
+              <div class="field"><label for="desCategoria">Categoria</label><select id="desCategoria"><option value="moradia">Moradia</option><option value="alimentacao">Alimentação</option><option value="transporte">Transporte</option><option value="saude">Saúde</option><option value="lazer">Lazer</option><option value="educacao">Educação</option><option value="outros">Outros</option></select></div>
+              <div class="field"><label for="desMes">Mês</label><select id="desMes"></select></div>
               <button class="btn-primary red" onclick="salvarDespesa()">+ Adicionar</button>
             </div>
             <div class="enter-hint"><kbd>Enter</kbd> para salvar rapidamente</div>
             <div class="free-budget" id="freeBudget" style="display:none">
-              <label>Orçamento Independente (R$)</label>
+              <label for="metaDesLivre">Orçamento Independente (R$)</label>
               <input type="number" id="metaDesLivre" inputmode="decimal" placeholder="Ex: 2500" min="0">
               <div class="progress-row" style="margin-top:9px"><div class="progress-track"><div class="progress-fill" id="fillDesLivre" style="background:var(--purple)"></div></div><span class="meta-pct" id="pctDesLivre">—</span></div>
             </div>
             <div id="linkedLimit">
               <div style="margin-top:14px">
-                <div class="meta-block"><label>Limite Mensal de Gastos (R$)</label><input type="number" id="metaDesMes" inputmode="decimal" placeholder="Ex: 3000" min="0"><div class="progress-row"><div class="progress-track"><div class="progress-fill" id="fillDesMes" style="background:var(--red)"></div></div><span class="meta-pct" id="pctDesMes">—</span></div></div>
+                <div class="meta-block"><label for="metaDesMes">Limite Mensal de Gastos (R$)</label><input type="number" id="metaDesMes" inputmode="decimal" placeholder="Ex: 3000" min="0"><div class="progress-row"><div class="progress-track"><div class="progress-fill" id="fillDesMes" style="background:var(--red)"></div></div><span class="meta-pct" id="pctDesMes">—</span></div></div>
               </div>
             </div>
           </div>
@@ -802,8 +844,8 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
             <div class="aporte-card-head">Lançar Aporte</div>
             <div class="aporte-card-body">
               <div class="aporte-fields">
-                <div class="field"><label>Valor (R$)</label><input type="number" id="aporteVal" inputmode="decimal" placeholder="0,00" min="0"></div>
-                <div class="field"><label>Mês</label><select id="aporteMes"></select></div>
+                <div class="field"><label for="aporteVal">Valor (R$)</label><input type="number" id="aporteVal" inputmode="decimal" placeholder="0,00" min="0"></div>
+                <div class="field"><label for="aporteMes">Mês</label><select id="aporteMes"></select></div>
               </div>
               <button class="aporte-btn-full" onclick="lancarAporte()">Salvar aporte</button>
               <div class="enter-hint" style="margin-top:9px"><kbd>Enter</kbd> para salvar</div>
@@ -822,12 +864,12 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
     </main>
   </div>
 
-  <nav class="mob-nav"><div class="mob-nav-inner">
-    <button class="mob-nav-btn active" data-page="dashboard" onclick="navTo('dashboard')"><svg><use href="#ni-grid"/></svg>Início</button>
-    <button class="mob-nav-btn" data-page="receitas" onclick="navTo('receitas')"><svg><use href="#ni-up"/></svg>Receitas</button>
-    <button class="mob-nav-btn" data-page="despesas" onclick="navTo('despesas')"><svg><use href="#ni-down"/></svg>Despesas</button>
-    <button class="mob-nav-btn" data-page="relatorio" onclick="navTo('relatorio')"><svg><use href="#ni-doc"/></svg>Relatório</button>
-    <button class="mob-nav-btn" data-page="metas" onclick="navTo('metas')"><svg><use href="#ni-star"/></svg>Metas</button>
+  <nav class="mob-nav" aria-label="Navegação principal"><div class="mob-nav-inner">
+    <button class="mob-nav-btn active" data-page="dashboard" onclick="navTo('dashboard')" aria-label="Início"><svg><use href="#ni-grid"/></svg>Início</button>
+    <button class="mob-nav-btn" data-page="receitas" onclick="navTo('receitas')" aria-label="Receitas"><svg><use href="#ni-up"/></svg>Receitas</button>
+    <button class="mob-nav-btn" data-page="despesas" onclick="navTo('despesas')" aria-label="Despesas"><svg><use href="#ni-down"/></svg>Despesas</button>
+    <button class="mob-nav-btn" data-page="relatorio" onclick="navTo('relatorio')" aria-label="Relatório"><svg><use href="#ni-doc"/></svg>Relatório</button>
+    <button class="mob-nav-btn" data-page="metas" onclick="navTo('metas')" aria-label="Metas"><svg><use href="#ni-star"/></svg>Metas</button>
   </div></nav>
 </div>
 
@@ -836,7 +878,7 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
   <div id="wizModal">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
       <div style="font-family:'DM Serif Display',serif;font-size:21px;color:var(--ink);font-style:italic;letter-spacing:-.3px" id="wizTitle">Nova Meta</div>
-      <button onclick="fecharWizard()" style="background:none;border:none;font-size:21px;color:var(--ink4);cursor:pointer;padding:3px 8px;border-radius:7px">×</button>
+      <button onclick="fecharWizard()" aria-label="Fechar" style="background:none;border:none;font-size:21px;color:var(--ink4);cursor:pointer;padding:3px 8px;border-radius:7px">×</button>
     </div>
     <div class="wizard-steps">
       <div class="wstep cur" id="ws1"><span class="wstep-num">1</span><span>Sonho</span></div>
@@ -847,8 +889,8 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
     </div>
     <div class="wizard-panel active" id="wp1">
       <p style="font-size:12.5px;color:var(--ink4);margin-bottom:15px">O que você quer conquistar?</p>
-      <div class="field" style="margin-bottom:11px"><label>Nome da meta</label><input type="text" id="wizNome" placeholder="Ex: Viagem para Europa" maxlength="40"></div>
-      <div class="field"><label>Descrição (opcional)</label><input type="text" id="wizDesc" placeholder="Ex: Férias em julho de 2027" maxlength="60"></div>
+      <div class="field" style="margin-bottom:11px"><label for="wizNome">Nome da meta</label><input type="text" id="wizNome" placeholder="Ex: Viagem para Europa" maxlength="40"></div>
+      <div class="field"><label for="wizDesc">Descrição (opcional)</label><input type="text" id="wizDesc" placeholder="Ex: Férias em julho de 2027" maxlength="60"></div>
       <div style="display:flex;justify-content:flex-end;margin-top:18px"><button class="btn-primary" onclick="wizNext(1)">Continuar</button></div>
     </div>
     <div class="wizard-panel" id="wp2">
@@ -862,10 +904,10 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
     <div class="wizard-panel" id="wp3">
       <p style="font-size:12.5px;color:var(--ink4);margin-bottom:15px">Defina o valor e o prazo:</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px">
-        <div class="field"><label>Valor total (R$)</label><input type="number" id="wizValor" placeholder="Ex: 10000" oninput="calcWizPreview()" min="0"></div>
-        <div class="field"><label>Já guardei (R$)</label><input type="number" id="wizJaTenho" placeholder="0,00" oninput="calcWizPreview()" min="0"></div>
-        <div class="field"><label>Mês de início</label><select id="wizMesInicio"></select></div>
-        <div class="field"><label>Prazo (meses)</label><input type="number" id="wizPrazo" placeholder="Ex: 12" min="1" max="120" oninput="calcWizPreview()"></div>
+        <div class="field"><label for="wizValor">Valor total (R$)</label><input type="number" id="wizValor" placeholder="Ex: 10000" inputmode="decimal" oninput="calcWizPreview()" min="0"></div>
+        <div class="field"><label for="wizJaTenho">Já guardei (R$)</label><input type="number" id="wizJaTenho" placeholder="0,00" inputmode="decimal" oninput="calcWizPreview()" min="0"></div>
+        <div class="field"><label for="wizMesInicio">Mês de início</label><select id="wizMesInicio"></select></div>
+        <div class="field"><label for="wizPrazo">Prazo (meses)</label><input type="number" id="wizPrazo" placeholder="Ex: 12" inputmode="numeric" min="1" max="120" oninput="calcWizPreview()"></div>
       </div>
       <div id="wizPreview" style="display:none;background:var(--paper3);border-radius:var(--radius-sm);padding:13px 15px;font-size:12px;color:var(--ink4)">
         <div style="display:flex;gap:18px;flex-wrap:wrap">
@@ -882,7 +924,26 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
   </div>
 </div>
 
-<div id="toast" class="toast"></div>
+<!-- ACCOUNT SHEET (mobile: profile, theme, logout) -->
+<div id="accOverlay" onclick="fecharContaFora(event)">
+  <div id="accModal">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+      <div style="font-family:'DM Serif Display',serif;font-size:19px;color:var(--ink);font-style:italic;letter-spacing:-.3px">Conta</div>
+      <button onclick="fecharConta()" aria-label="Fechar" style="background:none;border:none;font-size:21px;color:var(--ink4);cursor:pointer;padding:3px 8px;border-radius:7px">×</button>
+    </div>
+    <div class="user-card" style="margin-bottom:16px">
+      <div class="user-avatar" id="accAvatar">?</div>
+      <div class="user-info"><div class="user-name" id="accUserName">—</div><div class="user-email" id="accUserEmail">—</div></div>
+    </div>
+    <button class="btn-ghost" style="width:100%;justify-content:center;display:flex;align-items:center;gap:8px;padding:12px;margin-bottom:9px" onclick="toggleTheme()">
+      <svg id="accThemeIco" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round"><use href="#ni-sun"/></svg>
+      <span id="accThemeTxt">Modo Escuro</span>
+    </button>
+    <button class="btn-ghost danger" style="width:100%;justify-content:center;display:flex;padding:12px" onclick="fazerLogout()">Sair da conta</button>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
@@ -950,7 +1011,7 @@ function mostrarAuthErr(msg){const e=g('authErr');e.textContent=msg;e.style.disp
 async function fazerLogin(){const email=g('loginEmail').value.trim(),pass=g('loginPass').value;if(!email||!pass){mostrarAuthErr('Preencha email e senha');return}const btn=g('loginBtn');btn.innerHTML='<span class="spinner"></span>';btn.disabled=true;const{error}=await sb.auth.signInWithPassword({email,password:pass});btn.innerHTML='Entrar';btn.disabled=false;if(error)mostrarAuthErr(error.message==='Invalid login credentials'?'Email ou senha incorretos':error.message)}
 async function fazerCadastro(){const name=g('regName').value.trim(),email=g('regEmail').value.trim(),pass=g('regPass').value;if(!name||!email||!pass){mostrarAuthErr('Preencha todos os campos');return}if(pass.length<6){mostrarAuthErr('Senha deve ter no mínimo 6 caracteres');return}const btn=g('regBtn');btn.innerHTML='<span class="spinner"></span>';btn.disabled=true;const{error}=await sb.auth.signUp({email,password:pass,options:{data:{name}}});btn.innerHTML='Criar Conta';btn.disabled=false;if(error)mostrarAuthErr(error.message);else{toast('Conta criada! Verifique seu email.');mostrarLogin()}}
 async function fazerLogout(){await sb.auth.signOut()}
-function atualizarUserCard(){if(!currentUser)return;const name=currentUser.user_metadata?.name||currentUser.email.split('@')[0];g('sideAvatar').textContent=name[0].toUpperCase();g('sideUserName').textContent=name;g('sideUserEmail').textContent=currentUser.email}
+function atualizarUserCard(){if(!currentUser)return;const name=currentUser.user_metadata?.name||currentUser.email.split('@')[0];const initial=name[0].toUpperCase();g('sideAvatar').textContent=initial;g('sideUserName').textContent=name;g('sideUserEmail').textContent=currentUser.email;const mp=g('mobProfileBtn');if(mp)mp.textContent=initial;const aa=g('accAvatar');if(aa)aa.textContent=initial;const an=g('accUserName');if(an)an.textContent=name;const ae=g('accUserEmail');if(ae)ae.textContent=currentUser.email}
 function exibirConfig(){g('configScreen').classList.add('visible');g('authScreen').classList.remove('visible');g('appScreen').style.display='none';hideSplash()}
 function exibirAuth(){g('configScreen').classList.remove('visible');g('authScreen').classList.add('visible');g('appScreen').style.display='none';hideSplash()}
 async function exibirApp(){g('configScreen').classList.remove('visible');g('authScreen').classList.remove('visible');g('appScreen').style.display='block';hideSplash();atualizarUserCard();initSelects();await loadAll();loadMetaUI();setMode(desMode);updateAnoUI();render()}
@@ -994,8 +1055,13 @@ let metaSaveTimer;
 function onMetaInput(){meta.recMes=Number(g('metaRecMes').value)||0;meta.desMes=Number(g('metaDesMes').value)||0;meta.desLivre=Number(g('metaDesLivre').value)||0;render();clearTimeout(metaSaveTimer);metaSaveTimer=setTimeout(async()=>{const{error}=await sbSaveConfig();if(error){console.error('onMetaInput',error);toast('Erro ao salvar metas')}},1500)}
 
 // THEME
-function applyTheme(dark){document.body.classList.toggle('dark',dark);const moon='<use href="#ni-moon"/>',sun='<use href="#ni-sun"/>';['themeIco','mobThemeIco'].forEach(id=>{const e=g(id);if(e)e.innerHTML=dark?moon:sun});const tt=g('themeTxt');if(tt)tt.textContent=dark?'Modo Claro':'Modo Escuro'}
+function applyTheme(dark){document.body.classList.toggle('dark',dark);const moon='<use href="#ni-moon"/>',sun='<use href="#ni-sun"/>';['themeIco','accThemeIco'].forEach(id=>{const e=g(id);if(e)e.innerHTML=dark?moon:sun});['themeTxt','accThemeTxt'].forEach(id=>{const e=g(id);if(e)e.textContent=dark?'Modo Claro':'Modo Escuro'})}
 function toggleTheme(){const dark=!document.body.classList.contains('dark');applyTheme(dark);localStorage.setItem('cap_theme',dark?'dark':'light');render()}
+
+// ACCOUNT SHEET (mobile)
+function abrirConta(){const ov=g('accOverlay');ov.classList.add('open');document.body.style.overflow='hidden'}
+function fecharConta(){g('accOverlay').classList.remove('open');document.body.style.overflow=''}
+function fecharContaFora(e){if(e.target===g('accOverlay'))fecharConta()}
 
 // EXPORT/IMPORT
 function exportarDados(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify({rec,des,meta,ano:anoAtual,desMode,sonhos},null,2)],{type:'application/json'}));a.download=`capita-${anoAtual}.json`;a.click();toast('Exportado!')}
@@ -1036,7 +1102,7 @@ const tbR=g('tbRec');if(tbR){tbR.innerHTML='';let prev=null;rec.forEach((m,i)=>{
 const tbD=g('tbDes');if(tbD){tbD.innerHTML='';const totC=CATS.map(()=>0);des.forEach((m,i)=>{const vals=CATS.map(c=>(m[c]||[]).reduce((a,e)=>a+(e.v||0),0));vals.forEach((v,ci)=>totC[ci]+=v);const tot=vals.reduce((a,b)=>a+b,0);tbD.innerHTML+=`<tr><td>${MESES[i]}</td>${vals.map(v=>`<td class="mn ${v>0?'cr':''}">${v>0?fmt(v):'—'}</td>`).join('')}<td class="mn cr">${tot>0?fmt(tot):'—'}</td></tr>`});g('tfDes').innerHTML=`<tr><td>Total ${anoAtual}</td>${totC.map(v=>`<td class="${v>0?'cr':''}">${v>0?fmt(v):'—'}</td>`).join('')}<td class="cr">${fmt(totC.reduce((a,b)=>a+b,0))}</td></tr>`}
 const mesD=Number(g('desMes').value);const dl=g('desMesLabel');if(dl)dl.textContent=MESES[mesD]+' '+anoAtual;
 const entries=[];CATS.forEach(c=>(des[mesD][c]||[]).forEach(e=>entries.push({...e,cat:c})));entries.sort((a,b)=>b.id-a.id);
-const el=g('entryList');if(el){if(!entries.length)el.innerHTML='<div style="padding:24px;text-align:center;color:var(--ink4);font-size:12.5px">Nenhuma despesa lançada neste mês.</div>';else el.innerHTML=entries.map(e=>`<div class="entry-item"><div class="entry-left"><span class="entry-icon eic-${e.cat}"><svg width="14" height="14"><use href="#ico-${e.cat}"/></svg></span><div><div class="entry-name">${CNAME[e.cat]}</div><div class="entry-cat">${MESES[mesD]} ${anoAtual}</div></div></div><div style="display:flex;align-items:center"><span class="entry-amt">${fmt(e.v)}</span><button class="entry-del" onclick="deletarDespesa(${mesD},'${e.cat}',${e.id})">×</button></div></div>`).join('')}
+const el=g('entryList');if(el){if(!entries.length)el.innerHTML='<div style="padding:24px;text-align:center;color:var(--ink4);font-size:12.5px">Nenhuma despesa lançada neste mês.</div>';else el.innerHTML=entries.map(e=>`<div class="entry-item"><div class="entry-left"><span class="entry-icon eic-${e.cat}"><svg width="14" height="14"><use href="#ico-${e.cat}"/></svg></span><div><div class="entry-name">${CNAME[e.cat]}</div><div class="entry-cat">${MESES[mesD]} ${anoAtual}</div></div></div><div style="display:flex;align-items:center"><span class="entry-amt">${fmt(e.v)}</span><button class="entry-del" aria-label="Remover despesa" onclick="deletarDespesa(${mesD},'${e.cat}',${e.id})">×</button></div></div>`).join('')}
 const tbRl=g('tbRel');if(tbRl){tbRl.innerHTML='';let prevS=null,totR=0,totD=0,totS=0;MESES.forEach((m,i)=>{const r2=tRec(rec[i]),d2=tDes(i,des),s=r2-d2,tx=r2>0?Math.round(s/r2*100):null;totR+=r2;totD+=d2;totS+=s;let vt='—',vc='';if(prevS!==null&&prevS!==0&&s!==0){const c=(s-prevS)/Math.abs(prevS)*100;vt=(c>0?'+':'')+c.toFixed(1)+'%';vc=c>0?'vup':'vdn'}tbRl.innerHTML+=`<tr><td>${m}</td><td class="mn ${r2>0?'cg':''}">${r2>0?fmt(r2):'—'}</td><td class="mn ${d2>0?'cr':''}">${d2>0?fmt(d2):'—'}</td><td class="mn ${s>0?'cg':s<0?'cr':''}">${r2>0||d2>0?fmt(s):'—'}</td><td class="mn ${tx!==null?(tx>=50?'cg':tx>=20?'ca':'cr'):''}">${tx!==null?tx+'%':'—'}</td><td class="${vc}">${vt}</td></tr>`;if(r2>0||d2>0)prevS=s});const txT=totR>0?Math.round(totS/totR*100):null;g('tfRel').innerHTML=`<tr><td>Total ${anoAtual}</td><td class="cg">${fmt(totR)}</td><td class="cr">${fmt(totD)}</td><td class="${totS>=0?'cg':'cr'}">${fmt(totS)}</td><td>${txT!==null?txT+'%':'—'}</td><td></td></tr>`}
 if(currentPage==='dashboard'){buildEvo();buildPizzaRec();buildPizzaDes()}
 if(currentPage==='relatorio')buildCatSummary();
@@ -1063,7 +1129,7 @@ async function salvarMeta(){const nome=g('wizNome').value.trim(),valor=Number(g(
 // METAS
 function buildAporteMes(){const el=g('aporteMes');if(!el)return;const cur=el.value;el.innerHTML='';MESES.forEach((m,i)=>{const o=document.createElement('option');o.value=i;o.textContent=m;el.appendChild(o)});el.value=cur!==''?cur:new Date().getMonth()}
 async function lancarAporte(){if(sonhoAtivo===null||sonhoAtivo>=sonhos.length){toast('Selecione uma meta');return}const v=Number(g('aporteVal').value);if(!v||!isFinite(v)||v<=0){toast('Informe um valor válido');return}const mes=Number(g('aporteMes').value);const aporte={v,mes,ano:anoAtual,id:Date.now()};sonhos[sonhoAtivo].aportes.push(aporte);g('aporteVal').value='';toast('+\u00a0'+fmt(v)+' registrado');renderDetalhe();const{error}=await sbUpdateAportes(sonhos[sonhoAtivo].id,sonhos[sonhoAtivo].aportes);if(error){console.error('lancarAporte',error);sonhos[sonhoAtivo].aportes=sonhos[sonhoAtivo].aportes.filter(a=>a.id!==aporte.id);toast('Erro ao salvar aporte');renderDetalhe()}}
-function renderMetas(){buildAporteMes();const list=g('sonhoList'),det=g('sonhoDetalhe'),emp=g('sonhoEmpty');if(!sonhos.length){list.innerHTML='';det.style.display='none';emp.style.display='block';return}emp.style.display='none';const totalAcum=s=>s.aportes.reduce((a,e)=>a+(e.v||0),0)+(s.jaTenho||0);list.innerHTML=sonhos.map((s,i)=>{const ac=totalAcum(s),pct=s.valor>0?Math.min(Math.round(ac/s.valor*100),100):0;return`<div class="sonho-item ${i===sonhoAtivo?'active-goal':''}" onclick="selecionarMeta(${i})"><div class="si-top"><div class="si-ico">${s.emoji}</div><div class="si-info"><div class="si-name">${escHtml(s.nome)}</div><div class="si-sub">${fmt(ac)} <span style="color:var(--ink5)">/ ${fmt(s.valor)}</span></div></div><div class="si-pct">${pct}%</div><button class="si-del" onclick="event.stopPropagation();deletarMeta(${i})">×</button></div><div class="si-bar"><div class="si-bar-fill" style="width:${pct}%"></div></div></div>`}).join('');if(sonhoAtivo!==null&&sonhoAtivo<sonhos.length){det.style.display='block';renderDetalhe()}else det.style.display='none'}
+function renderMetas(){buildAporteMes();const list=g('sonhoList'),det=g('sonhoDetalhe'),emp=g('sonhoEmpty');if(!sonhos.length){list.innerHTML='';det.style.display='none';emp.style.display='block';return}emp.style.display='none';const totalAcum=s=>s.aportes.reduce((a,e)=>a+(e.v||0),0)+(s.jaTenho||0);list.innerHTML=sonhos.map((s,i)=>{const ac=totalAcum(s),pct=s.valor>0?Math.min(Math.round(ac/s.valor*100),100):0;return`<div class="sonho-item ${i===sonhoAtivo?'active-goal':''}" onclick="selecionarMeta(${i})"><div class="si-top"><div class="si-ico">${s.emoji}</div><div class="si-info"><div class="si-name">${escHtml(s.nome)}</div><div class="si-sub">${fmt(ac)} <span style="color:var(--ink5)">/ ${fmt(s.valor)}</span></div></div><div class="si-pct">${pct}%</div><button class="si-del" aria-label="Excluir meta" onclick="event.stopPropagation();deletarMeta(${i})">×</button></div><div class="si-bar"><div class="si-bar-fill" style="width:${pct}%"></div></div></div>`}).join('');if(sonhoAtivo!==null&&sonhoAtivo<sonhos.length){det.style.display='block';renderDetalhe()}else det.style.display='none'}
 function selecionarMeta(i){sonhoAtivo=i;buildAporteMes();renderMetas();window.scrollTo({top:0,behavior:'smooth'})}
 function renderDetalhe(){if(sonhoAtivo===null||sonhoAtivo>=sonhos.length)return;const s=sonhos[sonhoAtivo];const acumulado=s.aportes.reduce((a,e)=>a+(e.v||0),0)+(s.jaTenho||0),pct=s.valor>0?Math.min(acumulado/s.valor,1):0,falta=Math.max(s.valor-acumulado,0),porMes=s.prazo>0?Math.max(falta/s.prazo,0):0;g('sdEmoji').textContent=s.emoji;g('sdTitulo').textContent=s.nome;g('sdSub').textContent=s.desc||'';g('sdAcumulado').textContent=fmt(acumulado);g('sdObjetivo').textContent=fmt(s.valor);g('sdFalta').textContent=fmt(falta);g('sdPorMes').textContent=fmt(porMes);const dataFim=new Date(s.anoInicio,s.mesInicio+s.prazo,1);g('sdPrazo').textContent=MESES[dataFim.getMonth()]+' '+dataFim.getFullYear();const arcLen=276,offset=arcLen-pct*arcLen;const arcEl=g('arcFill');arcEl.style.strokeDashoffset=offset;arcEl.style.stroke=pct>=1?'#2dbd6e':pct>=0.5?'#f0a830':'#6090f8';g('arcPct').textContent=Math.round(pct*100)+'%';g('arcLbl').textContent=pct>=1?'Concluída!':'do objetivo';g('projBadge').textContent=pct>=1?'Concluída':`${s.prazo} meses`;g('projBadge').className='badge '+(pct>=1?'up':'nn');const tbody=g('projBody');tbody.innerHTML='';let acum=s.jaTenho||0,metaBatida=false;for(let i=0;i<s.prazo;i++){const mesIdx=(s.mesInicio+i)%12,anoP=s.anoInicio+Math.floor((s.mesInicio+i)/12);const aporte=s.aportes.filter(a=>a.mes===mesIdx&&a.ano===anoP).reduce((sum,a)=>sum+(a.v||0),0);acum+=aporte;const pctRow=s.valor>0?Math.min(acum/s.valor*100,100):0;const now=new Date(),isCur=anoP===now.getFullYear()&&mesIdx===now.getMonth();const isDone=acum>=s.valor&&!metaBatida,isPast=new Date(anoP,mesIdx+1,0)<now;let rowClass='';if(isDone){rowClass='proj-done';metaBatida=true}else if(isCur)rowClass='proj-cur';const status=acum>=s.valor?'✓':isPast&&aporte===0?'–':isCur?'►':'·';tbody.innerHTML+=`<tr class="${rowClass}"><td>${MABR[mesIdx]} ${anoP}</td><td class="mn">${aporte>0?fmt(aporte):'—'}</td><td class="mn ${acum>0?'cg':''}">${fmt(acum)}</td><td class="proj-bar-cell"><div class="proj-bar-outer"><div class="proj-bar-inner" style="width:${pctRow}%"></div></div></td><td style="text-align:center;font-weight:600;color:${acum>=s.valor?'var(--green)':'var(--ink4)'}">${status}</td></tr>`}}
 function editarMeta(){if(sonhoAtivo===null)return;abrirWizard(sonhoAtivo)}
@@ -1071,7 +1137,7 @@ async function deletarMetaAtiva(){if(sonhoAtivo===null)return;if(!confirm('Exclu
 async function deletarMeta(i){if(!confirm('Excluir "'+sonhos[i].nome+'"?'))return;const id=sonhos[i].id;sonhos.splice(i,1);if(sonhoAtivo===i)sonhoAtivo=sonhos.length>0?0:null;else if(sonhoAtivo>i)sonhoAtivo--;renderMetas();if(id){const{error}=await sbDeleteMeta(id);if(error){console.error('deletarMeta',error);toast('Erro ao excluir — recarregando');await loadAll();renderMetas();return}}toast('Meta excluída')}
 
 // BOOT
-(function boot(){applyTheme(localStorage.getItem('cap_theme')==='dark');['metaRecMes','metaDesMes','metaDesLivre'].forEach(id=>{const e=g(id);if(e)e.addEventListener('input',onMetaInput)});setTimeout(()=>{const dm=g('desMes');if(dm)dm.addEventListener('change',render);const rm=g('recMes');if(rm)rm.addEventListener('change',render);const rv=g('recValor');if(rv)rv.addEventListener('keydown',e=>{if(e.key==='Enter')salvarReceita()});const dv=g('desValor');if(dv)dv.addEventListener('keydown',e=>{if(e.key==='Enter')salvarDespesa()});const av=g('aporteVal');if(av)av.addEventListener('keydown',e=>{if(e.key==='Enter')lancarAporte()})},300)})();
+(function boot(){applyTheme(localStorage.getItem('cap_theme')==='dark');['metaRecMes','metaDesMes','metaDesLivre'].forEach(id=>{const e=g(id);if(e)e.addEventListener('input',onMetaInput)});['nav-item'].forEach(()=>{});document.querySelectorAll('.nav-item').forEach(el=>{el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click()}})});setTimeout(()=>{const dm=g('desMes');if(dm)dm.addEventListener('change',render);const rm=g('recMes');if(rm)rm.addEventListener('change',render);const rv=g('recValor');if(rv)rv.addEventListener('keydown',e=>{if(e.key==='Enter')salvarReceita()});const dv=g('desValor');if(dv)dv.addEventListener('keydown',e=>{if(e.key==='Enter')salvarDespesa()});const av=g('aporteVal');if(av)av.addEventListener('keydown',e=>{if(e.key==='Enter')lancarAporte()})},300)})();
 </script>
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{})</script>
 </body>
