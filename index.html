@@ -1649,7 +1649,57 @@ function buildAporteMes(){const el=g('aporteMes');if(!el)return;const cur=el.val
 async function lancarAporte(){if(sonhoAtivo===null||sonhoAtivo>=sonhos.length){toast('Selecione uma meta');return}const v=Number(g('aporteVal').value);if(!v||!isFinite(v)||v<=0){toast('Informe um valor válido');return}const mes=Number(g('aporteMes').value);const aporte={v,mes,ano:anoAtual,id:Date.now()};sonhos[sonhoAtivo].aportes.push(aporte);g('aporteVal').value='';toast('+\u00a0'+fmt(v)+' registrado');renderDetalhe();const{error}=await sbUpdateAportes(sonhos[sonhoAtivo].id,sonhos[sonhoAtivo].aportes);if(error){console.error('lancarAporte',error);sonhos[sonhoAtivo].aportes=sonhos[sonhoAtivo].aportes.filter(a=>a.id!==aporte.id);toast('Erro ao salvar aporte');renderDetalhe()}}
 function renderMetas(){buildAporteMes();const list=g('sonhoList'),det=g('sonhoDetalhe'),emp=g('sonhoEmpty');if(!sonhos.length){list.innerHTML='';det.style.display='none';emp.style.display='block';return}emp.style.display='none';const totalAcum=s=>s.aportes.reduce((a,e)=>a+(e.v||0),0)+(s.jaTenho||0);list.innerHTML=sonhos.map((s,i)=>{const ac=totalAcum(s),pct=s.valor>0?Math.min(Math.round(ac/s.valor*100),100):0;return`<div class="sonho-item ${i===sonhoAtivo?'active-goal':''}" onclick="selecionarMeta(${i})"><div class="si-top"><div class="si-ico">${s.emoji}</div><div class="si-info"><div class="si-name">${escHtml(s.nome)}</div><div class="si-sub">${fmt(ac)} <span style="color:var(--ink5)">/ ${fmt(s.valor)}</span></div></div><div class="si-pct">${pct}%</div><button class="si-del" aria-label="Excluir meta" onclick="event.stopPropagation();deletarMeta(${i})">×</button></div><div class="si-bar"><div class="si-bar-fill" style="width:${pct}%"></div></div></div>`}).join('');if(sonhoAtivo!==null&&sonhoAtivo<sonhos.length){det.style.display='block';renderDetalhe()}else det.style.display='none'}
 function selecionarMeta(i){sonhoAtivo=i;buildAporteMes();renderMetas();window.scrollTo({top:0,behavior:'smooth'})}
-function renderDetalhe(){if(sonhoAtivo===null||sonhoAtivo>=sonhos.length)return;const s=sonhos[sonhoAtivo];const acumulado=s.aportes.reduce((a,e)=>a+(e.v||0),0)+(s.jaTenho||0),pct=s.valor>0?Math.min(acumulado/s.valor,1):0,falta=Math.max(s.valor-acumulado,0),porMes=s.prazo>0?Math.max(falta/s.prazo,0):0;g('sdEmoji').textContent=s.emoji;g('sdTitulo').textContent=s.nome;g('sdSub').textContent=s.desc||'';g('sdAcumulado').textContent=fmt(acumulado);g('sdObjetivo').textContent=fmt(s.valor);g('sdFalta').textContent=fmt(falta);g('sdPorMes').textContent=fmt(porMes);const dataFim=new Date(s.anoInicio,s.mesInicio+s.prazo,1);g('sdPrazo').textContent=MESES[dataFim.getMonth()]+' '+dataFim.getFullYear();const arcLen=276,offset=arcLen-pct*arcLen;const arcEl=g('arcFill');arcEl.style.strokeDashoffset=offset;arcEl.style.stroke=pct>=1?'#2dbd6e':pct>=0.5?'#f0a830':'#6090f8';g('arcPct').textContent=Math.round(pct*100)+'%';g('arcLbl').textContent=pct>=1?'Concluída!':'do objetivo';g('projBadge').textContent=pct>=1?'Concluída':`${s.prazo} meses`;g('projBadge').className='badge '+(pct>=1?'up':'nn');const tbody=g('projBody');tbody.innerHTML='';let acum=s.jaTenho||0,metaBatida=false;for(let i=0;i<s.prazo;i++){const mesIdx=(s.mesInicio+i)%12,anoP=s.anoInicio+Math.floor((s.mesInicio+i)/12);const aporte=s.aportes.filter(a=>a.mes===mesIdx&&a.ano===anoP).reduce((sum,a)=>sum+(a.v||0),0);acum+=aporte;const pctRow=s.valor>0?Math.min(acum/s.valor*100,100):0;const now=new Date(),isCur=anoP===now.getFullYear()&&mesIdx===now.getMonth();const isDone=acum>=s.valor&&!metaBatida,isPast=new Date(anoP,mesIdx+1,0)<now;let rowClass='';if(isDone){rowClass='proj-done';metaBatida=true}else if(isCur)rowClass='proj-cur';const status=acum>=s.valor?'✓':isPast&&aporte===0?'–':isCur?'►':'·';tbody.innerHTML+=`<tr class="${rowClass}"><td>${MABR[mesIdx]} ${anoP}</td><td class="mn">${aporte>0?fmt(aporte):'—'}</td><td class="mn ${acum>0?'cg':''}">${fmt(acum)}</td><td class="proj-bar-cell"><div class="proj-bar-outer"><div class="proj-bar-inner" style="width:${pctRow}%"></div></div></td><td style="text-align:center;font-weight:600;color:${acum>=s.valor?'var(--green)':'var(--ink4)'}">${status}</td></tr>`}}
+function renderDetalhe(){
+  if(sonhoAtivo===null||sonhoAtivo>=sonhos.length)return;
+  const s=sonhos[sonhoAtivo];
+  const acumulado=s.aportes.reduce((a,e)=>a+(e.v||0),0)+(s.jaTenho||0);
+  const pct=s.valor>0?Math.min(acumulado/s.valor,1):0;
+  const falta=Math.max(s.valor-acumulado,0);
+
+  // Data de conclusão (fixa, definida na criação da meta)
+  const dataFim=new Date(s.anoInicio,s.mesInicio+s.prazo,1);
+
+  // Meses que REALMENTE restam a partir de hoje até a conclusão
+  const hoje=new Date();
+  let mesesRestantes=(dataFim.getFullYear()-hoje.getFullYear())*12+(dataFim.getMonth()-hoje.getMonth());
+  if(mesesRestantes<1)mesesRestantes=1; // evita divisão por zero ou negativo (meta já vencida)
+
+  const porMes=falta>0?falta/mesesRestantes:0;
+
+  g('sdEmoji').textContent=s.emoji;
+  g('sdTitulo').textContent=s.nome;
+  g('sdSub').textContent=s.desc||'';
+  g('sdAcumulado').textContent=fmt(acumulado);
+  g('sdObjetivo').textContent=fmt(s.valor);
+  g('sdFalta').textContent=fmt(falta);
+  g('sdPorMes').textContent=fmt(porMes);
+  g('sdPrazo').textContent=MESES[dataFim.getMonth()]+' '+dataFim.getFullYear();
+
+  const arcLen=276,offset=arcLen-pct*arcLen;
+  const arcEl=g('arcFill');
+  arcEl.style.strokeDashoffset=offset;
+  arcEl.style.stroke=pct>=1?'#2dbd6e':pct>=0.5?'#f0a830':'#6090f8';
+  g('arcPct').textContent=Math.round(pct*100)+'%';
+  g('arcLbl').textContent=pct>=1?'Concluída!':'do objetivo';
+  g('projBadge').textContent=pct>=1?'Concluída':`${s.prazo} meses`;
+  g('projBadge').className='badge '+(pct>=1?'up':'nn');
+
+  const tbody=g('projBody');
+  tbody.innerHTML='';
+  let acum=s.jaTenho||0,metaBatida=false;
+  for(let i=0;i<s.prazo;i++){
+    const mesIdx=(s.mesInicio+i)%12,anoP=s.anoInicio+Math.floor((s.mesInicio+i)/12);
+    const aporte=s.aportes.filter(a=>a.mes===mesIdx&&a.ano===anoP).reduce((sum,a)=>sum+(a.v||0),0);
+    acum+=aporte;
+    const pctRow=s.valor>0?Math.min(acum/s.valor*100,100):0;
+    const now=new Date(),isCur=anoP===now.getFullYear()&&mesIdx===now.getMonth();
+    const isDone=acum>=s.valor&&!metaBatida,isPast=new Date(anoP,mesIdx+1,0)<now;
+    let rowClass='';
+    if(isDone){rowClass='proj-done';metaBatida=true}else if(isCur)rowClass='proj-cur';
+    const status=acum>=s.valor?'✓':isPast&&aporte===0?'–':isCur?'►':'·';
+    tbody.innerHTML+=`<tr class="${rowClass}"><td>${MABR[mesIdx]} ${anoP}</td><td class="mn">${aporte>0?fmt(aporte):'—'}</td><td class="mn ${acum>0?'cg':''}">${fmt(acum)}</td><td class="proj-bar-cell"><div class="proj-bar-outer"><div class="proj-bar-inner" style="width:${pctRow}%"></div></div></td><td style="text-align:center;font-weight:600;color:${acum>=s.valor?'var(--green)':'var(--ink4)'}">${status}</td></tr>`;
+  }
+}
 function editarMeta(){if(sonhoAtivo===null)return;abrirWizard(sonhoAtivo)}
 async function deletarMetaAtiva(){if(sonhoAtivo===null)return;if(!confirm('Excluir "'+sonhos[sonhoAtivo].nome+'"?'))return;const id=sonhos[sonhoAtivo].id;sonhos.splice(sonhoAtivo,1);sonhoAtivo=sonhos.length>0?0:null;renderMetas();if(id){const{error}=await sbDeleteMeta(id);if(error){console.error('deletarMetaAtiva',error);toast('Erro ao excluir — recarregando');await loadAll();renderMetas();return}}toast('Meta excluída')}
 async function deletarMeta(i){if(!confirm('Excluir "'+sonhos[i].nome+'"?'))return;const id=sonhos[i].id;sonhos.splice(i,1);if(sonhoAtivo===i)sonhoAtivo=sonhos.length>0?0:null;else if(sonhoAtivo>i)sonhoAtivo--;renderMetas();if(id){const{error}=await sbDeleteMeta(id);if(error){console.error('deletarMeta',error);toast('Erro ao excluir — recarregando');await loadAll();renderMetas();return}}toast('Meta excluída')}
