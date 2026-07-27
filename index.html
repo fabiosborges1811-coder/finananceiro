@@ -1324,7 +1324,18 @@ if(patrimonioMode){
 const proj=mAt>0?(somaRec/mAt)*12:0;g('kpiRecMes').textContent=mAt>0?fmt(proj):'—';g('kpiDesMes').textContent=fmt(desM);g('kpiSaldoMes').textContent=fmt(sM);g('kpiSaldoMes').className='kpi-val mn'+(sM<0?' r':'');
 g('kpiRecBadge').className='badge nn';g('kpiRecBadge').textContent=mAt>0?'base: '+mAt+(mAt===1?' mês':' meses'):'—';
 const mMes=meta.recMes||0;if(mMes>0){g('kpiMetaVal').textContent=fmt(mMes);const p=Math.round(recM/mMes*100);g('kpiMetaBadge').className='badge '+(p>=100?'up':p>=70?'nn':'dn');g('kpiMetaBadge').textContent=p+'% atingido'}else{g('kpiMetaVal').textContent='Não definida';g('kpiMetaBadge').className='badge nn';g('kpiMetaBadge').textContent='—'}
-g('kpiDesBadge').className='badge '+(desM<recM?'up':desM>recM?'dn':'nn');g('kpiDesBadge').textContent=desM<recM?'Dentro do orçamento':desM>recM?'Acima da receita':'Zerado';
+const limDesM = desMode==='free' ? (meta.desLivre||0) : (meta.desMes||0);
+if (limDesM > 0) {
+  const pDesM = desM/limDesM*100;
+  const diff = limDesM - desM; // positivo = falta, negativo = excedeu
+  g('kpiDesBadge').className='badge '+(pDesM>100?'dn':pDesM>=80?'nn':'up');
+  g('kpiDesBadge').textContent = diff >= 0
+    ? `Faltam ${fmt(diff)} para o limite`
+    : `Estourou em ${fmt(Math.abs(diff))}`;
+} else {
+  g('kpiDesBadge').className='badge '+(desM<recM?'up':desM>recM?'dn':'nn');
+  g('kpiDesBadge').textContent=desM<recM?'Dentro do orçamento':desM>recM?'Acima da receita':'Zerado';
+}
 g('kpiSaldoBadge').className='badge '+(sM>0?'up':sM<0?'dn':'nn');g('kpiSaldoBadge').textContent=sM>0?'Positivo':sM<0?'Negativo':'Neutro';
 const hj=new Date(),dR=new Date(hj.getFullYear(),hj.getMonth()+1,0).getDate()-hj.getDate();
 g('statusBar').innerHTML=`Mês atual: <strong>${MESES[mc]}</strong> · Faltam <strong>${dR} dias</strong> · Receita: <strong>${fmt(recM)}</strong> · Despesa: <strong>${fmt(desM)}</strong>`;
@@ -1653,4 +1664,3 @@ async function deletarMeta(i){if(!confirm('Excluir "'+sonhos[i].nome+'"?'))retur
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{})</script>
 </body>
 </html>
-
