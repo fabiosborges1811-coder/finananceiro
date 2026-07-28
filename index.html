@@ -333,7 +333,7 @@ body.dark .sonho-item.active-goal{border-color:rgba(240,237,232,.14)}
 .sr-top{background:var(--ink);padding:30px 26px 26px;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;text-align:center}
 body.dark .sr-top{background:#0f0e09;border:1px solid var(--line2);border-bottom:none}
 .sr-top::before{content:'';position:absolute;right:-100px;top:-100px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(240,237,232,.04),transparent 70%);pointer-events:none}
-.sr-grain{position:absolute;inset:0;pointer-events:none;opacity:.10;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");background-size:180px}
+.sr-grain{position:absolute;inset:0;pointer-events:none;opacity:.10;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");background-size:180px}
 .sd-emoji{font-size:46px;line-height:1;width:84px;height:84px;border-radius:20px;display:flex;align-items:center;justify-content:center;background:rgba(240,237,232,.06);border:1px solid rgba(240,237,232,.08);margin-bottom:16px;position:relative;z-index:1}
 body.dark .sd-emoji{background:var(--paper3);border-color:var(--line2)}
 .sonho-titulo{font-family:var(--font-display);font-size:24px;font-style:italic;color:rgba(240,237,232,.9);line-height:1.2;margin-bottom:5px;position:relative;z-index:1;letter-spacing:-.3px}
@@ -614,6 +614,15 @@ body.dark .proj-card{border-color:rgba(96,144,248,.2)}
 .wn-name{font-size:13px;font-weight:600;color:var(--ink)}
 .wn-desc{font-size:11.5px;color:var(--ink4);line-height:1.5;margin-top:1px}
 
+/* ─── Dias Restantes & Estatísticas ─── */
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.stats-item{display:flex;flex-direction:column;gap:4px;min-width:0}
+.stats-lbl{font-size:9px;font-weight:500;color:var(--ink4);text-transform:uppercase;letter-spacing:1px}
+.stats-val{font-size:14px;font-weight:500;font-family:var(--font-mono);color:var(--ink);line-height:1.3;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.stats-val.g{color:var(--green)}
+.stats-val.r{color:var(--red)}
+@media(max-width:480px){.stats-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 
@@ -815,7 +824,28 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
             <div class="fire-text" id="fireText">—</div>
           </div>
         </div>
-        <div class="status-bar" id="statusBar">—</div>
+        <div class="growth-strip" id="diasStrip">
+          <div class="growth-card">
+            <div class="g-lbl">Dias Corridos Restantes</div>
+            <div class="g-val" id="diasCorridos">—</div>
+            <div class="g-sub" id="diasCorridosSub">—</div>
+          </div>
+          <div class="growth-card">
+            <div class="g-lbl">Dias Úteis Restantes</div>
+            <div class="g-val" id="diasUteis">—</div>
+            <div class="g-sub" id="diasUteisSub">—</div>
+          </div>
+        </div>
+        <div class="card" id="statsCard">
+          <div class="card-head"><span class="card-title">Estatísticas</span></div>
+          <div class="card-body">
+            <div class="stats-grid">
+              <div class="stats-item"><span class="stats-lbl">Maior Receita</span><span class="stats-val g priv" id="statMaxRec">—</span></div>
+              <div class="stats-item"><span class="stats-lbl">Maior Despesa</span><span class="stats-val r priv" id="statMaxDes">—</span></div>
+              <div class="stats-item"><span class="stats-lbl">Melhor Mês</span><span class="stats-val g priv" id="statBest">—</span></div>
+            </div>
+          </div>
+        </div>
         <div class="proj-card" id="projCard">
           <div class="proj-ico"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 7v6h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
           <div class="proj-txt" id="projTxt">Calculando projeção…</div>
@@ -1338,7 +1368,6 @@ if (limDesM > 0) {
 }
 g('kpiSaldoBadge').className='badge '+(sM>0?'up':sM<0?'dn':'nn');g('kpiSaldoBadge').textContent=sM>0?'Positivo':sM<0?'Negativo':'Neutro';
 const hj=new Date(),dR=new Date(hj.getFullYear(),hj.getMonth()+1,0).getDate()-hj.getDate();
-g('statusBar').innerHTML=`Mês atual: <strong>${MESES[mc]}</strong> · Faltam <strong>${dR} dias</strong> · Receita: <strong>${fmt(recM)}</strong> · Despesa: <strong>${fmt(desM)}</strong>`;
 loadMetaUI();setBar('fillRecMes','pctRecMes',recM,mMes,false);setBar('fillDesMes','pctDesMes',desM,meta.desMes||0,true);setBar('fillDesLivre','pctDesLivre',desM,meta.desLivre||0,true);
 const atv=rec.map(tRec).map((v,i)=>({v,i})).filter(x=>x.v>0);
 if(atv.length>=2){g('growthStrip').style.display='grid';const cr=[];for(let k=1;k<atv.length;k++)if(atv[k-1].v>0)cr.push((atv[k].v-atv[k-1].v)/atv[k-1].v*100);const med=cr.reduce((a,b)=>a+b,0)/cr.length,ult=cr[cr.length-1];const gm=g('gMed');gm.textContent=(med>=0?'+':'')+med.toFixed(1)+'%';gm.className='g-val '+(med>=0?'g':'r');const n=atv.length;let sx=0,sy=0,sxy=0,sx2=0;atv.forEach((p,idx)=>{sx+=idx;sy+=p.v;sxy+=idx*p.v;sx2+=idx*idx});const dn=n*sx2-sx*sx,slope=dn?(n*sxy-sx*sy)/dn:0;const gt=g('gTend'),ts=g('gTendSub');if(slope>50){gt.textContent='Crescendo';gt.className='g-val g';ts.textContent='tendência de alta'}else if(slope<-50){gt.textContent='Caindo';gt.className='g-val r';ts.textContent='tendência de queda'}else{gt.textContent='Estável';gt.className='g-val';ts.textContent='sem tendência clara'}}else g('growthStrip').style.display='none';
@@ -1348,7 +1377,7 @@ const mesD=Number(g('desMes').value);const dl=g('desMesLabel');if(dl)dl.textCont
 const entries=[];CATS.forEach(c=>(des[mesD][c]||[]).forEach(e=>entries.push({...e,cat:c})));entries.sort((a,b)=>b.id-a.id);
 const el=g('entryList');if(el){if(!entries.length)el.innerHTML='<div style="padding:24px;text-align:center;color:var(--ink4);font-size:12.5px">Nenhuma despesa lançada neste mês.</div>';else el.innerHTML=entries.map(e=>`<div class="entry-item"><div class="entry-left"><span class="entry-icon eic-${e.cat}"><svg width="14" height="14"><use href="#ico-${e.cat}"/></svg></span><div><div class="entry-name">${CNAME[e.cat]}</div><div class="entry-cat">${MESES[mesD]} ${anoAtual}</div></div></div><div style="display:flex;align-items:center"><span class="entry-amt">${fmt(e.v)}</span><button class="entry-del" aria-label="Remover despesa" onclick="deletarDespesa(${mesD},'${e.cat}',${e.id})">×</button></div></div>`).join('')}
 const tbRl=g('tbRel');if(tbRl){tbRl.innerHTML='';let prevS=null,totR=0,totD=0,totS=0;MESES.forEach((m,i)=>{const r2=tRec(rec[i]),d2=tDes(i,des),s=r2-d2,tx=r2>0?Math.round(s/r2*100):null;totR+=r2;totD+=d2;totS+=s;let vt='—',vc='';if(prevS!==null&&prevS!==0&&s!==0){const c=(s-prevS)/Math.abs(prevS)*100;vt=(c>0?'+':'')+c.toFixed(1)+'%';vc=c>0?'vup':'vdn'}tbRl.innerHTML+=`<tr><td>${m}</td><td class="mn ${r2>0?'cg':''}">${r2>0?fmt(r2):'—'}</td><td class="mn ${d2>0?'cr':''}">${d2>0?fmt(d2):'—'}</td><td class="mn ${s>0?'cg':s<0?'cr':''}">${r2>0||d2>0?fmt(s):'—'}</td><td class="mn ${tx!==null?(tx>=50?'cg':tx>=20?'ca':'cr'):''}">${tx!==null?tx+'%':'—'}</td><td class="${vc}">${vt}</td></tr>`;if(r2>0||d2>0)prevS=s});const txT=totR>0?Math.round(totS/totR*100):null;g('tfRel').innerHTML=`<tr><td>Total ${anoAtual}</td><td class="cg">${fmt(totR)}</td><td class="cr">${fmt(totD)}</td><td class="${totS>=0?'cg':'cr'}">${fmt(totS)}</td><td>${txT!==null?txT+'%':'—'}</td><td></td></tr>`}
-if(currentPage==='dashboard'){buildEvo();buildPizzaRec();buildPizzaDes();buildFire();buildProjecao();buildTermometro();renderInsights()}
+if(currentPage==='dashboard'){buildEvo();buildPizzaRec();buildPizzaDes();buildFire();buildProjecao();buildTermometro();buildDiasRestantes();buildEstatisticas();renderInsights()}
 if(currentPage==='despesas')renderInsights();
 if(currentPage==='receitas')renderInsights();
 if(currentPage==='relatorio')buildCatSummary();
@@ -1441,6 +1470,48 @@ function buildFire() {
   fireBar.style.width = (prog*100)+'%';
   if (gastoMedio<=0) fireText.innerHTML = 'Cadastre despesas para projetar sua <b>Independência Financeira</b> (regra dos 4%).';
   else fireText.innerHTML = `Com gasto médio de <b>${fmt(gastoMedio)}/mês</b>, você precisaria de <b>${fmt(nec)}</b> investidos. Você já conquistou <b>${Math.round(prog*100)}%</b> da sua meta de independência.`;
+}
+
+/* ─── Dias restantes no mês (corridos e úteis) ─── */
+function buildDiasRestantes() {
+  const elC=g('diasCorridos'), elU=g('diasUteis'); if(!elC||!elU) return;
+  const hoje=new Date();
+  const ano=hoje.getFullYear(), mesIdx=hoje.getMonth(), diaHoje=hoje.getDate();
+  const diasNoMes=new Date(ano,mesIdx+1,0).getDate();
+  const diasCorridosRestantes=Math.max(diasNoMes-diaHoje,0);
+  let uteisTotal=0, uteisRestantes=0;
+  for(let d=1; d<=diasNoMes; d++){
+    const dow=new Date(ano,mesIdx,d).getDay();
+    if(dow!==0 && dow!==6){
+      uteisTotal++;
+      if(d>diaHoje) uteisRestantes++;
+    }
+  }
+  elC.textContent = diasCorridosRestantes + (diasCorridosRestantes===1?' dia':' dias');
+  g('diasCorridosSub').textContent = 'de '+diasNoMes+' dias corridos no mês';
+  elU.textContent = uteisRestantes + (uteisRestantes===1?' dia':' dias');
+  g('diasUteisSub').textContent = 'de '+uteisTotal+' dias úteis no mês';
+}
+
+/* ─── Estatísticas: maior receita, maior despesa e melhor mês (exercício atual) ─── */
+function buildEstatisticas() {
+  const bMR=g('statMaxRec'), bMD=g('statMaxDes'), bB=g('statBest'); if(!bMR) return;
+  const recVals = rec.map(tRec);
+  const desVals = Array.from({length:12},(_,i)=>tDes(i,des));
+  let idxR=-1, vR=0;
+  recVals.forEach((v,i)=>{ if(v>vR){ vR=v; idxR=i; } });
+  let idxD=-1, vD=0;
+  desVals.forEach((v,i)=>{ if(v>vD){ vD=v; idxD=i; } });
+  let idxB=-1, vB=-Infinity;
+  recVals.forEach((v,i)=>{
+    if(v>0 || desVals[i]>0){
+      const net = v - desVals[i];
+      if(net>vB){ vB=net; idxB=i; }
+    }
+  });
+  bMR.textContent = idxR>=0 ? MESES[idxR]+' · '+fmt(vR) : '—';
+  bMD.textContent = idxD>=0 ? MESES[idxD]+' · '+fmt(vD) : '—';
+  bB.textContent = idxB>=0 ? MESES[idxB]+' · '+fmt(vB) : '—';
 }
 
 /* ─── Projeção de saldo fim do mês ─── */
