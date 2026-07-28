@@ -643,6 +643,809 @@ body.dark .proj-card{border-color:rgba(96,144,248,.2)}
   .stats-val{align-items:flex-start;text-align:left}
 }
 
+/* ══════════════════════════════════════════════════════════════
+   PREMIUM DASHBOARD — refino visual + animações  (somente CSS)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Tokens extras ─── */
+:root{
+  --ease-out:cubic-bezier(.22,1,.36,1);
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --sheen:linear-gradient(115deg,transparent 20%,rgba(255,255,255,.35) 45%,transparent 70%);
+  --ring:0 0 0 1px rgba(10,10,10,.05);
+}
+body.dark{
+  --sheen:linear-gradient(115deg,transparent 20%,rgba(240,237,232,.10) 45%,transparent 70%);
+  --ring:0 0 0 1px rgba(240,237,232,.05);
+}
+
+/* ─── 2. Números tabulares em todo o dashboard ─── */
+#page-dashboard .kpi-val,#page-dashboard .hero-val,#page-dashboard .hc-val,
+#page-dashboard .g-val,#page-dashboard .stats-amt{
+  font-variant-numeric:tabular-nums;font-feature-settings:'tnum' 1;
+}
+
+/* ─── 3. Cabeçalho da página com filete ─── */
+#page-dashboard .pg-header{position:relative;padding-bottom:18px;margin-bottom:22px}
+#page-dashboard .pg-header::after{
+  content:'';position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:linear-gradient(90deg,var(--line3),transparent 55%);
+  transform:scaleX(0);transform-origin:left;
+  animation:ruleIn 1.1s var(--ease-out) .25s forwards;
+}
+@keyframes ruleIn{to{transform:scaleX(1)}}
+#page-dashboard .pg-title{animation:titleIn .8s var(--ease-out) both}
+#page-dashboard .pg-sub{animation:titleIn .8s var(--ease-out) .1s both}
+@keyframes titleIn{from{opacity:0;transform:translateY(10px);filter:blur(3px)}to{opacity:1;transform:none;filter:blur(0)}}
+
+/* ─── 4. HERO premium ─── */
+#page-dashboard .hero{
+  padding:34px 36px 30px;border-radius:22px;
+  background:
+    radial-gradient(120% 140% at 100% 0%,rgba(45,189,110,.10),transparent 55%),
+    radial-gradient(90% 120% at 0% 100%,rgba(96,144,248,.08),transparent 55%),
+    var(--ink);
+  animation:heroIn .9s var(--ease-out) both;
+}
+body.dark #page-dashboard .hero{
+  background:
+    radial-gradient(120% 140% at 100% 0%,rgba(45,189,110,.13),transparent 55%),
+    radial-gradient(90% 120% at 0% 100%,rgba(96,144,248,.10),transparent 55%),
+    #0f0e09;
+}
+@keyframes heroIn{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:none}}
+/* brilho que atravessa o hero ao carregar */
+#page-dashboard .hero::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:var(--sheen);opacity:0;
+  transform:translateX(-120%);
+  animation:sheen 2.4s var(--ease-out) .5s;
+}
+@keyframes sheen{0%{opacity:0;transform:translateX(-120%)}25%{opacity:.5}100%{opacity:0;transform:translateX(120%)}}
+#page-dashboard .hero-val{
+  letter-spacing:-2.5px;
+  background:linear-gradient(180deg,rgba(240,237,232,.98),rgba(240,237,232,.72));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:valueIn .85s var(--ease-out) .2s both;
+}
+#page-dashboard .hero-val.neg{
+  background:linear-gradient(180deg,rgba(232,85,85,.95),rgba(232,85,85,.62));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+@keyframes valueIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+#page-dashboard .hero-col{animation:fadeUpSm .6s var(--ease-out) both}
+#page-dashboard .hero-col:nth-child(1){animation-delay:.34s}
+#page-dashboard .hero-col:nth-child(2){animation-delay:.40s}
+#page-dashboard .hero-col:nth-child(3){animation-delay:.46s}
+#page-dashboard .hero-col:nth-child(4){animation-delay:.52s}
+@keyframes fadeUpSm{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#page-dashboard .hero-div{transform:scaleX(0);transform-origin:left;animation:ruleIn .9s var(--ease-out) .3s forwards}
+
+/* ─── 5. KPIs ─── */
+#page-dashboard .kpi-strip{gap:11px}
+#page-dashboard .kpi{
+  border-radius:18px;padding:19px 19px 17px;
+  background:linear-gradient(180deg,var(--paper2),var(--paper2)) padding-box;
+  transition:transform .3s var(--ease-out),box-shadow .3s var(--ease-out),border-color .3s;
+  animation:cardIn .65s var(--ease-out) both;
+}
+#page-dashboard .kpi-strip .kpi:nth-child(1){animation-delay:.30s}
+#page-dashboard .kpi-strip .kpi:nth-child(2){animation-delay:.37s}
+#page-dashboard .kpi-strip .kpi:nth-child(3){animation-delay:.44s}
+#page-dashboard .kpi-strip .kpi:nth-child(4){animation-delay:.51s}
+@keyframes cardIn{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+/* halo colorido que aparece no hover */
+#page-dashboard .kpi::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:radial-gradient(120% 100% at 0% 0%,var(--kc,transparent),transparent 45%);
+  opacity:0;transition:opacity .35s var(--ease-out);
+}
+#page-dashboard .kpi:hover::after{opacity:.07}
+#page-dashboard .kpi::before{
+  height:2px;opacity:.35;transition:opacity .3s,filter .3s;
+  background:linear-gradient(90deg,var(--kc,var(--accent)),transparent 70%);
+}
+#page-dashboard .kpi:hover::before{opacity:.9;filter:drop-shadow(0 0 6px var(--kc))}
+#page-dashboard .kpi:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--line3)}
+#page-dashboard .kpi-val{font-size:19px;letter-spacing:-.6px}
+#page-dashboard .kpi-lbl{font-size:8.5px;letter-spacing:1.4px}
+#page-dashboard .badge{transition:transform .25s var(--ease-spring)}
+#page-dashboard .kpi:hover .badge{transform:translateY(-1px) scale(1.03)}
+
+/* ─── 6. Cards de dias / crescimento ─── */
+#page-dashboard .growth-card{
+  border-radius:18px;position:relative;overflow:hidden;
+  transition:transform .3s var(--ease-out),box-shadow .3s var(--ease-out),border-color .3s;
+  animation:cardIn .65s var(--ease-out) .56s both;
+}
+#page-dashboard .growth-strip .growth-card:nth-child(2){animation-delay:.62s}
+#page-dashboard .growth-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(100% 120% at 100% 0%,var(--accent-soft),transparent 60%);
+  opacity:0;transition:opacity .35s}
+#page-dashboard .growth-card:hover::before{opacity:1}
+#page-dashboard .growth-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);border-color:var(--line3)}
+#page-dashboard .g-val{font-size:24px;letter-spacing:-1px;animation:valueIn .7s var(--ease-out) .6s both}
+
+/* ─── 7. Cards genéricos ─── */
+#page-dashboard .card{
+  border-radius:18px;
+  transition:box-shadow .35s var(--ease-out),border-color .35s;
+  animation:cardIn .7s var(--ease-out) .66s both;
+}
+#page-dashboard .card:hover{box-shadow:var(--shadow-md);border-color:var(--line3)}
+#page-dashboard .card-head{padding:15px 22px}
+#page-dashboard .card-title{position:relative;padding-left:12px}
+#page-dashboard .card-title::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:4px;height:4px;border-radius:50%;background:var(--ink5);
+}
+#page-dashboard #insightsCard{animation-delay:.74s}
+#page-dashboard .charts-grid .card:nth-child(1){animation-delay:.82s}
+#page-dashboard .charts-grid .card:nth-child(2){animation-delay:.9s}
+
+/* ─── 8. Estatísticas ─── */
+#page-dashboard .stats-item{
+  border-radius:14px;
+  background:var(--paper3);
+  transition:transform .28s var(--ease-out),box-shadow .28s,border-color .28s;
+}
+#page-dashboard .stats-item::before{transition:width .3s var(--ease-out),opacity .3s}
+#page-dashboard .stats-item:hover::before{width:5px;opacity:1}
+#page-dashboard .stats-item:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--line2)}
+#page-dashboard .stats-amt{font-size:16px;letter-spacing:-.4px}
+#page-dashboard .stats-mo{font-size:17px}
+
+/* ─── 9. Botões de gráfico ─── */
+#page-dashboard .chart-btn{border-radius:8px;transition:.22s var(--ease-out)}
+#page-dashboard .chart-btn:not(.active):hover{transform:translateY(-1px)}
+#page-dashboard .chart-btn.active{box-shadow:0 2px 10px rgba(10,10,10,.12)}
+
+/* ─── 10. Pontos de legenda pulsando de leve ─── */
+#page-dashboard .leg-dot{border-radius:50%;transition:transform .25s var(--ease-spring)}
+#page-dashboard .leg-item:hover .leg-dot{transform:scale(1.5)}
+
+/* ─── 11. Botões do hero ─── */
+#page-dashboard .eye-btn{transition:transform .25s var(--ease-spring),background .25s,color .25s}
+#page-dashboard .eye-btn:hover{transform:translateY(-1px) scale(1.06)}
+#page-dashboard .eye-btn:active{transform:scale(.94)}
+#page-dashboard .bell-badge{animation:pulseBadge 2.4s ease-in-out infinite}
+@keyframes pulseBadge{0%,100%{box-shadow:0 0 0 0 rgba(232,85,85,.45)}50%{box-shadow:0 0 0 6px rgba(232,85,85,0)}}
+
+/* ─── 12. Mobile: KPI 2x2 com respiro ─── */
+@media(max-width:640px){
+  #page-dashboard .hero{padding:26px 22px 24px;border-radius:18px}
+  #page-dashboard .kpi{padding:16px 15px 14px;border-radius:15px}
+  #page-dashboard .kpi-val{font-size:17px}
+  #page-dashboard .g-val{font-size:21px}
+  #page-dashboard .card{border-radius:15px}
+}
+
+/* ─── 13. Acessibilidade ─── */
+@media(prefers-reduced-motion:reduce){
+  #page-dashboard *,#page-dashboard *::before,#page-dashboard *::after{
+    animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PREMIUM — Receitas · Despesas · Relatório · Metas  (somente CSS)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── A. Entrada de página em cascata (todas as páginas) ─── */
+.page.active>*{animation:pgIn .6s var(--ease-out) both}
+.page.active>*:nth-child(1){animation-delay:.02s}
+.page.active>*:nth-child(2){animation-delay:.09s}
+.page.active>*:nth-child(3){animation-delay:.16s}
+.page.active>*:nth-child(4){animation-delay:.23s}
+.page.active>*:nth-child(5){animation-delay:.30s}
+.page.active>*:nth-child(6){animation-delay:.37s}
+.page.active>*:nth-child(n+7){animation-delay:.44s}
+@keyframes pgIn{from{opacity:0;transform:translateY(16px) scale(.99)}to{opacity:1;transform:none}}
+#page-dashboard.page.active>*{animation:none}   /* dashboard tem timing próprio */
+
+/* ─── B. Títulos de página com filete (igual dashboard) ─── */
+.pg-header{position:relative;padding-bottom:18px;margin-bottom:22px}
+.pg-header::after{
+  content:'';position:absolute;left:0;bottom:0;height:1px;width:100%;
+  background:linear-gradient(90deg,var(--line3),transparent 55%);
+  transform:scaleX(0);transform-origin:left;animation:ruleIn 1.1s var(--ease-out) .2s forwards}
+.pg-title{letter-spacing:-.7px}
+
+/* ─── C. Cards globais mais suaves ─── */
+.card{border-radius:18px;transition:box-shadow .35s var(--ease-out),border-color .35s,transform .35s var(--ease-out)}
+.card:hover{box-shadow:var(--shadow-md);border-color:var(--line3)}
+.card-title{position:relative;padding-left:12px}
+.card-title::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:4px;height:4px;border-radius:50%;background:var(--ink5);transition:background .3s,box-shadow .3s}
+.card:hover .card-title::before{background:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+
+/* ─── D. Formulários ─── */
+.field label{transition:color .2s}
+.field:focus-within label{color:var(--ink3)}
+input[type=number],input[type=text],input[type=email],input[type=password],select{
+  border-radius:12px;transition:border-color .25s var(--ease-out),box-shadow .25s var(--ease-out),background .25s}
+input[type=number]:hover,input[type=text]:hover,select:hover{border-color:var(--line3)}
+input[type=number]:focus,input[type=text]:focus,input[type=email]:focus,input[type=password]:focus,select:focus{
+  box-shadow:0 0 0 4px var(--accent-soft);background:var(--paper2)}
+
+/* ─── E. Botões com brilho ─── */
+.btn-primary{position:relative;overflow:hidden;border-radius:12px;
+  transition:transform .25s var(--ease-spring),box-shadow .25s,opacity .2s,filter .2s;
+  box-shadow:0 2px 10px rgba(10,10,10,.12)}
+.btn-primary::after{content:'';position:absolute;inset:0;background:var(--sheen);
+  transform:translateX(-130%);transition:transform .6s var(--ease-out)}
+.btn-primary:hover::after{transform:translateX(130%)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(10,10,10,.18);opacity:1}
+.btn-primary:active{transform:translateY(0) scale(.97)}
+.btn-ghost{border-radius:10px;transition:.22s var(--ease-out)}
+.btn-ghost:hover{transform:translateY(-1px)}
+
+/* ─── F. Barras de progresso: mais grossas e com brilho ─── */
+.progress-track,.si-bar,.cat-bar,.proj-bar-outer{height:6px!important;border-radius:10px;background:var(--paper3)}
+.progress-fill,.si-bar-fill,.cat-bar-fill,.proj-bar-inner{
+  height:6px!important;border-radius:10px;position:relative;overflow:hidden;
+  transition:width 1.1s var(--ease-out)}
+.progress-fill::after,.si-bar-fill::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);
+  transform:translateX(-100%);animation:shimmer 2.6s var(--ease-out) infinite}
+@keyframes shimmer{0%{transform:translateX(-100%)}60%,100%{transform:translateX(200%)}}
+.meta-pct{font-variant-numeric:tabular-nums}
+
+/* ─── G. Tabelas ─── */
+table{font-variant-numeric:tabular-nums}
+thead th{position:relative;background:var(--paper2)}
+tbody td{transition:background .18s,color .18s}
+tbody tr{transition:transform .18s var(--ease-out)}
+tbody tr:hover td{background:var(--paper3)}
+tbody tr:hover td:first-child{color:var(--ink);box-shadow:inset 3px 0 0 var(--accent)}
+tfoot td{background:var(--paper3)}
+tfoot td:first-child{letter-spacing:.3px}
+.vup,.vdn{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:20px;font-size:10px}
+.vup{background:var(--green-bg)}
+.vdn{background:var(--red-bg)}
+
+/* ─── H. Lista de lançamentos (Despesas) ─── */
+.entry-item{border-radius:12px;transition:background .2s,transform .2s var(--ease-out),box-shadow .2s;
+  animation:rowIn .45s var(--ease-out) both}
+@keyframes rowIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1;transform:none}}
+.entry-item:hover{transform:translateX(3px);box-shadow:var(--shadow)}
+.entry-icon{transition:transform .3s var(--ease-spring)}
+.entry-item:hover .entry-icon{transform:scale(1.08) rotate(-4deg)}
+.entry-amt{font-variant-numeric:tabular-nums}
+.entry-del{opacity:.45;transition:opacity .2s,color .2s,background .2s,transform .2s var(--ease-spring)}
+.entry-item:hover .entry-del{opacity:1}
+.entry-del:hover{transform:scale(1.15)}
+
+/* ─── I. Resumo por categoria (Relatório) ─── */
+.cat-item{border-radius:14px;transition:transform .28s var(--ease-out),box-shadow .28s,border-color .28s;
+  position:relative;overflow:hidden}
+.cat-item::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(110% 110% at 100% 0%,var(--accent-soft),transparent 60%);
+  opacity:0;transition:opacity .3s}
+.cat-item:hover::after{opacity:1}
+.cat-item:hover{transform:translateY(-3px);box-shadow:var(--shadow);border-color:var(--line2)}
+.cat-ico{transition:transform .3s var(--ease-spring)}
+.cat-item:hover .cat-ico{transform:scale(1.1) rotate(-5deg)}
+.cat-val{font-size:16px;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
+
+/* ─── J. Modo de controle (Despesas) ─── */
+.mode-btn{border-radius:12px;transition:.25s var(--ease-out);position:relative;overflow:hidden}
+.mode-btn:hover{transform:translateY(-1px);border-color:var(--line3)}
+.mode-btn.m-linked,.mode-btn.m-free{box-shadow:0 3px 14px rgba(10,10,10,.07)}
+.mode-desc{border-radius:12px;border:1px solid var(--line);animation:pgIn .4s var(--ease-out) both}
+
+/* ─── K. Metas — lista ─── */
+.sonho-item{border-radius:18px;transition:transform .3s var(--ease-out),box-shadow .3s,border-color .3s,background .3s;
+  animation:rowIn .5s var(--ease-out) both}
+.sonho-list .sonho-item:nth-child(2){animation-delay:.06s}
+.sonho-list .sonho-item:nth-child(3){animation-delay:.12s}
+.sonho-list .sonho-item:nth-child(n+4){animation-delay:.18s}
+.sonho-item::before{width:3px;transition:background .25s,width .25s var(--ease-out)}
+.sonho-item:hover::before{background:var(--ink5);width:4px}
+.sonho-item:hover{transform:translateY(-3px)}
+.sonho-item.active-goal::before{width:5px}
+.si-ico{border-radius:13px;transition:transform .32s var(--ease-spring),box-shadow .3s}
+.sonho-item:hover .si-ico{transform:scale(1.08) rotate(-6deg);box-shadow:var(--shadow)}
+.si-pct{font-variant-numeric:tabular-nums;transition:color .25s}
+.sonho-item:hover .si-pct{color:var(--ink)}
+
+/* ─── L. Metas — detalhe / arco ─── */
+.sr-stat-val{font-variant-numeric:tabular-nums}
+.arc-fill{transition:stroke-dashoffset 1.6s var(--ease-out) .2s;filter:drop-shadow(0 0 6px var(--green-glow))}
+.arc-pct{animation:valueIn .8s var(--ease-out) .3s both}
+.sr-stat{transition:background .25s}
+.sr-stat:hover{background:var(--accent-soft)}
+
+/* ─── M. Wizard / cards de sonho ─── */
+.dream-card{border-radius:14px;transition:transform .26s var(--ease-out),border-color .26s,background .26s,box-shadow .26s}
+.dream-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.dream-card.selected{box-shadow:0 0 0 3px var(--accent-soft),var(--shadow)}
+.dream-ico{transition:transform .3s var(--ease-spring)}
+.dream-card:hover .dream-ico{transform:scale(1.15) rotate(-6deg)}
+.wstep-num{transition:.3s var(--ease-spring)}
+.wstep.cur .wstep-num{transform:scale(1.15)}
+
+/* ─── N. Navegação ─── */
+.nav-item{transition:background .22s,color .22s,padding-left .22s var(--ease-out)}
+.nav-item:hover{padding-left:26px}
+.mob-nav-btn{transition:color .22s,transform .22s var(--ease-spring)}
+.mob-nav-btn:active{transform:scale(.9)}
+.mob-nav-btn svg{transition:transform .3s var(--ease-spring)}
+.mob-nav-btn.active svg{transform:translateY(-2px) scale(1.12)}
+.yq,.mob-yarr,.yarr{transition:.2s var(--ease-spring)}
+.yq:hover,.mob-yarr:hover,.yarr:hover{transform:scale(1.08)}
+.yq:active,.mob-yarr:active{transform:scale(.92)}
+
+/* ─── O. Toast e banner ─── */
+#toast{border-radius:14px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:opacity .28s var(--ease-out),transform .28s var(--ease-spring)}
+#toast.show{transform:translateY(0) scale(1)}
+#toast:not(.show){transform:translateY(12px) scale(.96)}
+
+/* ─── P. Empty states ─── */
+.empty-state{animation:pgIn .5s var(--ease-out) both}
+.empty-state p{color:var(--ink4)}
+
+/* ─── Q. Scrollbar discreta (desktop) ─── */
+@media(min-width:821px){
+  .main::-webkit-scrollbar,body::-webkit-scrollbar{width:10px}
+  .main::-webkit-scrollbar-thumb,body::-webkit-scrollbar-thumb{
+    background:var(--line2);border-radius:10px;border:3px solid var(--paper)}
+  .main::-webkit-scrollbar-thumb:hover,body::-webkit-scrollbar-thumb:hover{background:var(--line3)}
+  .main::-webkit-scrollbar-track,body::-webkit-scrollbar-track{background:var(--paper)}
+}
+
+/* ─── R. Redução de movimento ─── */
+@media(prefers-reduced-motion:reduce){
+  .progress-fill::after,.si-bar-fill::after{display:none}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   SIDEBAR PREMIUM  (somente CSS)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Fundo com profundidade + textura ─── */
+.sidebar{
+  width:236px;min-width:236px;padding:26px 0 18px;
+  background:
+    radial-gradient(120% 60% at 50% 0%,rgba(240,237,232,.055),transparent 60%),
+    radial-gradient(90% 45% at 0% 100%,rgba(45,189,110,.10),transparent 62%),
+    linear-gradient(180deg,#121110 0%,var(--ink) 45%,#080805 100%);
+  box-shadow:inset -1px 0 0 rgba(240,237,232,.06),8px 0 32px rgba(0,0,0,.18);
+}
+body.dark .sidebar{
+  background:
+    radial-gradient(120% 60% at 50% 0%,rgba(240,237,232,.04),transparent 60%),
+    radial-gradient(90% 45% at 0% 100%,rgba(45,189,110,.09),transparent 62%),
+    linear-gradient(180deg,#0d0c07 0%,#0a0905 50%,#060502 100%);
+}
+/* grão sutil */
+.sidebar::before{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.16;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='sn'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23sn)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size:180px;
+}
+.sidebar>*{position:relative;z-index:1}
+
+/* ─── 2. Logo ─── */
+.logo-wrap{padding:0 22px 22px;border-bottom:none;margin-bottom:10px;position:relative}
+.logo-wrap::after{
+  content:'';position:absolute;left:22px;right:22px;bottom:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(240,237,232,.16),transparent);
+}
+.logo-name{
+  font-size:38px;line-height:1;
+  background:linear-gradient(180deg,rgba(240,237,232,.96),rgba(240,237,232,.58));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  text-shadow:0 0 34px rgba(240,237,232,.10);
+  animation:sbIn .8s var(--ease-out) both;
+}
+.logo-sub{
+  letter-spacing:4.5px;font-size:8px;color:rgba(240,237,232,.30);
+  animation:sbIn .8s var(--ease-out) .1s both;
+}
+
+/* ─── 3. Grupo ─── */
+.nav-group{
+  display:flex;align-items:center;gap:9px;padding:0 22px;margin:14px 0 6px;
+  color:rgba(240,237,232,.22);
+  animation:sbIn .6s var(--ease-out) .16s both;
+}
+.nav-group::after{content:'';flex:1;height:1px;background:rgba(240,237,232,.07)}
+
+/* ─── 4. Itens de navegação ─── */
+.nav-item{
+  margin:2px 12px;padding:10px 12px;border-radius:12px;border-left:none;
+  gap:11px;overflow:hidden;
+  transition:color .25s var(--ease-out),background .25s var(--ease-out),transform .25s var(--ease-out);
+  animation:sbIn .55s var(--ease-out) both;
+}
+.nav-item:nth-of-type(1){animation-delay:.20s}
+.nav-item:nth-of-type(2){animation-delay:.26s}
+.nav-item:nth-of-type(3){animation-delay:.32s}
+.nav-item:nth-of-type(4){animation-delay:.38s}
+.nav-item:nth-of-type(5){animation-delay:.44s}
+@keyframes sbIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+
+/* barra indicadora que cresce */
+.nav-item::before{
+  content:'';position:absolute;left:0;top:50%;transform:translateY(-50%);
+  width:3px;height:0;border-radius:0 3px 3px 0;
+  background:linear-gradient(180deg,rgba(240,237,232,.95),rgba(240,237,232,.45));
+  box-shadow:0 0 12px rgba(240,237,232,.35);
+  transition:height .32s var(--ease-spring);
+}
+.nav-item:hover{background:rgba(240,237,232,.05);transform:translateX(2px);padding-left:12px}
+.nav-item:hover::before{height:16px}
+.nav-item.active{
+  background:linear-gradient(90deg,rgba(240,237,232,.10),rgba(240,237,232,.03));
+  color:rgba(240,237,232,.97);transform:none;
+  box-shadow:inset 0 1px 0 rgba(240,237,232,.06);
+}
+.nav-item.active::before{height:60%}
+
+/* brilho que atravessa o item ao passar o mouse */
+.nav-item::after{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 25%,rgba(240,237,232,.10) 50%,transparent 75%);
+  transform:translateX(-140%);transition:transform .75s var(--ease-out);
+}
+.nav-item:hover::after{transform:translateX(140%)}
+
+.nav-icon{
+  width:32px;height:32px;border-radius:10px;
+  background:rgba(240,237,232,.055);
+  border:1px solid rgba(240,237,232,.05);
+  transition:transform .32s var(--ease-spring),background .25s,border-color .25s,box-shadow .3s;
+}
+.nav-item:hover .nav-icon{transform:scale(1.08) rotate(-5deg);background:rgba(240,237,232,.11)}
+.nav-item.active .nav-icon{
+  background:rgba(240,237,232,.14);border-color:rgba(240,237,232,.12);
+  box-shadow:0 0 18px rgba(240,237,232,.12);
+}
+.nav-item.active .nav-icon svg{stroke-width:2}
+
+/* ─── 5. Rodapé ─── */
+.sidebar-foot{padding:0 12px;gap:10px}
+.sidebar-foot>*{animation:sbIn .6s var(--ease-out) .5s both}
+.sidebar-foot>*:nth-child(2){animation-delay:.56s}
+.sidebar-foot>*:nth-child(3){animation-delay:.62s}
+
+/* cartão de usuário */
+.uca{
+  border-radius:14px;padding:11px 12px;
+  background:linear-gradient(180deg,rgba(240,237,232,.06),rgba(240,237,232,.025));
+  border-color:rgba(240,237,232,.08);
+  transition:border-color .28s,background .28s,transform .28s var(--ease-out);
+}
+.uca:hover{border-color:rgba(240,237,232,.16);transform:translateY(-2px)}
+.uca-av{
+  position:relative;
+  background:linear-gradient(145deg,#ffffff,rgba(240,237,232,.72));
+  box-shadow:0 0 0 2px rgba(240,237,232,.10),0 4px 14px rgba(0,0,0,.35);
+  transition:transform .3s var(--ease-spring),box-shadow .3s;
+}
+.uca:hover .uca-av{transform:scale(1.06);box-shadow:0 0 0 3px rgba(240,237,232,.16),0 6px 18px rgba(0,0,0,.4)}
+/* ponto "online" */
+.uca-av::after{
+  content:'';position:absolute;right:-1px;bottom:-1px;width:9px;height:9px;border-radius:50%;
+  background:var(--green2);border:2px solid #0f0e09;
+  animation:onlinePulse 2.8s ease-in-out infinite;
+}
+@keyframes onlinePulse{0%,100%{box-shadow:0 0 0 0 rgba(45,189,110,.5)}50%{box-shadow:0 0 0 5px rgba(45,189,110,0)}}
+.uca-out{border-radius:8px;transition:.22s var(--ease-out)}
+.uca-out:hover{transform:translateY(-1px);background:rgba(232,85,85,.10)}
+
+/* cartão de exercício */
+.year-card{
+  border-radius:14px;padding:12px 13px;
+  background:linear-gradient(180deg,rgba(240,237,232,.06),rgba(240,237,232,.02));
+  border-color:rgba(240,237,232,.08);
+  transition:border-color .28s;
+}
+.year-card:hover{border-color:rgba(240,237,232,.15)}
+.year-card-lbl{display:flex;align-items:center;gap:8px;color:rgba(240,237,232,.22)}
+.year-card-lbl::after{content:'';flex:1;height:1px;background:rgba(240,237,232,.07)}
+.year-val{
+  font-size:19px;letter-spacing:1px;color:rgba(240,237,232,.92);
+  font-variant-numeric:tabular-nums;
+  transition:background .2s,transform .25s var(--ease-spring),text-shadow .25s;
+}
+.year-val:hover{transform:scale(1.04);text-shadow:0 0 16px rgba(240,237,232,.3)}
+.yarr{border-radius:9px}
+.yq{border-radius:8px;padding:6px 2px;transition:.22s var(--ease-out)}
+.yq.on{
+  background:linear-gradient(180deg,rgba(240,237,232,.16),rgba(240,237,232,.07));
+  border-color:rgba(240,237,232,.22);
+  box-shadow:0 2px 10px rgba(0,0,0,.25);
+}
+
+/* alternador de tema */
+.theme-toggle{
+  border-radius:12px;padding:10px 12px;justify-content:flex-start;
+  transition:.25s var(--ease-out);
+}
+.theme-toggle:hover{transform:translateY(-1px);background:rgba(240,237,232,.06)}
+.theme-toggle svg{transition:transform .5s var(--ease-spring)}
+.theme-toggle:hover svg{transform:rotate(-22deg) scale(1.12)}
+
+/* ─── 6. Movimento reduzido ─── */
+@media(prefers-reduced-motion:reduce){
+  .uca-av::after{animation:none}
+  .nav-item::after{display:none}
+}
+
+/* ══════════════════════════════════════════════════════════════
+   GRÁFICOS — acabamento
+   ══════════════════════════════════════════════════════════════ */
+.card-body canvas{animation:chartIn .8s var(--ease-out) both}
+@keyframes chartIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+
+/* legenda das pizzas vira lista clicável */
+.pizza-legend{gap:3px}
+.plg-item{
+  padding:7px 10px;border-radius:10px;gap:9px;
+  transition:background .22s var(--ease-out),transform .22s var(--ease-out);
+  animation:rowIn .45s var(--ease-out) both}
+.pizza-legend .plg-item:nth-child(2){animation-delay:.06s}
+.pizza-legend .plg-item:nth-child(3){animation-delay:.12s}
+.pizza-legend .plg-item:nth-child(4){animation-delay:.18s}
+.pizza-legend .plg-item:nth-child(5){animation-delay:.24s}
+.pizza-legend .plg-item:nth-child(n+6){animation-delay:.3s}
+.plg-item:hover{background:var(--paper3);transform:translateX(3px)}
+.plg-dot{width:8px;height:8px;border-radius:3px;transition:transform .26s var(--ease-spring),box-shadow .26s}
+.plg-item:hover .plg-dot{transform:scale(1.35);box-shadow:0 0 0 4px rgba(128,128,128,.12)}
+.plg-name{font-size:11.5px;color:var(--ink3);transition:color .2s}
+.plg-item:hover .plg-name{color:var(--ink)}
+.plg-val{font-size:11px;font-variant-numeric:tabular-nums;transition:color .2s}
+.plg-item:hover .plg-val{color:var(--ink3)}
+
+/* legenda superior do gráfico de evolução */
+.chart-legend{gap:14px}
+.leg-item{font-size:11px;transition:color .2s}
+.leg-item:hover{color:var(--ink3)}
+
+/* toggle de período */
+.chart-toggle{background:var(--paper3);padding:3px;border-radius:11px;gap:2px;border:1px solid var(--line)}
+.chart-btn{border:none;background:transparent;border-radius:8px;padding:5px 12px;font-size:10.5px}
+.chart-btn:hover:not(.active){background:var(--paper);transform:none}
+.chart-btn.active{background:var(--paper2);color:var(--ink);box-shadow:0 1px 3px rgba(10,10,10,.12),0 1px 1px rgba(10,10,10,.06)}
+body.dark .chart-btn.active{background:var(--paper4);color:var(--ink)}
+
+/* respiro dentro dos cards de gráfico */
+.pizza-wrap{gap:16px;align-items:center}
+
+/* ══════════════════════════════════════════════════════════════
+   METAS PREMIUM  (somente CSS)
+   ══════════════════════════════════════════════════════════════ */
+
+/* ─── 1. Cartão principal do sonho ─── */
+.sonho-result{border-radius:22px;box-shadow:var(--shadow-lg);animation:pgIn .7s var(--ease-out) both}
+.sr-top{
+  padding:34px 26px 28px;
+  background:
+    radial-gradient(120% 90% at 50% 0%,rgba(240,237,232,.07),transparent 62%),
+    radial-gradient(80% 70% at 100% 100%,rgba(45,189,110,.13),transparent 60%),
+    radial-gradient(70% 60% at 0% 90%,rgba(96,144,248,.10),transparent 60%),
+    var(--ink);
+}
+body.dark .sr-top{
+  background:
+    radial-gradient(120% 90% at 50% 0%,rgba(240,237,232,.05),transparent 62%),
+    radial-gradient(80% 70% at 100% 100%,rgba(45,189,110,.12),transparent 60%),
+    radial-gradient(70% 60% at 0% 90%,rgba(96,144,248,.09),transparent 60%),
+    #0f0e09;
+}
+/* brilho que atravessa ao abrir */
+.sr-top::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:var(--sheen);transform:translateX(-120%);
+  animation:sheen 2.6s var(--ease-out) .45s;
+}
+
+/* emblema do emoji */
+.sd-emoji{
+  width:88px;height:88px;border-radius:26px;font-size:44px;
+  background:linear-gradient(160deg,rgba(240,237,232,.12),rgba(240,237,232,.03));
+  border:1px solid rgba(240,237,232,.12);
+  box-shadow:0 12px 34px rgba(0,0,0,.34),inset 0 1px 0 rgba(240,237,232,.12);
+  animation:emojiIn .85s var(--ease-spring) both;
+  transition:transform .4s var(--ease-spring);
+}
+.sd-emoji:hover{transform:scale(1.06) rotate(-5deg)}
+@keyframes emojiIn{from{opacity:0;transform:scale(.6) translateY(14px)}to{opacity:1;transform:none}}
+/* anel pulsante atrás do emoji */
+.sd-emoji::after{
+  content:'';position:absolute;inset:-6px;border-radius:32px;pointer-events:none;
+  border:1px solid rgba(240,237,232,.10);
+  animation:ringPulse 3.4s ease-in-out infinite;
+}
+@keyframes ringPulse{0%,100%{opacity:.5;transform:scale(1)}50%{opacity:.15;transform:scale(1.05)}}
+
+.sonho-titulo{font-size:28px;letter-spacing:-.6px;animation:valueIn .7s var(--ease-out) .15s both}
+.sonho-sub{animation:fadeUpSm .7s var(--ease-out) .25s both;max-width:320px}
+
+/* ─── 2. Arco de progresso ─── */
+.arc-wrap{margin:26px 0 10px}
+.arc-svg{width:246px;height:140px}
+.arc-bg{stroke-width:12;stroke:rgba(240,237,232,.07)}
+.arc-fill{
+  stroke-width:12;opacity:1;
+  filter:drop-shadow(0 0 10px currentColor) drop-shadow(0 0 26px currentColor);
+  transition:stroke-dashoffset 1.8s var(--ease-out) .35s,stroke .5s;
+}
+.arc-pct{font-size:38px;letter-spacing:-1px}
+.arc-lbl{letter-spacing:1.4px;text-transform:uppercase;font-size:8.5px;font-weight:600}
+
+/* ─── 3. Métricas ─── */
+.sr-stats{grid-template-columns:1fr 1fr}
+.sr-stat{
+  padding:17px 20px;position:relative;
+  transition:background .28s var(--ease-out);
+  animation:fadeUpSm .6s var(--ease-out) both;
+}
+.sr-stats .sr-stat:nth-child(1){animation-delay:.34s}
+.sr-stats .sr-stat:nth-child(2){animation-delay:.40s}
+.sr-stats .sr-stat:nth-child(3){animation-delay:.46s}
+.sr-stats .sr-stat:nth-child(4){animation-delay:.52s}
+.sr-stat:hover{background:rgba(240,237,232,.05)}
+body.dark .sr-stat:hover{background:#141309}
+.sr-stat-val{font-size:17px;letter-spacing:-.4px;font-variant-numeric:tabular-nums}
+/* barrinha de acento à esquerda no hover */
+.sr-stat::before{
+  content:'';position:absolute;left:0;top:14px;bottom:14px;width:2px;border-radius:2px;
+  background:rgba(240,237,232,.4);opacity:0;transform:scaleY(.4);
+  transition:opacity .28s,transform .28s var(--ease-out);
+}
+.sr-stat:hover::before{opacity:1;transform:scaleY(1)}
+
+/* ─── 4. Rodapé do cartão ─── */
+.sr-footer{
+  border-radius:0 0 22px 22px;padding:17px 22px;
+  background:linear-gradient(180deg,var(--paper2),var(--paper3));
+}
+.sr-footer-val{font-size:15.5px;font-variant-numeric:tabular-nums}
+
+/* ─── 5. Cartão de aporte ─── */
+.aporte-card{border-radius:20px;transition:box-shadow .35s,border-color .35s}
+.aporte-card:hover{box-shadow:var(--shadow-md);border-color:var(--line3)}
+.aporte-card-head{
+  display:flex;align-items:center;gap:9px;padding:16px 22px 0;
+}
+.aporte-card-head::after{content:'';flex:1;height:1px;background:var(--line)}
+.aporte-btn-full{
+  position:relative;overflow:hidden;border-radius:14px;padding:15px;
+  box-shadow:0 4px 16px rgba(10,10,10,.15);
+  transition:transform .26s var(--ease-spring),box-shadow .26s,opacity .2s;
+}
+.aporte-btn-full::after{
+  content:'';position:absolute;inset:0;background:var(--sheen);
+  transform:translateX(-130%);transition:transform .7s var(--ease-out);
+}
+.aporte-btn-full:hover::after{transform:translateX(130%)}
+.aporte-btn-full:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(10,10,10,.22);opacity:1}
+.aporte-btn-full:active{transform:translateY(0) scale(.98)}
+
+/* ─── 6. Lista de metas ─── */
+.sonho-list{gap:10px}
+.sonho-item{
+  padding:15px 17px 13px;
+  background:linear-gradient(180deg,var(--paper2),var(--paper2));
+}
+.sonho-item.active-goal{
+  background:linear-gradient(100deg,var(--paper3),var(--paper2));
+  box-shadow:var(--shadow),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.si-ico{font-size:20px;width:44px;height:44px;
+  background:linear-gradient(160deg,var(--paper3),var(--paper2));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.si-name{font-size:13.5px}
+.si-pct{font-size:15px;letter-spacing:-.3px}
+.si-bar-fill{
+  background:linear-gradient(90deg,var(--ink3),var(--accent));
+}
+body.dark .si-bar-fill{background:linear-gradient(90deg,var(--green2),var(--green))}
+
+/* ─── 7. Tabela de progressão ─── */
+.proj-table tbody td{padding:11px}
+.proj-table tbody tr{transition:background .2s}
+.proj-table tbody tr.proj-done td{background:var(--green-bg)}
+.proj-table tbody tr.proj-cur td{
+  background:var(--amber-bg);
+  box-shadow:inset 3px 0 0 var(--amber);
+}
+.proj-table tbody tr.proj-cur td:first-child{color:var(--amber);font-weight:600}
+.proj-bar-cell{width:110px}
+.proj-bar-inner{background:linear-gradient(90deg,var(--ink4),var(--accent))}
+.proj-done .proj-bar-inner{background:linear-gradient(90deg,var(--green2),var(--green))}
+.proj-cur .proj-bar-inner{background:linear-gradient(90deg,var(--amber),var(--amber))}
+
+/* ─── 8. Wizard ─── */
+#wizModal{border-radius:24px 24px 0 0}
+@media(min-width:640px){#wizModal{border-radius:24px}}
+.wizard-steps{gap:7px;margin-bottom:24px}
+.wstep-num{width:22px;height:22px;font-size:9.5px;font-family:var(--font-mono)}
+.wstep.cur .wstep-num{box-shadow:0 0 0 4px var(--accent-soft)}
+.wstep.done .wstep-num{box-shadow:0 0 0 3px var(--green-bg)}
+.wstep-sep{background:linear-gradient(90deg,var(--line2),var(--line))}
+.dream-grid{gap:9px}
+.dream-card{padding:16px 8px 13px}
+.dream-card.selected{
+  border-color:var(--accent);
+  background:linear-gradient(180deg,var(--accent-soft),transparent);
+  transform:translateY(-2px);
+}
+.dream-name{font-size:9.5px}
+
+/* ─── 9. Estado vazio ─── */
+.empty-state{padding:56px 20px}
+.empty-state::before{
+  content:'🎯';display:block;font-size:44px;margin-bottom:18px;
+  filter:grayscale(.35);opacity:.75;
+  animation:floaty 4s ease-in-out infinite;
+}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.empty-state p{font-size:13px;max-width:320px}
+
+/* ─── 10. Mobile ─── */
+@media(max-width:640px){
+  .sr-top{padding:28px 20px 24px}
+  .sd-emoji{width:76px;height:76px;font-size:38px;border-radius:22px}
+  .sonho-titulo{font-size:24px}
+  .arc-svg{width:210px;height:122px}
+  .arc-pct{font-size:33px}
+  .sr-stat{padding:14px 16px}
+  .sr-stat-val{font-size:15px}
+}
+
+/* ─── 11. Movimento reduzido ─── */
+@media(prefers-reduced-motion:reduce){
+  .sd-emoji::after,.empty-state::before,.sr-top::after{animation:none}
+}
+
+/* ─── Botão Gerar PDF ─── */
+.btn-pdf{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:9px 16px;border-radius:11px;border:none;cursor:pointer;
+  font-family:var(--font-body);font-size:11.5px;font-weight:600;letter-spacing:.2px;
+  background:linear-gradient(135deg,var(--ink),#2a2a2a);color:var(--paper);
+  box-shadow:0 3px 14px rgba(10,10,10,.18);
+  position:relative;overflow:hidden;
+  transition:transform .26s var(--ease-spring),box-shadow .26s;
+  -webkit-tap-highlight-color:transparent;
+}
+body.dark .btn-pdf{background:linear-gradient(135deg,rgba(240,237,232,.92),rgba(240,237,232,.72));color:#0a0905}
+.btn-pdf::after{content:'';position:absolute;inset:0;background:var(--sheen);
+  transform:translateX(-130%);transition:transform .65s var(--ease-out)}
+.btn-pdf:hover::after{transform:translateX(130%)}
+.btn-pdf:hover{transform:translateY(-2px);box-shadow:0 7px 22px rgba(10,10,10,.26)}
+.btn-pdf:active{transform:translateY(0) scale(.97)}
+.btn-pdf svg{flex-shrink:0;transition:transform .3s var(--ease-spring)}
+.btn-pdf:hover svg{transform:translateY(2px)}
+.btn-pdf:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ─── Novidades: selo de versão ─── */
+.wn-head{justify-content:space-between}
+.wn-ver{
+  font-family:var(--font-mono);font-size:9.5px;font-weight:500;letter-spacing:.5px;
+  color:var(--green);background:var(--green-bg);
+  border:1px solid rgba(28,122,69,.18);border-radius:20px;padding:3px 9px;flex-shrink:0}
+body.dark .wn-ver{border-color:rgba(45,189,110,.22)}
+.wn-desc b{color:var(--ink3);font-weight:600}
+.wn-item{animation:rowIn .45s var(--ease-out) both}
+.wn-list .wn-item:nth-child(2){animation-delay:.05s}
+.wn-list .wn-item:nth-child(3){animation-delay:.10s}
+.wn-list .wn-item:nth-child(4){animation-delay:.15s}
+.wn-list .wn-item:nth-child(5){animation-delay:.20s}
+.wn-list .wn-item:nth-child(6){animation-delay:.25s}
+.wn-list .wn-item:nth-child(7){animation-delay:.30s}
+.wn-list .wn-item:nth-child(8){animation-delay:.35s}
+.wn-ico{transition:transform .3s var(--ease-spring)}
+.wn-item:hover .wn-ico{transform:scale(1.1) rotate(-6deg)}
+
 </style>
 </head>
 
@@ -830,21 +1633,6 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
           <div class="kpi" style="--kc:var(--amber)"><div class="kpi-lbl">Meta Mensal</div><div class="kpi-val mn" id="kpiMetaVal">—</div><div class="badge nn" id="kpiMetaBadge">—</div></div>
         </div>
         <div class="kpi" style="--kc:var(--purple);margin-bottom:12px;border-radius:var(--radius);background:var(--paper2);border:1px solid var(--line2);padding:18px 18px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden"><div class="kpi-lbl">Média Mensal de Receita</div><div class="kpi-val mn" id="kpiMediaRec">—</div><div class="badge nn" id="kpiMediaRecBadge">—</div></div>
-        <div class="card" id="fireCard">
-          <div class="card-head">
-            <span class="card-title">Independência Financeira</span>
-            <span class="badge nn" style="background:var(--green-bg);color:var(--green)">Regra dos 4%</span>
-          </div>
-          <div class="card-body">
-            <div class="fire-grid">
-              <div><span class="fire-lbl">Patrimônio atual</span><span class="fire-val priv" id="fireAtual">—</span></div>
-              <div><span class="fire-lbl">Necessário (4%)</span><span class="fire-val priv" id="fireNecessario">—</span></div>
-            </div>
-            <div class="fire-bar-track"><div class="fire-bar-fill" id="fireBar"></div></div>
-            <div class="fire-text" id="fireText">—</div>
-          </div>
-        </div>
-        <div class="status-bar" id="statusBar">—</div>
         <div class="growth-strip" id="diasStrip">
           <div class="growth-card">
             <div class="g-lbl">Dias Corridos Restantes</div>
@@ -866,17 +1654,6 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
               <div class="stats-item g"><span class="stats-lbl">Melhor Mês</span><span class="stats-val g priv" id="statBest">—</span></div>
             </div>
           </div>
-        </div>
-        <div class="proj-card" id="projCard">
-          <div class="proj-ico"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 7v6h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-          <div class="proj-txt" id="projTxt">Calculando projeção…</div>
-        </div>
-        <div class="card" id="thermoCard">
-          <div class="card-head">
-            <span class="card-title">Termômetro de Orçamento</span>
-            <span class="card-sub" id="thermoMonth" style="font-size:11px;color:var(--ink4)"></span>
-          </div>
-          <div class="card-body" id="thermoBody"></div>
         </div>
         <div class="card" id="insightsCard">
           <div class="card-head">
@@ -905,16 +1682,16 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
               </div>
             </div>
           </div>
-          <div class="card-body"><div style="position:relative;height:240px"><canvas id="chartEvo"></canvas></div></div>
+          <div class="card-body"><div style="position:relative;height:268px"><canvas id="chartEvo"></canvas></div></div>
         </div>
         <div class="charts-grid">
           <div class="card">
             <div class="card-head"><span class="card-title">Composição Receitas</span><div class="chart-toggle" id="recToggle"><button class="chart-btn active pizza-btn" onclick="setPizzaMode('rec','annual')">Anual</button><button class="chart-btn pizza-btn" onclick="setPizzaMode('rec','monthly')">Mensal</button></div></div>
-            <div class="card-body"><div class="pizza-wrap"><div style="position:relative;height:130px"><canvas id="chartPRec"></canvas></div><div class="pizza-legend" id="lgPRec"></div></div></div>
+            <div class="card-body"><div class="pizza-wrap"><div style="position:relative;height:158px"><canvas id="chartPRec"></canvas></div><div class="pizza-legend" id="lgPRec"></div></div></div>
           </div>
           <div class="card">
             <div class="card-head"><span class="card-title">Composição Despesas</span><div class="chart-toggle" id="desToggle"><button class="chart-btn active pizza-btn" onclick="setPizzaMode('des','annual')">Anual</button><button class="chart-btn pizza-btn" onclick="setPizzaMode('des','monthly')">Mensal</button></div></div>
-            <div class="card-body"><div class="pizza-wrap"><div style="position:relative;height:130px"><canvas id="chartPDes"></canvas></div><div class="pizza-legend" id="lgPDes"></div></div></div>
+            <div class="card-body"><div class="pizza-wrap"><div style="position:relative;height:158px"><canvas id="chartPDes"></canvas></div><div class="pizza-legend" id="lgPDes"></div></div></div>
           </div>
         </div>
       </div>
@@ -1022,7 +1799,7 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
           <div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Receita</th><th>Despesa</th><th>Saldo</th><th>Tx. Poupança</th><th>Var. Saldo</th></tr></thead><tbody id="tbRel"></tbody><tfoot id="tfRel"></tfoot></table></div>
         </div>
         <div class="card" style="margin-top:12px"><div class="card-head"><span class="card-title">Resumo por Categoria</span></div><div class="cat-grid" id="catGrid"></div></div>
-        <div class="card" style="margin-top:12px"><div class="card-head"><span class="card-title">Ações</span></div><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px"><button class="btn-ghost" onclick="exportarDados()">Exportar JSON</button><button class="btn-ghost" onclick="importarDados()">Importar JSON</button><button class="btn-ghost" onclick="exportarCSV()">Exportar CSV</button></div></div></div>
+        <div class="card" style="margin-top:12px"><div class="card-head"><span class="card-title">Ações</span></div><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px"><button class="btn-pdf" onclick="gerarPDF()"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5v8"/><polyline points="4.5,6.5 8,10 11.5,6.5"/><path d="M2 11.5v2a1 1 0 001 1h10a1 1 0 001-1v-2"/></svg> Gerar Relatório PDF</button><button class="btn-ghost" onclick="exportarDados()">Exportar JSON</button><button class="btn-ghost" onclick="importarDados()">Importar JSON</button><button class="btn-ghost" onclick="exportarCSV()">Exportar CSV</button></div></div></div>
       </div>
 
       <!-- METAS -->
@@ -1182,16 +1959,17 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 <!-- Nota de atualização (aparece uma vez) -->
 <div id="whatsnewOverlay" class="wn-overlay" onclick="fecharWhatsNewFora(event)">
   <div class="wn-modal">
-    <div class="wn-head"><span class="wn-title">O que há de novo</span></div>
-    <div class="wn-sub">Novidades da sua experiência Capita</div>
+    <div class="wn-head"><span class="wn-title">O que há de novo</span><span class="wn-ver">v2.0</span></div>
+    <div class="wn-sub">Uma nova cara para o Capita</div>
     <div class="wn-list">
-      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-eye"/></svg></span><div><div class="wn-name">Modo Privacidade</div><div class="wn-desc">Oculte todos os valores com um toque no ícone de olho — ideal para prints e telas públicas.</div></div></div>
-      <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-plus"/></svg></span><div><div class="wn-name">Inserção Rápida</div><div class="wn-desc">Adicione receitas ou despesas a qualquer momento pelo botão flutuante ou pela tecla N.</div></div></div>
-      <div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-up"/></svg></span><div><div class="wn-name">Modo Patrimônio</div><div class="wn-desc">Veja o patrimônio acumulado (saldo inicial + soma das receitas de todos os anos).</div></div></div>
-      <div class="wn-item"><span class="wn-ico amber"><svg><use href="#ni-star"/></svg></span><div><div class="wn-name">Independência Financeira</div><div class="wn-desc">Acompanhe seu progresso rumo à regra dos 4% (FIRE) com barra de avanço.</div></div></div>
-      <div class="wn-item"><span class="wn-ico red"><svg><use href="#ni-down"/></svg></span><div><div class="wn-name">Termômetro de Orçamento</div><div class="wn-desc">Defina limites por categoria e receba alerta ao se aproximar ou estourar o teto.</div></div></div>
-      <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-check"/></svg></span><div><div class="wn-name">Projeção de Saldo</div><div class="wn-desc">Estimativa de quanto você terminará o mês com base no ritmo atual de gastos.</div></div></div>
-      <div class="wn-item"><span class="wn-ico red"><svg><use href="#ni-bell"/></svg></span><div><div class="wn-name">Alertas &amp; Insights</div><div class="wn-desc">Detecção de comportamentos atípicos, com alertas específicos por tela: Visão Geral, Despesas, Receitas e Patrimônio.</div></div></div>
+      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-doc"/></svg></span><div><div class="wn-name">Relatório em PDF</div><div class="wn-desc">Gere um relatório anual completo em <b>Relatório &rsaquo; Ações</b>: resumo, indicadores, gráficos, tabela mês a mês e suas metas — pronto para imprimir ou arquivar.</div></div></div>
+      <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-grid"/></svg></span><div><div class="wn-name">Novo visual da Visão Geral</div><div class="wn-desc">Saldo com acabamento em degradê, cartões com relevo e brilho, números alinhados e animações de entrada em cascata.</div></div></div>
+      <div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-up"/></svg></span><div><div class="wn-name">Gráficos redesenhados</div><div class="wn-desc">Barras com degradê, linha de saldo suave, guia vertical ao passar o cursor, rosca com o total no centro e novas dicas de contexto.</div></div></div>
+      <div class="wn-item"><span class="wn-ico amber"><svg><use href="#ni-star"/></svg></span><div><div class="wn-name">Metas mais bonitas</div><div class="wn-desc">Cartão do sonho com fundo iluminado, emblema em destaque, arco de progresso maior e animado, e tabela com o mês atual em evidência.</div></div></div>
+      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-check"/></svg></span><div><div class="wn-name">Menu lateral repaginado</div><div class="wn-desc">Fundo com profundidade, itens em pílula com indicador luminoso, avatar com status e seletor de exercício renovado.</div></div></div>
+      <div class="wn-item"><span class="wn-ico red"><svg><use href="#ni-down"/></svg></span><div><div class="wn-name">Listas e tabelas refinadas</div><div class="wn-desc">Variações em pílulas coloridas, barras de progresso mais visíveis, botões com brilho e destaque na linha sob o cursor.</div></div></div>
+      <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-eye"/></svg></span><div><div class="wn-name">Estatísticas corrigidas</div><div class="wn-desc">Os valores não são mais cortados no celular — cada estatística aparece por extenso, com mês e valor separados.</div></div></div>
+      <div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-moon"/></svg></span><div><div class="wn-name">Painel mais enxuto</div><div class="wn-desc">Removemos os blocos de Independência Financeira, Termômetro de Orçamento, Projeção e a barra de status para deixar a Visão Geral direta ao ponto.</div></div></div>
     </div>
     <button class="btn-primary" style="width:100%;padding:13px" onclick="fecharWhatsNew()">Entendi</button>
   </div>
@@ -1331,11 +2109,190 @@ const isDark=()=>document.body.classList.contains('dark');
 const gColor=()=>isDark()?'rgba(240,237,232,.05)':'rgba(10,10,10,.04)';
 const tColor=()=>isDark()?'#665f58':'#aaa';
 
-function buildEvo(){destroyChart('evo');const ds=[];if(chartMode==='bar'||chartMode==='both'){ds.push({label:'Receitas',data:rec.map(tRec),backgroundColor:isDark()?'rgba(45,189,110,.6)':'rgba(28,122,69,.75)',borderRadius:4,borderSkipped:false,type:'bar'});ds.push({label:'Despesas',data:Array.from({length:12},(_,i)=>tDes(i,des)),backgroundColor:isDark()?'rgba(232,85,85,.6)':'rgba(176,32,32,.7)',borderRadius:4,borderSkipped:false,type:'bar'})}if(chartMode==='line'||chartMode==='both'){ds.push({label:'Saldo',data:Array.from({length:12},(_,i)=>saldo(i)),type:'line',borderColor:isDark()?'#6090f8':'#4a70c8',backgroundColor:isDark()?'rgba(96,144,248,.06)':'rgba(74,112,200,.06)',tension:.45,pointRadius:3,pointBackgroundColor:isDark()?'#6090f8':'#4a70c8',fill:chartMode==='line'})}charts.evo=new Chart(g('chartEvo'),{type:'bar',data:{labels:MABR,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.raw)}}},scales:{x:{ticks:{color:tColor(),font:{size:10,family:'DM Mono,monospace'}},grid:{color:gColor()}},y:{beginAtZero:true,ticks:{color:tColor(),font:{size:10,family:'DM Mono,monospace'},callback:v=>(v>=1000?(v/1000).toFixed(0)+'k':v)},grid:{color:gColor()}}}}})}
+/* ─── Helpers visuais dos gráficos ─── */
+const chartFont = {family:'DM Mono, monospace', size:10};
+function vGrad(ctx, area, c1, c2){
+  if(!area) return c1;
+  const gr = ctx.createLinearGradient(0, area.bottom, 0, area.top);
+  gr.addColorStop(0, c2); gr.addColorStop(1, c1);
+  return gr;
+}
+const tipStyle = () => ({
+  backgroundColor: isDark() ? 'rgba(16,16,8,.96)' : 'rgba(10,10,10,.94)',
+  titleColor: isDark() ? '#f0ede8' : '#f5f4f0',
+  bodyColor: isDark() ? 'rgba(240,237,232,.78)' : 'rgba(245,244,240,.82)',
+  borderColor: isDark() ? 'rgba(240,237,232,.14)' : 'rgba(255,255,255,.10)',
+  borderWidth: 1, cornerRadius: 12, padding: 12, displayColors: true,
+  usePointStyle: true, boxPadding: 6,
+  titleFont: {family:'DM Sans, sans-serif', size:11, weight:'600'},
+  bodyFont: {family:'DM Mono, monospace', size:11.5},
+  caretSize: 6, caretPadding: 8
+});
+/* linha vertical guia ao passar o mouse */
+const crosshair = {
+  id:'crosshair',
+  afterDatasetsDraw(c){
+    const act = c.tooltip?._active;
+    if(!act || !act.length) return;
+    const x = act[0].element.x, {top,bottom} = c.chartArea, ctx = c.ctx;
+    ctx.save();
+    ctx.beginPath(); ctx.setLineDash([4,4]); ctx.lineWidth = 1;
+    ctx.strokeStyle = isDark() ? 'rgba(240,237,232,.22)' : 'rgba(10,10,10,.18)';
+    ctx.moveTo(x, top); ctx.lineTo(x, bottom); ctx.stroke();
+    ctx.restore();
+  }
+};
+/* texto central do donut */
+const donutCenter = {
+  id:'donutCenter',
+  afterDraw(c){
+    const opt = c.options.plugins.donutCenter; if(!opt || !opt.text) return;
+    const {ctx, chartArea:{left,right,top,bottom}} = c;
+    const cx = (left+right)/2, cy = (top+bottom)/2;
+    ctx.save(); ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle = isDark() ? 'rgba(240,237,232,.34)' : 'rgba(10,10,10,.34)';
+    ctx.font = '600 8px "DM Sans", sans-serif';
+    ctx.fillText(opt.label || 'TOTAL', cx, cy - 11);
+    ctx.fillStyle = isDark() ? 'rgba(240,237,232,.92)' : 'rgba(10,10,10,.88)';
+    ctx.font = '500 14px "DM Mono", monospace';
+    ctx.fillText(opt.text, cx, cy + 5);
+    ctx.restore();
+  }
+};
+if(window.Chart){
+  Chart.register(crosshair, donutCenter);
+  Chart.defaults.font.family = 'DM Sans, sans-serif';
+  Chart.defaults.animation.duration = 900;
+  Chart.defaults.animation.easing = 'easeOutQuart';
+}
 
-function buildPizzaRec(){destroyChart('pRec');let fixa,var_,rend;if(pizzaModeRec==='annual'){fixa=rec.reduce((a,m)=>a+(m.fixa||0),0);var_=rec.reduce((a,m)=>a+(m.variavel||0),0);rend=rec.reduce((a,m)=>a+(m.rendimento||0),0)}else{const mes=new Date().getMonth();fixa=rec[mes].fixa||0;var_=rec[mes].variavel||0;rend=rec[mes].rendimento||0}const total=fixa+var_+rend,pct=v=>total>0?Math.round(v/total*100):0;const itens=[{n:'Renda Fixa',v:fixa,c:'#1c7a45'},{n:'Renda Variável',v:var_,c:'#4a70c8'},{n:'Rendimento',v:rend,c:'#8250d2'}];charts.pRec=new Chart(g('chartPRec'),{type:'doughnut',data:{labels:itens.map(x=>x.n),datasets:[{data:itens.map(x=>x.v),backgroundColor:itens.map(x=>x.c),borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+fmt(c.raw)+' ('+pct(c.raw)+'%)'}}}}}); g('lgPRec').innerHTML=itens.filter(x=>x.v>0).map(x=>`<div class="plg-item"><span class="plg-dot" style="background:${x.c}"></span><div class="plg-name">${x.n}</div><div class="plg-val">${fmt(x.v)} · ${pct(x.v)}%</div></div>`).join('')}
+function buildEvo(){
+  destroyChart('evo');
+  const ds = [];
+  const recData = rec.map(tRec);
+  const desData = Array.from({length:12},(_,i)=>tDes(i,des));
+  if(chartMode==='bar' || chartMode==='both'){
+    ds.push({label:'Receitas', data:recData, type:'bar', order:2,
+      backgroundColor:(c)=>vGrad(c.chart.ctx, c.chart.chartArea,
+        isDark()?'rgba(45,189,110,.95)':'rgba(28,122,69,.95)',
+        isDark()?'rgba(45,189,110,.30)':'rgba(28,122,69,.32)'),
+      hoverBackgroundColor: isDark()?'#3ddc84':'#1c7a45',
+      borderRadius:{topLeft:6,topRight:6,bottomLeft:2,bottomRight:2},
+      borderSkipped:false, maxBarThickness:26, categoryPercentage:.68, barPercentage:.86});
+    ds.push({label:'Despesas', data:desData, type:'bar', order:2,
+      backgroundColor:(c)=>vGrad(c.chart.ctx, c.chart.chartArea,
+        isDark()?'rgba(232,85,85,.92)':'rgba(176,32,32,.92)',
+        isDark()?'rgba(232,85,85,.28)':'rgba(176,32,32,.30)'),
+      hoverBackgroundColor: isDark()?'#ff6b6b':'#b02020',
+      borderRadius:{topLeft:6,topRight:6,bottomLeft:2,bottomRight:2},
+      borderSkipped:false, maxBarThickness:26, categoryPercentage:.68, barPercentage:.86});
+  }
+  if(chartMode==='line' || chartMode==='both'){
+    const lc = isDark()?'#6090f8':'#4a70c8';
+    ds.push({label:'Saldo', data:Array.from({length:12},(_,i)=>saldo(i)), type:'line', order:1,
+      borderColor:lc, borderWidth:2.5, tension:.42,
+      backgroundColor:(c)=>vGrad(c.chart.ctx, c.chart.chartArea,
+        isDark()?'rgba(96,144,248,.30)':'rgba(74,112,200,.24)','rgba(96,144,248,0)'),
+      fill: chartMode==='line',
+      pointRadius:0, pointHoverRadius:6,
+      pointBackgroundColor:lc, pointBorderColor:isDark()?'#101008':'#fff', pointBorderWidth:2.5,
+      pointHoverBackgroundColor:lc, pointHoverBorderWidth:3,
+      borderCapStyle:'round', borderJoinStyle:'round'});
+  }
+  charts.evo = new Chart(g('chartEvo'),{
+    type:'bar',
+    data:{labels:MABR, datasets:ds},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{padding:{top:8}},
+      interaction:{mode:'index', intersect:false},
+      animation:{duration:1000, easing:'easeOutQuart'},
+      animations:{y:{from:(ctx)=>ctx.chart.chartArea?.bottom}},
+      plugins:{
+        legend:{display:false},
+        tooltip:Object.assign(tipStyle(),{
+          callbacks:{
+            title:(it)=>MESES[it[0].dataIndex] ?? it[0].label,
+            label:c=>'  '+c.dataset.label+': '+fmt(c.raw)
+          }
+        })
+      },
+      scales:{
+        x:{ticks:{color:tColor(), font:chartFont, padding:6},
+           grid:{display:false}, border:{display:false}},
+        y:{beginAtZero:true, border:{display:false},
+           ticks:{color:tColor(), font:chartFont, padding:8, maxTicksLimit:6,
+                  callback:v=>(Math.abs(v)>=1000?(v/1000).toFixed(0)+'k':v)},
+           grid:{color:gColor(), drawTicks:false}}
+      }
+    }
+  });
+}
 
-function buildPizzaDes(){destroyChart('pDes');let dados;if(pizzaModeDes==='annual')dados=CATS.map(c=>Array.from({length:12},(_,i)=>(des[i][c]||[]).reduce((s,e)=>s+(e.v||0),0)).reduce((a,b)=>a+b,0));else{const mes=new Date().getMonth();dados=CATS.map(c=>(des[mes][c]||[]).reduce((s,e)=>s+(e.v||0),0))}const total=dados.reduce((a,b)=>a+b,0),pct=v=>total>0?Math.round(v/total*100):0;const ativos=CATS.map((c,i)=>({c,v:dados[i],cor:CCLR[c],nome:CNAME[c]})).filter(x=>x.v>0);charts.pDes=new Chart(g('chartPDes'),{type:'doughnut',data:{labels:CATS.map(c=>CNAME[c]),datasets:[{data:dados,backgroundColor:CATS.map((c,i)=>dados[i]>0?CCLR[c]:'transparent'),borderWidth:0,hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{filter:item=>item.raw>0,callbacks:{label:c=>c.label+': '+fmt(c.raw)+' ('+pct(c.raw)+'%)'}}}}});g('lgPDes').innerHTML=ativos.length===0?'<div style="font-size:11.5px;color:var(--ink4);padding:8px 0">Nenhuma despesa lançada.</div>':ativos.map(x=>`<div class="plg-item"><span class="plg-dot" style="background:${x.cor}"></span><div class="plg-name">${x.nome}</div><div class="plg-val">${fmt(x.v)} · ${pct(x.v)}%</div></div>`).join('')}
+function donutOpts(pct, totalTxt, filtro){
+  return {
+    responsive:true, maintainAspectRatio:false, cutout:'68%',
+    radius:'94%',
+    animation:{animateRotate:true, animateScale:false, duration:1100, easing:'easeOutQuart'},
+    plugins:{
+      legend:{display:false},
+      donutCenter:{text:totalTxt, label:'TOTAL'},
+      tooltip:Object.assign(tipStyle(),{
+        filter: filtro || (()=>true),
+        callbacks:{label:c=>'  '+fmt(c.raw)+'  ·  '+pct(c.raw)+'%'}
+      })
+    }
+  };
+}
+
+function buildPizzaRec(){
+  destroyChart('pRec');
+  let fixa,var_,rend;
+  if(pizzaModeRec==='annual'){
+    fixa=rec.reduce((a,m)=>a+(m.fixa||0),0);
+    var_=rec.reduce((a,m)=>a+(m.variavel||0),0);
+    rend=rec.reduce((a,m)=>a+(m.rendimento||0),0);
+  } else {
+    const mes=new Date().getMonth();
+    fixa=rec[mes].fixa||0; var_=rec[mes].variavel||0; rend=rec[mes].rendimento||0;
+  }
+  const total=fixa+var_+rend, pct=v=>total>0?Math.round(v/total*100):0;
+  const itens=[{n:'Renda Fixa',v:fixa,c:'#1c7a45'},{n:'Renda Variável',v:var_,c:'#4a70c8'},{n:'Rendimento',v:rend,c:'#8250d2'}];
+  charts.pRec = new Chart(g('chartPRec'),{
+    type:'doughnut',
+    data:{labels:itens.map(x=>x.n),
+      datasets:[{data:itens.map(x=>x.v), backgroundColor:itens.map(x=>x.c),
+        borderColor:isDark()?'#101008':'#efede8', borderWidth:3, borderRadius:6,
+        hoverOffset:10, hoverBorderWidth:3, spacing:2}]},
+    options: donutOpts(pct, total>0?fmt(total):'—')
+  });
+  g('lgPRec').innerHTML = itens.filter(x=>x.v>0).map(x=>`<div class="plg-item"><span class="plg-dot" style="background:${x.c}"></span><div class="plg-name">${x.n}</div><div class="plg-val">${fmt(x.v)} · ${pct(x.v)}%</div></div>`).join('');
+}
+
+function buildPizzaDes(){
+  destroyChart('pDes');
+  let dados;
+  if(pizzaModeDes==='annual')
+    dados=CATS.map(c=>Array.from({length:12},(_,i)=>(des[i][c]||[]).reduce((s,e)=>s+(e.v||0),0)).reduce((a,b)=>a+b,0));
+  else{
+    const mes=new Date().getMonth();
+    dados=CATS.map(c=>(des[mes][c]||[]).reduce((s,e)=>s+(e.v||0),0));
+  }
+  const total=dados.reduce((a,b)=>a+b,0), pct=v=>total>0?Math.round(v/total*100):0;
+  const ativos=CATS.map((c,i)=>({c,v:dados[i],cor:CCLR[c],nome:CNAME[c]})).filter(x=>x.v>0);
+  charts.pDes = new Chart(g('chartPDes'),{
+    type:'doughnut',
+    data:{labels:CATS.map(c=>CNAME[c]),
+      datasets:[{data:dados, backgroundColor:CATS.map((c,i)=>dados[i]>0?CCLR[c]:'transparent'),
+        borderColor:isDark()?'#101008':'#efede8', borderWidth:3, borderRadius:6,
+        hoverOffset:10, hoverBorderWidth:3, spacing:2}]},
+    options: donutOpts(pct, total>0?fmt(total):'—', item=>item.raw>0)
+  });
+  g('lgPDes').innerHTML = ativos.length===0
+    ? '<div style="font-size:11.5px;color:var(--ink4);padding:8px 0">Nenhuma despesa lançada.</div>'
+    : ativos.map(x=>`<div class="plg-item"><span class="plg-dot" style="background:${x.cor}"></span><div class="plg-name">${x.nome}</div><div class="plg-val">${fmt(x.v)} · ${pct(x.v)}%</div></div>`).join('');
+}
+
 
 function buildCatSummary(){const el=g('catGrid');if(!el)return;const cv=CATS.map(c=>Array.from({length:12},(_,i)=>(des[i][c]||[]).reduce((s,e)=>s+(e.v||0),0)).reduce((a,b)=>a+b,0));const tot=cv.reduce((a,b)=>a+b,0),maxV=Math.max(...cv,1);el.innerHTML=CATS.map((cat,ci)=>{const v=cv[ci],p=tot>0?Math.round(v/tot*100):0,bp=Math.round(v/maxV*100);return`<div class="cat-item"><div class="cat-ico eic-${cat}"><svg><use href="#ico-${cat}"/></svg></div><div class="cat-name">${CNAME[cat]}</div><div class="cat-val">${v>0?fmt(v):'—'}</div><div class="cat-pct">${p}% do total</div><div class="cat-bar"><div class="cat-bar-fill" style="width:${bp}%;background:${CCLR[cat]}"></div></div></div>`}).join('')}
 
@@ -1389,7 +2346,7 @@ if (limDesM > 0) {
 }
 g('kpiSaldoBadge').className='badge '+(sM>0?'up':sM<0?'dn':'nn');g('kpiSaldoBadge').textContent=sM>0?'Positivo':sM<0?'Negativo':'Neutro';
 const hj=new Date(),dR=new Date(hj.getFullYear(),hj.getMonth()+1,0).getDate()-hj.getDate();
-g('statusBar').innerHTML=`Mês atual: <strong>${MESES[mc]}</strong> · Faltam <strong>${dR} dias</strong> · Receita: <strong>${fmt(recM)}</strong> · Despesa: <strong>${fmt(desM)}</strong>`;
+
 loadMetaUI();setBar('fillRecMes','pctRecMes',recM,mMes,false);setBar('fillDesMes','pctDesMes',desM,meta.desMes||0,true);setBar('fillDesLivre','pctDesLivre',desM,meta.desLivre||0,true);
 const atv=rec.map(tRec).map((v,i)=>({v,i})).filter(x=>x.v>0);
 if(atv.length>=2){g('growthStrip').style.display='grid';const cr=[];for(let k=1;k<atv.length;k++)if(atv[k-1].v>0)cr.push((atv[k].v-atv[k-1].v)/atv[k-1].v*100);const med=cr.reduce((a,b)=>a+b,0)/cr.length,ult=cr[cr.length-1];const gm=g('gMed');gm.textContent=(med>=0?'+':'')+med.toFixed(1)+'%';gm.className='g-val '+(med>=0?'g':'r');const n=atv.length;let sx=0,sy=0,sxy=0,sx2=0;atv.forEach((p,idx)=>{sx+=idx;sy+=p.v;sxy+=idx*p.v;sx2+=idx*idx});const dn=n*sx2-sx*sx,slope=dn?(n*sxy-sx*sy)/dn:0;const gt=g('gTend'),ts=g('gTendSub');if(slope>50){gt.textContent='Crescendo';gt.className='g-val g';ts.textContent='tendência de alta'}else if(slope<-50){gt.textContent='Caindo';gt.className='g-val r';ts.textContent='tendência de queda'}else{gt.textContent='Estável';gt.className='g-val';ts.textContent='sem tendência clara'}}else g('growthStrip').style.display='none';
@@ -1399,7 +2356,7 @@ const mesD=Number(g('desMes').value);const dl=g('desMesLabel');if(dl)dl.textCont
 const entries=[];CATS.forEach(c=>(des[mesD][c]||[]).forEach(e=>entries.push({...e,cat:c})));entries.sort((a,b)=>b.id-a.id);
 const el=g('entryList');if(el){if(!entries.length)el.innerHTML='<div style="padding:24px;text-align:center;color:var(--ink4);font-size:12.5px">Nenhuma despesa lançada neste mês.</div>';else el.innerHTML=entries.map(e=>`<div class="entry-item"><div class="entry-left"><span class="entry-icon eic-${e.cat}"><svg width="14" height="14"><use href="#ico-${e.cat}"/></svg></span><div><div class="entry-name">${CNAME[e.cat]}</div><div class="entry-cat">${MESES[mesD]} ${anoAtual}</div></div></div><div style="display:flex;align-items:center"><span class="entry-amt">${fmt(e.v)}</span><button class="entry-del" aria-label="Remover despesa" onclick="deletarDespesa(${mesD},'${e.cat}',${e.id})">×</button></div></div>`).join('')}
 const tbRl=g('tbRel');if(tbRl){tbRl.innerHTML='';let prevS=null,totR=0,totD=0,totS=0;MESES.forEach((m,i)=>{const r2=tRec(rec[i]),d2=tDes(i,des),s=r2-d2,tx=r2>0?Math.round(s/r2*100):null;totR+=r2;totD+=d2;totS+=s;let vt='—',vc='';if(prevS!==null&&prevS!==0&&s!==0){const c=(s-prevS)/Math.abs(prevS)*100;vt=(c>0?'+':'')+c.toFixed(1)+'%';vc=c>0?'vup':'vdn'}tbRl.innerHTML+=`<tr><td>${m}</td><td class="mn ${r2>0?'cg':''}">${r2>0?fmt(r2):'—'}</td><td class="mn ${d2>0?'cr':''}">${d2>0?fmt(d2):'—'}</td><td class="mn ${s>0?'cg':s<0?'cr':''}">${r2>0||d2>0?fmt(s):'—'}</td><td class="mn ${tx!==null?(tx>=50?'cg':tx>=20?'ca':'cr'):''}">${tx!==null?tx+'%':'—'}</td><td class="${vc}">${vt}</td></tr>`;if(r2>0||d2>0)prevS=s});const txT=totR>0?Math.round(totS/totR*100):null;g('tfRel').innerHTML=`<tr><td>Total ${anoAtual}</td><td class="cg">${fmt(totR)}</td><td class="cr">${fmt(totD)}</td><td class="${totS>=0?'cg':'cr'}">${fmt(totS)}</td><td>${txT!==null?txT+'%':'—'}</td><td></td></tr>`}
-if(currentPage==='dashboard'){buildEvo();buildPizzaRec();buildPizzaDes();buildFire();buildProjecao();buildTermometro();buildDiasRestantes();buildEstatisticas();renderInsights()}
+if(currentPage==='dashboard'){buildEvo();buildPizzaRec();buildPizzaDes();buildDiasRestantes();buildEstatisticas();renderInsights()}
 if(currentPage==='despesas')renderInsights();
 if(currentPage==='receitas')renderInsights();
 if(currentPage==='relatorio')buildCatSummary();
@@ -1717,7 +2674,7 @@ async function quickSalvar() {
 }
 
 /* ─── Nota de atualização (aparece uma vez) ─── */
-const WHATSNEW_KEY = 'cap_whatsnew_v1';
+const WHATSNEW_KEY = 'cap_whatsnew_v2';
 function verificarWhatsNew(){ try{ if(!localStorage.getItem(WHATSNEW_KEY)){ const ov=g('whatsnewOverlay'); if(ov) ov.classList.add('open'); } }catch(e){} }
 function fecharWhatsNew(){ const ov=g('whatsnewOverlay'); if(ov) ov.classList.remove('open'); try{ localStorage.setItem(WHATSNEW_KEY,'1'); }catch(e){} }
 function fecharWhatsNewFora(e){ if(e.target===g('whatsnewOverlay')) fecharWhatsNew(); }
@@ -1796,6 +2753,311 @@ function renderDetalhe(){
     tbody.innerHTML+=`<tr class="${rowClass}"><td>${MABR[mesIdx]} ${anoP}</td><td class="mn">${aporte>0?fmt(aporte):'—'}</td><td class="mn ${acum>0?'cg':''}">${fmt(acum)}</td><td class="proj-bar-cell"><div class="proj-bar-outer"><div class="proj-bar-inner" style="width:${pctRow}%"></div></div></td><td style="text-align:center;font-weight:600;color:${acum>=s.valor?'var(--green)':'var(--ink4)'}">${status}</td></tr>`;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════
+   RELATÓRIO PDF
+   ══════════════════════════════════════════════════════════════ */
+function gerarPDF(){
+  const nf = v => (v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const money = v => 'R$ ' + nf(v);
+  const esc = t => String(t==null?'':t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  /* ── dados ── */
+  const recArr = rec.map(tRec);
+  const desArr = Array.from({length:12},(_,i)=>tDes(i,des));
+  const salArr = recArr.map((v,i)=>v-desArr[i]);
+  const totRec = recArr.reduce((a,b)=>a+b,0);
+  const totDes = desArr.reduce((a,b)=>a+b,0);
+  const totSal = totRec-totDes;
+  const ativos = recArr.map((v,i)=>(v>0||desArr[i]>0)?i:-1).filter(i=>i>=0);
+  const nAtivos = ativos.length||1;
+  const mediaRec = totRec/nAtivos, mediaDes = totDes/nAtivos;
+  const txPoup = totRec>0 ? (totSal/totRec*100) : 0;
+  const maxAbs = Math.max(...recArr,...desArr,1);
+
+  let iMaxR=-1,vMaxR=0; recArr.forEach((v,i)=>{if(v>vMaxR){vMaxR=v;iMaxR=i}});
+  let iMaxD=-1,vMaxD=0; desArr.forEach((v,i)=>{if(v>vMaxD){vMaxD=v;iMaxD=i}});
+  let iBest=-1,vBest=-Infinity; salArr.forEach((v,i)=>{if((recArr[i]>0||desArr[i]>0)&&v>vBest){vBest=v;iBest=i}});
+
+  /* categorias */
+  const catVals = CATS.map(c => Array.from({length:12},(_,i)=>(des[i][c]||[]).reduce((s,e)=>s+(e.v||0),0)).reduce((a,b)=>a+b,0));
+  const catTot = catVals.reduce((a,b)=>a+b,0);
+  const catRows = CATS.map((c,i)=>({nome:CNAME[c],cor:CCLR[c],v:catVals[i],p:catTot>0?catVals[i]/catTot*100:0}))
+                      .filter(x=>x.v>0).sort((a,b)=>b.v-a.v);
+
+  /* receitas por tipo */
+  const rFixa = rec.reduce((a,m)=>a+(m.fixa||0),0);
+  const rVar  = rec.reduce((a,m)=>a+(m.variavel||0),0);
+  const rRend = rec.reduce((a,m)=>a+(m.rendimento||0),0);
+  const recRows = [
+    {nome:'Renda Fixa',     cor:'#1c7a45', v:rFixa},
+    {nome:'Renda Variável', cor:'#4a70c8', v:rVar },
+    {nome:'Rendimento',     cor:'#8250d2', v:rRend}
+  ].filter(x=>x.v>0).map(x=>Object.assign(x,{p:totRec>0?x.v/totRec*100:0}));
+
+  /* usuário e data */
+  const uNome = (currentUser && (currentUser.user_metadata?.name || currentUser.email?.split('@')[0])) || 'Usuário';
+  const hoje  = new Date();
+  const dataStr = hoje.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+  const horaStr = hoje.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+  /* ── gráfico de barras em SVG ── */
+  const W=760,H=190,pad=26,bw=(W-pad*2)/12;
+  let bars='';
+  for(let i=0;i<12;i++){
+    const hR = Math.round(recArr[i]/maxAbs*(H-46));
+    const hD = Math.round(desArr[i]/maxAbs*(H-46));
+    const x  = pad + i*bw;
+    const w  = bw*0.30;
+    const gap= bw*0.06;
+    const xR = x + bw/2 - w - gap/2;
+    const xD = x + bw/2 + gap/2;
+    if(hR>0) bars += `<rect x="${xR.toFixed(1)}" y="${H-28-hR}" width="${w.toFixed(1)}" height="${hR}" rx="3" fill="#1c7a45"/>`;
+    if(hD>0) bars += `<rect x="${xD.toFixed(1)}" y="${H-28-hD}" width="${w.toFixed(1)}" height="${hD}" rx="3" fill="#b02020"/>`;
+    bars += `<text x="${(x+bw/2).toFixed(1)}" y="${H-10}" text-anchor="middle" font-size="9" fill="#999" font-family="DM Mono,monospace">${MABR[i]}</text>`;
+  }
+  const grid = [0,.25,.5,.75,1].map(f=>{
+    const y = H-28-(H-46)*f;
+    return `<line x1="${pad}" y1="${y.toFixed(1)}" x2="${W-pad}" y2="${y.toFixed(1)}" stroke="#e8e6e0" stroke-width="1"/>`;
+  }).join('');
+  const chartSVG = `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" xmlns="http://www.w3.org/2000/svg">${grid}${bars}</svg>`;
+
+  /* ── donut de categorias em SVG ── */
+  function donut(rows,total){
+    if(!rows.length) return '<div class="empty">Sem dados no período.</div>';
+    const cx=78,cy=78,r=58,sw=26,C=2*Math.PI*r;
+    let off=0, segs='';
+    rows.forEach(x=>{
+      const frac = total>0 ? x.v/total : 0;
+      const len  = frac*C;
+      segs += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${x.cor}" stroke-width="${sw}"
+                stroke-dasharray="${(len-2>0?len-2:len).toFixed(2)} ${(C-len+2).toFixed(2)}"
+                stroke-dashoffset="${(-off).toFixed(2)}" transform="rotate(-90 ${cx} ${cy})"/>`;
+      off += len;
+    });
+    return `<svg viewBox="0 0 156 156" width="156" height="156" xmlns="http://www.w3.org/2000/svg">${segs}
+      <text x="78" y="74" text-anchor="middle" font-size="8" fill="#999" font-family="DM Sans,sans-serif" letter-spacing="1">TOTAL</text>
+      <text x="78" y="90" text-anchor="middle" font-size="12" fill="#1a1a1a" font-family="DM Mono,monospace">${esc(money(total))}</text>
+    </svg>`;
+  }
+
+  const legenda = rows => rows.map(x=>`
+    <div class="lg">
+      <span class="lgd" style="background:${x.cor}"></span>
+      <span class="lgn">${esc(x.nome)}</span>
+      <span class="lgv">${esc(money(x.v))}<em>${x.p.toFixed(1)}%</em></span>
+    </div>`).join('');
+
+  /* ── tabela mensal ── */
+  const linhas = MESES.map((m,i)=>{
+    const vazio = recArr[i]===0 && desArr[i]===0;
+    const tx = recArr[i]>0 ? (salArr[i]/recArr[i]*100) : null;
+    return `<tr class="${vazio?'off':''}">
+      <td class="l">${m}</td>
+      <td>${recArr[i]>0?esc(money(recArr[i])):'—'}</td>
+      <td>${desArr[i]>0?esc(money(desArr[i])):'—'}</td>
+      <td class="${salArr[i]>0?'pos':salArr[i]<0?'neg':''}">${vazio?'—':esc(money(salArr[i]))}</td>
+      <td>${tx!==null?tx.toFixed(0)+'%':'—'}</td>
+    </tr>`;
+  }).join('');
+
+  /* ── metas ── */
+  let metasHTML = '';
+  if(typeof sonhos!=='undefined' && sonhos.length){
+    metasHTML = `
+    <section class="blk">
+      <h2>Metas</h2>
+      <div class="metas">
+        ${sonhos.map(s=>{
+          const ac = (s.jaTenho||0) + (s.aportes||[]).reduce((a,x)=>a+(x.v||0),0);
+          const p  = s.valor>0 ? Math.min(ac/s.valor*100,100) : 0;
+          return `<div class="meta">
+            <div class="meta-h">
+              <span class="meta-e">${esc(s.emoji||'⭐')}</span>
+              <span class="meta-n">${esc(s.nome)}</span>
+              <span class="meta-p">${p.toFixed(0)}%</span>
+            </div>
+            <div class="meta-b"><i style="width:${p.toFixed(1)}%"></i></div>
+            <div class="meta-f"><span>${esc(money(ac))}</span><span>de ${esc(money(s.valor))}</span></div>
+          </div>`;
+        }).join('')}
+      </div>
+    </section>`;
+  }
+
+  /* ── documento ── */
+  const html = `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8">
+<title>Capita — Relatório ${anoAtual}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  @page{size:A4;margin:14mm 13mm}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',system-ui,sans-serif;color:#1a1a1a;background:#fff;font-size:10.5px;line-height:1.55;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .mono{font-family:'DM Mono',monospace;font-variant-numeric:tabular-nums}
+
+  /* CAPA / CABEÇALHO */
+  .head{background:linear-gradient(135deg,#0a0a0a 0%,#16150f 55%,#0a0a0a 100%);color:#f0ede8;border-radius:14px;padding:26px 28px;position:relative;overflow:hidden;margin-bottom:18px}
+  .head::after{content:'';position:absolute;right:-70px;top:-90px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(45,189,110,.20),transparent 68%)}
+  .head-top{display:flex;justify-content:space-between;align-items:flex-start;position:relative;z-index:1}
+  .brand{font-family:'DM Serif Display',Georgia,serif;font-style:italic;font-size:30px;letter-spacing:-.5px;line-height:1}
+  .brand small{display:block;font-family:'DM Sans',sans-serif;font-style:normal;font-size:7.5px;letter-spacing:3.4px;text-transform:uppercase;color:rgba(240,237,232,.42);margin-top:7px}
+  .head-meta{text-align:right;font-size:9px;color:rgba(240,237,232,.5);line-height:1.7}
+  .head-meta b{color:rgba(240,237,232,.9);font-weight:500}
+  .head-rule{height:1px;background:rgba(240,237,232,.14);margin:20px 0 16px;position:relative;z-index:1}
+  .head-cols{display:flex;gap:26px;position:relative;z-index:1}
+  .hc{flex:1}
+  .hc-l{font-size:7.5px;text-transform:uppercase;letter-spacing:1.6px;color:rgba(240,237,232,.4);margin-bottom:5px}
+  .hc-v{font-family:'DM Mono',monospace;font-size:15px;font-variant-numeric:tabular-nums}
+  .hc-v.g{color:#3ddc84}.hc-v.r{color:#ff7b7b}.hc-v.b{color:#7fa8ff}
+
+  /* BLOCOS */
+  .blk{margin-bottom:16px;break-inside:avoid}
+  h2{font-size:8.5px;text-transform:uppercase;letter-spacing:1.7px;color:#888;font-weight:600;margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid #e8e6e0;display:flex;align-items:center;gap:7px}
+  h2::before{content:'';width:4px;height:4px;border-radius:50%;background:#0a0a0a}
+
+  /* KPIs */
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .kpi{border:1px solid #e8e6e0;border-radius:10px;padding:11px 12px;background:#faf9f6;position:relative;overflow:hidden}
+  .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--c,#0a0a0a);opacity:.55}
+  .kpi-l{font-size:7px;text-transform:uppercase;letter-spacing:1.3px;color:#999;margin-bottom:5px}
+  .kpi-v{font-family:'DM Mono',monospace;font-size:13px;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+  .kpi-s{font-size:8px;color:#aaa;margin-top:3px}
+
+  /* GRÁFICO */
+  .chart{border:1px solid #e8e6e0;border-radius:10px;padding:12px 10px 6px;background:#fff}
+  .clg{display:flex;gap:14px;justify-content:center;margin-top:2px;font-size:8.5px;color:#888}
+  .clg span{display:inline-flex;align-items:center;gap:5px}
+  .clg i{width:7px;height:7px;border-radius:2px;display:inline-block}
+
+  /* DUAS COLUNAS */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .box{border:1px solid #e8e6e0;border-radius:10px;padding:13px 14px;background:#fff}
+  .box h3{font-size:8px;text-transform:uppercase;letter-spacing:1.4px;color:#999;font-weight:600;margin-bottom:10px}
+  .dnut{display:flex;align-items:center;gap:12px}
+  .dnut>div:last-child{flex:1;min-width:0}
+  .lg{display:flex;align-items:center;gap:7px;padding:3.5px 0;border-bottom:1px solid #f2f0ec}
+  .lg:last-child{border-bottom:none}
+  .lgd{width:7px;height:7px;border-radius:2px;flex-shrink:0}
+  .lgn{font-size:9px;color:#3d3d3d;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lgv{font-family:'DM Mono',monospace;font-size:9px;color:#1a1a1a;text-align:right;white-space:nowrap}
+  .lgv em{display:block;font-style:normal;font-size:7.5px;color:#aaa}
+  .empty{font-size:9px;color:#aaa;padding:16px 0;text-align:center}
+
+  /* TABELA */
+  table{width:100%;border-collapse:collapse;font-size:9.5px;font-variant-numeric:tabular-nums}
+  thead th{font-size:7.5px;text-transform:uppercase;letter-spacing:1.2px;color:#999;font-weight:600;padding:7px 9px;text-align:right;border-bottom:1.5px solid #e0ded8;background:#faf9f6}
+  thead th:first-child{text-align:left;border-radius:7px 0 0 0}
+  thead th:last-child{border-radius:0 7px 0 0}
+  tbody td{padding:6.5px 9px;text-align:right;border-bottom:1px solid #f2f0ec;font-family:'DM Mono',monospace;color:#3d3d3d}
+  tbody td.l{text-align:left;font-family:'DM Sans',sans-serif;color:#1a1a1a;font-weight:500}
+  tbody tr.off td{color:#c8c5be}
+  tbody tr:nth-child(even) td{background:#fcfbf9}
+  td.pos{color:#1c7a45}td.neg{color:#b02020}
+  tfoot td{padding:8px 9px;text-align:right;font-family:'DM Mono',monospace;font-weight:600;border-top:1.5px solid #d8d5ce;background:#f5f4f0}
+  tfoot td:first-child{text-align:left;font-family:'DM Sans',sans-serif;letter-spacing:.3px}
+
+  /* METAS */
+  .metas{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .meta{border:1px solid #e8e6e0;border-radius:10px;padding:11px 12px;background:#faf9f6}
+  .meta-h{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+  .meta-e{font-size:14px}
+  .meta-n{flex:1;font-size:10px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .meta-p{font-family:'DM Mono',monospace;font-size:11px}
+  .meta-b{height:5px;background:#eae8e2;border-radius:5px;overflow:hidden}
+  .meta-b i{display:block;height:5px;border-radius:5px;background:linear-gradient(90deg,#228b4f,#1c7a45)}
+  .meta-f{display:flex;justify-content:space-between;font-family:'DM Mono',monospace;font-size:8px;color:#999;margin-top:5px}
+
+  /* RODAPÉ */
+  .foot{margin-top:20px;padding-top:11px;border-top:1px solid #e8e6e0;display:flex;justify-content:space-between;font-size:8px;color:#aaa}
+  .foot b{color:#777;font-weight:500}
+
+  .noprint{position:fixed;top:14px;right:14px;display:flex;gap:8px;z-index:99}
+  .noprint button{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:10px 20px;border-radius:10px;border:none;cursor:pointer;background:#0a0a0a;color:#fff;box-shadow:0 4px 18px rgba(0,0,0,.22)}
+  .noprint button.sec{background:#fff;color:#3d3d3d;border:1px solid #ddd}
+  @media print{.noprint{display:none!important}body{font-size:10px}}
+</style></head><body>
+
+<div class="noprint">
+  <button class="sec" onclick="window.close()">Fechar</button>
+  <button onclick="window.print()">Salvar PDF</button>
+</div>
+
+<div class="head">
+  <div class="head-top">
+    <div class="brand">Capita<small>Finanças Pessoais</small></div>
+    <div class="head-meta">
+      Relatório Anual · <b>${anoAtual}</b><br>
+      ${esc(uNome)}<br>
+      ${esc(dataStr)} · ${esc(horaStr)}
+    </div>
+  </div>
+  <div class="head-rule"></div>
+  <div class="head-cols">
+    <div class="hc"><div class="hc-l">Receitas</div><div class="hc-v g">${esc(money(totRec))}</div></div>
+    <div class="hc"><div class="hc-l">Despesas</div><div class="hc-v r">${esc(money(totDes))}</div></div>
+    <div class="hc"><div class="hc-l">Saldo Líquido</div><div class="hc-v ${totSal<0?'r':'g'}">${esc(money(totSal))}</div></div>
+    <div class="hc"><div class="hc-l">Taxa de Poupança</div><div class="hc-v b">${txPoup.toFixed(1)}%</div></div>
+  </div>
+</div>
+
+<section class="blk">
+  <h2>Indicadores</h2>
+  <div class="kpis">
+    <div class="kpi" style="--c:#1c7a45"><div class="kpi-l">Média Receita</div><div class="kpi-v">${esc(money(mediaRec))}</div><div class="kpi-s">${nAtivos} ${nAtivos===1?'mês ativo':'meses ativos'}</div></div>
+    <div class="kpi" style="--c:#b02020"><div class="kpi-l">Média Despesa</div><div class="kpi-v">${esc(money(mediaDes))}</div><div class="kpi-s">por mês ativo</div></div>
+    <div class="kpi" style="--c:#4a70c8"><div class="kpi-l">Maior Receita</div><div class="kpi-v">${iMaxR>=0?esc(money(vMaxR)):'—'}</div><div class="kpi-s">${iMaxR>=0?MESES[iMaxR]:'sem registro'}</div></div>
+    <div class="kpi" style="--c:#8a5c00"><div class="kpi-l">Maior Despesa</div><div class="kpi-v">${iMaxD>=0?esc(money(vMaxD)):'—'}</div><div class="kpi-s">${iMaxD>=0?MESES[iMaxD]:'sem registro'}</div></div>
+  </div>
+</section>
+
+<section class="blk">
+  <h2>Evolução Mensal</h2>
+  <div class="chart">
+    ${chartSVG}
+    <div class="clg"><span><i style="background:#1c7a45"></i>Receitas</span><span><i style="background:#b02020"></i>Despesas</span></div>
+  </div>
+</section>
+
+<section class="blk">
+  <h2>Composição</h2>
+  <div class="two">
+    <div class="box"><h3>Receitas por origem</h3><div class="dnut"><div>${donut(recRows,totRec)}</div><div>${recRows.length?legenda(recRows):'<div class="empty">Sem receitas.</div>'}</div></div></div>
+    <div class="box"><h3>Despesas por categoria</h3><div class="dnut"><div>${donut(catRows,catTot)}</div><div>${catRows.length?legenda(catRows):'<div class="empty">Sem despesas.</div>'}</div></div></div>
+  </div>
+</section>
+
+<section class="blk">
+  <h2>Detalhamento Mês a Mês</h2>
+  <table>
+    <thead><tr><th>Mês</th><th>Receita</th><th>Despesa</th><th>Saldo</th><th>Tx. Poup.</th></tr></thead>
+    <tbody>${linhas}</tbody>
+    <tfoot><tr>
+      <td>Total ${anoAtual}</td>
+      <td>${esc(money(totRec))}</td>
+      <td>${esc(money(totDes))}</td>
+      <td style="color:${totSal<0?'#b02020':'#1c7a45'}">${esc(money(totSal))}</td>
+      <td>${txPoup.toFixed(0)}%</td>
+    </tr></tfoot>
+  </table>
+</section>
+
+${metasHTML}
+
+<div class="foot">
+  <span>Gerado por <b>Capita</b> · Finanças Pessoais</span>
+  <span>${esc(dataStr)} às ${esc(horaStr)}</span>
+</div>
+
+<script>window.addEventListener('load',function(){setTimeout(function(){window.print()},700)})<\/script>
+</body></html>`;
+
+  const w = window.open('','_blank');
+  if(!w){ toast('Permita pop-ups para gerar o PDF'); return; }
+  w.document.open(); w.document.write(html); w.document.close();
+  toast('Relatório gerado — escolha "Salvar como PDF"');
+}
+
 function editarMeta(){if(sonhoAtivo===null)return;abrirWizard(sonhoAtivo)}
 async function deletarMetaAtiva(){if(sonhoAtivo===null)return;if(!confirm('Excluir "'+sonhos[sonhoAtivo].nome+'"?'))return;const id=sonhos[sonhoAtivo].id;sonhos.splice(sonhoAtivo,1);sonhoAtivo=sonhos.length>0?0:null;renderMetas();if(id){const{error}=await sbDeleteMeta(id);if(error){console.error('deletarMetaAtiva',error);toast('Erro ao excluir — recarregando');await loadAll();renderMetas();return}}toast('Meta excluída')}
 async function deletarMeta(i){if(!confirm('Excluir "'+sonhos[i].nome+'"?'))return;const id=sonhos[i].id;sonhos.splice(i,1);if(sonhoAtivo===i)sonhoAtivo=sonhos.length>0?0:null;else if(sonhoAtivo>i)sonhoAtivo--;renderMetas();if(id){const{error}=await sbDeleteMeta(id);if(error){console.error('deletarMeta',error);toast('Erro ao excluir — recarregando');await loadAll();renderMetas();return}}toast('Meta excluída')}
