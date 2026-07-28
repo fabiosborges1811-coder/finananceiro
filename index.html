@@ -615,86 +615,32 @@ body.dark .proj-card{border-color:rgba(96,144,248,.2)}
 .wn-desc{font-size:11.5px;color:var(--ink4);line-height:1.5;margin-top:1px}
 
 /* ─── Dias Restantes & Estatísticas ─── */
-.stats-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:14px;
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stats-item{position:relative;display:flex;flex-direction:column;gap:7px;min-width:0;
+  background:var(--paper3);border:1px solid var(--line);border-radius:var(--radius-sm);
+  padding:13px 14px 13px 16px;overflow:hidden;transition:border-color .2s,transform .2s,box-shadow .2s}
+.stats-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--ink5);opacity:.55}
+.stats-item.g::before{background:var(--green);opacity:.75}
+.stats-item.r::before{background:var(--red);opacity:.75}
+.stats-item:hover{transform:translateY(-1px);border-color:var(--line2);box-shadow:var(--shadow)}
+.stats-lbl{display:flex;align-items:center;gap:6px;font-size:8.5px;font-weight:600;color:var(--ink4);text-transform:uppercase;letter-spacing:1.1px;white-space:nowrap}
+.stats-val{display:flex;flex-direction:column;gap:2px;min-width:0;font-weight:500;color:var(--ink);line-height:1.25}
+.stats-mo{font-family:var(--font-display);font-style:italic;font-size:16px;letter-spacing:-.2px;color:var(--ink2);line-height:1.15}
+.stats-amt{font-family:var(--font-mono);font-size:15px;letter-spacing:-.3px;white-space:nowrap;overflow-wrap:anywhere}
+.stats-val.g .stats-amt{color:var(--green)}
+.stats-val.r .stats-amt{color:var(--red)}
+.stats-val.dash{font-family:var(--font-mono);font-size:15px;color:var(--ink4)}
+@media(max-width:760px){
+  .stats-grid{grid-template-columns:1fr;gap:9px}
+  .stats-item{flex-direction:row;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px 12px 15px}
+  .stats-lbl{flex:0 0 auto}
+  .stats-val{align-items:flex-end;text-align:right;flex:1 1 auto}
+  .stats-mo{font-size:14px}
+  .stats-amt{font-size:14.5px}
 }
-
-.stats-item{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    padding:16px;
-    border:1px solid var(--line2);
-    border-radius:14px;
-    background:var(--paper3);
-    transition:.2s;
-}
-
-.stats-item:hover{
-    transform:translateY(-2px);
-}
-
-.stats-lbl{
-    font-size:10px;
-    text-transform:uppercase;
-    letter-spacing:1px;
-    font-weight:700;
-}
-
-.stats-month{
-    font-size:16px;
-    font-weight:600;
-}
-
-.stats-val{
-    font-size:22px;
-    font-weight:700;
-    line-height:1.2;
-}
-
-/* Verde */
-
-.stats-lbl.g,
-.stats-month.g,
-.stats-val.g{
-    color:var(--green);
-}
-
-/* Vermelho */
-
-.stats-lbl.r,
-.stats-month.r,
-.stats-val.r{
-    color:var(--red);
-}
-
-/* Mobile */
-
-@media (max-width:480px){
-
-    .stats-grid{
-        grid-template-columns:1fr;
-        gap:12px;
-    }
-
-    .stats-item{
-        padding:18px;
-    }
-
-    .stats-lbl{
-        font-size:11px;
-    }
-
-    .stats-month{
-        font-size:18px;
-    }
-
-    .stats-val{
-        font-size:24px;
-    }
-
+@media(max-width:340px){
+  .stats-item{flex-direction:column;align-items:flex-start}
+  .stats-val{align-items:flex-start;text-align:left}
 }
 
 </style>
@@ -898,6 +844,7 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
             <div class="fire-text" id="fireText">—</div>
           </div>
         </div>
+        <div class="status-bar" id="statusBar">—</div>
         <div class="growth-strip" id="diasStrip">
           <div class="growth-card">
             <div class="g-lbl">Dias Corridos Restantes</div>
@@ -910,35 +857,15 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
             <div class="g-sub" id="diasUteisSub">—</div>
           </div>
         </div>
-<div class="card" id="statsCard">
-  <div class="card-head">
-    <span class="card-title">Estatísticas</span>
-  </div>
-
-  <div class="card-body">
-    <div class="stats-grid">
-
-          <div class="stats-item">
-    <span class="stats-lbl g">Maior Receita</span>
-    <span class="stats-month g" id="statMaxRecMonth">—</span>
-    <span class="stats-val g priv" id="statMaxRec">—</span>
-</div>
-
-<div class="stats-item">
-    <span class="stats-lbl r">Maior Despesa</span>
-    <span class="stats-month r" id="statMaxDesMonth">—</span>
-    <span class="stats-val r priv" id="statMaxDes">—</span>
-</div>
-
-<div class="stats-item">
-    <span class="stats-lbl g">Melhor Mês</span>
-    <span class="stats-month g" id="statBestMonth">—</span>
-    <span class="stats-val g priv" id="statBest">—</span>
-</div>
-
-    </div>
-  </div>
-</div>
+        <div class="card" id="statsCard">
+          <div class="card-head"><span class="card-title">Estatísticas</span></div>
+          <div class="card-body">
+            <div class="stats-grid">
+              <div class="stats-item g"><span class="stats-lbl">Maior Receita</span><span class="stats-val g priv" id="statMaxRec">—</span></div>
+              <div class="stats-item r"><span class="stats-lbl">Maior Despesa</span><span class="stats-val r priv" id="statMaxDes">—</span></div>
+              <div class="stats-item g"><span class="stats-lbl">Melhor Mês</span><span class="stats-val g priv" id="statBest">—</span></div>
+            </div>
+          </div>
         </div>
         <div class="proj-card" id="projCard">
           <div class="proj-ico"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 7v6h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
@@ -1462,6 +1389,7 @@ if (limDesM > 0) {
 }
 g('kpiSaldoBadge').className='badge '+(sM>0?'up':sM<0?'dn':'nn');g('kpiSaldoBadge').textContent=sM>0?'Positivo':sM<0?'Negativo':'Neutro';
 const hj=new Date(),dR=new Date(hj.getFullYear(),hj.getMonth()+1,0).getDate()-hj.getDate();
+g('statusBar').innerHTML=`Mês atual: <strong>${MESES[mc]}</strong> · Faltam <strong>${dR} dias</strong> · Receita: <strong>${fmt(recM)}</strong> · Despesa: <strong>${fmt(desM)}</strong>`;
 loadMetaUI();setBar('fillRecMes','pctRecMes',recM,mMes,false);setBar('fillDesMes','pctDesMes',desM,meta.desMes||0,true);setBar('fillDesLivre','pctDesLivre',desM,meta.desLivre||0,true);
 const atv=rec.map(tRec).map((v,i)=>({v,i})).filter(x=>x.v>0);
 if(atv.length>=2){g('growthStrip').style.display='grid';const cr=[];for(let k=1;k<atv.length;k++)if(atv[k-1].v>0)cr.push((atv[k].v-atv[k-1].v)/atv[k-1].v*100);const med=cr.reduce((a,b)=>a+b,0)/cr.length,ult=cr[cr.length-1];const gm=g('gMed');gm.textContent=(med>=0?'+':'')+med.toFixed(1)+'%';gm.className='g-val '+(med>=0?'g':'r');const n=atv.length;let sx=0,sy=0,sxy=0,sx2=0;atv.forEach((p,idx)=>{sx+=idx;sy+=p.v;sxy+=idx*p.v;sx2+=idx*idx});const dn=n*sx2-sx*sx,slope=dn?(n*sxy-sx*sy)/dn:0;const gt=g('gTend'),ts=g('gTendSub');if(slope>50){gt.textContent='Crescendo';gt.className='g-val g';ts.textContent='tendência de alta'}else if(slope<-50){gt.textContent='Caindo';gt.className='g-val r';ts.textContent='tendência de queda'}else{gt.textContent='Estável';gt.className='g-val';ts.textContent='sem tendência clara'}}else g('growthStrip').style.display='none';
@@ -1589,57 +1517,28 @@ function buildDiasRestantes() {
 
 /* ─── Estatísticas: maior receita, maior despesa e melhor mês (exercício atual) ─── */
 function buildEstatisticas() {
-
-  const bMR = g('statMaxRec');
-  const bMD = g('statMaxDes');
-  const bB  = g('statBest');
-
-  const mMR = g('statMaxRecMonth');
-  const mMD = g('statMaxDesMonth');
-  const mB  = g('statBestMonth');
-
-  if (!bMR) return;
-
+  const bMR=g('statMaxRec'), bMD=g('statMaxDes'), bB=g('statBest'); if(!bMR) return;
   const recVals = rec.map(tRec);
-  const desVals = Array.from({ length: 12 }, (_, i) => tDes(i, des));
-
-  let idxR = -1, vR = 0;
-  recVals.forEach((v, i) => {
-    if (v > vR) {
-      vR = v;
-      idxR = i;
-    }
-  });
-
-  let idxD = -1, vD = 0;
-  desVals.forEach((v, i) => {
-    if (v > vD) {
-      vD = v;
-      idxD = i;
-    }
-  });
-
-  let idxB = -1, vB = -Infinity;
-  recVals.forEach((v, i) => {
-    if (v > 0 || desVals[i] > 0) {
+  const desVals = Array.from({length:12},(_,i)=>tDes(i,des));
+  let idxR=-1, vR=0;
+  recVals.forEach((v,i)=>{ if(v>vR){ vR=v; idxR=i; } });
+  let idxD=-1, vD=0;
+  desVals.forEach((v,i)=>{ if(v>vD){ vD=v; idxD=i; } });
+  let idxB=-1, vB=-Infinity;
+  recVals.forEach((v,i)=>{
+    if(v>0 || desVals[i]>0){
       const net = v - desVals[i];
-      if (net > vB) {
-        vB = net;
-        idxB = i;
-      }
+      if(net>vB){ vB=net; idxB=i; }
     }
   });
-
-  mMR.textContent = idxR >= 0 ? MESES[idxR] : '—';
-  bMR.textContent = idxR >= 0 ? fmt(vR) : '—';
-
-  mMD.textContent = idxD >= 0 ? MESES[idxD] : '—';
-  bMD.textContent = idxD >= 0 ? fmt(vD) : '—';
-
-  mB.textContent = idxB >= 0 ? MESES[idxB] : '—';
-  bB.textContent = idxB >= 0 ? fmt(vB) : '—';
-
+  const statHTML = (i,v)=> i>=0
+    ? `<span class="stats-mo">${MESES[i]}</span><span class="stats-amt">${fmt(v)}</span>`
+    : '<span class="stats-amt">—</span>';
+  bMR.innerHTML = statHTML(idxR,vR);
+  bMD.innerHTML = statHTML(idxD,vD);
+  bB.innerHTML  = statHTML(idxB,vB);
 }
+
 /* ─── Projeção de saldo fim do mês ─── */
 function buildProjecao() {
   const el=g('projTxt'); if(!el) return;
@@ -1911,3 +1810,4 @@ async function deletarMeta(i){if(!confirm('Excluir "'+sonhos[i].nome+'"?'))retur
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{})</script>
 </body>
 </html>
+
