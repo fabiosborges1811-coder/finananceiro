@@ -1,9 +1,10 @@
 // Carteira: posições manuais por usuário e exercício, sem movimentar o fluxo de caixa.
 let carteira=[],cartEdit=null,cartSeq=0,cartBusy=false,cartLoaded=false,cartMovimentos=[],movLimite=100,movBusy=false,movChave=null;
+let carteiraVisual='cards';
 const cartCategorias={banco:'Banco',poupanca:'Poupança',acoes:'Ações',fiis:'FIIs',cripto:'Criptomoedas',renda_fixa:'Renda Fixa',fundos:'Fundos',outros:'Outros'};
 function cartMensagem(msg){g('cartStatus').textContent=msg;}
 function limparCarteira(){cartSeq++;carteira=[];cartMovimentos=[];cartLoaded=false;cancelarAtivo();renderCarteira();}
-function cancelarAtivo(){cartEdit=null;g('cartForm').reset();g('cartCancel').hidden=true;g('cartSave').textContent='+ Adicionar';}
+function cancelarAtivo(){cartEdit=null;g('cartForm').reset();g('cartCancel').hidden=true;g('cartSave').textContent='+ Adicionar';if(g('cartEditor'))g('cartEditor').open=false;if(g('cartEditorTitle'))g('cartEditorTitle').textContent='Adicionar uma aplicação';}
 async function loadCarteira(){
   const seq=++cartSeq,uid=currentUser?.id,ano=anoAtual;
   carteira=[];cartMovimentos=[];cartLoaded=false;renderCarteira();
@@ -27,15 +28,16 @@ function renderCarteira(){
     const b=Number(a.investido),v=Number(a.atual),pct=b>0?((v-b)/b*100).toLocaleString('pt-BR',{maximumFractionDigits:2})+'%':'—';
     return `<tr><td>${escHtml(a.nome)}<small class="cart-kind">${a.tipo==='conta'?'Conta / Caixa':'Investimento'}</small></td><td>${escHtml(cartCategorias[a.categoria]||a.categoria)}</td><td class="priv">${fmt(b)}</td><td class="priv">${fmt(v)}</td><td class="priv">${pct}</td><td><button class="btn-ghost" onclick="verHistoricoAtivo(${i})">Histórico</button> <button class="btn-ghost" onclick="editarAtivo(${i})">Editar</button> <button class="btn-ghost danger" onclick="excluirAtivo(${i})">Excluir</button></td></tr>`;
   }).join('')||`<tr><td colspan="6">${cartLoaded?'Nenhum ativo cadastrado neste exercício.':'Carteira não carregada.'}</td></tr>`;
-  g('tfCarteira').innerHTML='';renderMovimentacoes();renderDistribuicaoCarteira();applyPrivacy();
+  g('tfCarteira').innerHTML='';renderCarteiraVisual();renderMovimentacoes();renderDistribuicaoCarteira();applyPrivacy();
 }
 function editarAtivo(i){
   if(cartBusy)return;
+  document.querySelectorAll('.asset-menu[open]').forEach(e=>e.open=false);
   const a=carteira[i];if(!a)return;
   cartEdit={id:a.id,uid:currentUser.id,ano:anoAtual,updated_at:a.updated_at};
   g('cartNome').value=a.nome;g('cartTipo').value=a.tipo;g('cartCategoria').value=a.categoria;
   g('cartInvestido').value=a.investido;g('cartAtual').value=a.atual;
-  g('cartSave').textContent='Salvar alterações';g('cartCancel').hidden=false;g('cartNome').focus();
+  g('cartEditor').open=true;g('cartEditorTitle').textContent='Editar aplicação';g('cartEditor').scrollIntoView({behavior:'smooth',block:'start'});g('cartSave').textContent='Salvar alterações';g('cartCancel').hidden=false;g('cartNome').focus();
 }
 async function salvarAtivo(){
   if(cartBusy)return;
@@ -106,7 +108,7 @@ function atualizarFormMovimento(){
   if(d.options?.length)d.options[0].textContent=t==='resgate'?'Fora da carteira':'Selecione o destino';
   g('movOrigemLabel').textContent=['aporte','rendimento'].includes(t)?'Em qual aplicação?':'De qual aplicação?';
   const msgs={transferencia:'Move saldo e base proporcional entre duas aplicações. Não cria receita nem despesa e não altera o total da carteira.',retirada:'Sai dinheiro para fora da carteira. Não registra uma despesa automaticamente; você pode registrá-la separadamente se houve um gasto.',resgate:'Escolha outra conta da carteira para um resgate interno ou “Fora da carteira” para uma saída externa. Resgatar não é uma nova receita.',aporte:'Entrada manual de dinheiro: aumenta saldo e valor colocado. Se já registrou uma receita vinculada, não registre este aporte novamente.',rendimento:'Aumenta somente o saldo e os rendimentos registrados. Se já lançou uma receita vinculada, não repita aqui.'};
-  g('movAjuda').textContent=msgs[t]||'';
+  g('movAjuda').textContent=msgs[t]||'';atualizarPreviaMovimento();
 }
 function renderResumoMovimentos(){
   const sum=(k,f)=>cartMovimentos.filter(m=>k.includes(m.tipo)).reduce((s,m)=>s+f(m),0);
@@ -117,6 +119,7 @@ function renderResumoMovimentos(){
   const adjustments=sum(['ajuste'],m=>Number(m.delta_saldo));
   const realized=sum(['retirada','resgate'],m=>Number(m.delta_base)-Number(m.delta_saldo));
   const fields=[['Posição inicial',initial],['Aportes líquidos de estornos',deposits],['Rendimentos registrados',yields],['Retiradas e resgates externos',withdrawals],['Ajustes no saldo',adjustments],['Resultado realizado em saídas¹',realized]];
+  g('cartAportesVis').textContent=cartLoaded?fmt(deposits):'—';g('cartRendVis').textContent=cartLoaded?fmt(yields):'—';g('cartSaidasVis').textContent=cartLoaded?fmt(withdrawals):'—';
   g('movResumo').innerHTML=fields.map(([n,v])=>`<div class="mov-num"><span>${n}</span><strong class="priv">${cartLoaded?escHtml(fmt(v)):'—'}</strong></div>`).join('')+'<p class="field-help mov-formula">Saldo = posição inicial + aportes + rendimentos − saídas + ajustes.<br>¹Diferença entre o valor retirado e a base proporcional retirada, já embutida na saída. Não some novamente ao saldo. Não é apuração fiscal.</p>';
 }
 function filtrarMovimentos(){
@@ -124,7 +127,10 @@ function filtrarMovimentos(){
   const rows=cartMovimentos.filter(m=>(!ativo||(m.carteira_id||m.carteira_nome)===ativo)&&(!tipo||m.tipo===tipo));
   g('movHistorico').innerHTML=rows.slice(0,movLimite).map(m=>{
     const delta=Number(m.delta_saldo),date=m.data?m.data.split('-').reverse().join('/'):'—';
-    return `<tr><td>${escHtml(date)}</td><td>${escHtml(movNomes[m.tipo]||m.tipo)}</td><td>${escHtml(m.carteira_nome)}</td><td class="priv">${delta>0?'+ ':''}${escHtml(fmt(delta))}</td><td class="priv">${escHtml(fmt(Number(m.saldo_apos)))}</td><td>${escHtml(m.descricao||'—')}<small class="cart-kind">Operação ${escHtml(m.grupo.slice(0,8))} · <span class="priv">base ${escHtml(fmt(Number(m.delta_base)))}</span></small></td></tr>`;
+    const cls=m.tipo==='transferencia'?'transfer':m.tipo==='ajuste'?'adjust':delta>0?'in':delta<0?'out':'neutral';
+    const icon=m.tipo==='transferencia'?'⇄':m.tipo==='ajuste'?'≈':delta>0?'↙':delta<0?'↗':'•';
+    const amount=(delta>0?'+ ':delta<0?'− ':'')+fmt(Math.abs(delta));
+    return `<tr><td class="history-date">${escHtml(date)}</td><td><span class="movement-badge movement-${cls}"><span aria-hidden="true">${icon}</span> ${escHtml(movNomes[m.tipo]||m.tipo)}</span></td><td class="history-asset">${escHtml(m.carteira_nome)}</td><td class="priv history-amount movement-text-${cls}">${escHtml(amount)}</td><td class="priv history-balance">${escHtml(fmt(Number(m.saldo_apos)))}</td><td><details class="movement-details"><summary>${escHtml(m.descricao||'Ver detalhes')}</summary><p>Código ${escHtml(m.grupo)}<br><span class="priv">Variação da base: ${escHtml(fmt(Number(m.delta_base)))}</span></p></details></td></tr>`;
   }).join('')||`<tr><td colspan="6">${cartLoaded?'Nenhuma movimentação neste filtro.':'Carregue a carteira para consultar o histórico.'}</td></tr>`;
   g('movMais').hidden=rows.length<=movLimite;applyPrivacy();
 }
@@ -155,4 +161,49 @@ async function salvarMovimento(){
   finally{movBusy=false;g('movSave').disabled=!cartLoaded;}
 }
 
+
+
+// Apresentação: cartões, formulários recolhidos e prévia; não movimenta valores.
+function abrirEditorCarteira(){
+  cancelarAtivo();g('cartEditor').open=true;g('cartEditor').scrollIntoView({behavior:'smooth',block:'start'});g('cartNome').focus({preventScroll:true});
+}
+function abrirMovimentacao(i=null){
+  g('movEditor').open=true;
+  if(i!==null&&carteira[i])g('movOrigem').value=carteira[i].id;
+  atualizarPreviaMovimento();g('movEditor').scrollIntoView({behavior:'smooth',block:'start'});g('movTipo').focus({preventScroll:true});
+}
+function setCarteiraView(view){
+  carteiraVisual=view==='table'?'table':'cards';
+  g('cartTableView').hidden=carteiraVisual!=='table';g('cartCards').hidden=carteiraVisual!=='cards';
+  for(const [id,on] of [['cartViewCards',carteiraVisual==='cards'],['cartViewTable',carteiraVisual==='table']]){g(id).classList.toggle('on',on);g(id).setAttribute('aria-pressed',String(on));}
+}
+function renderCarteiraVisual(){
+  const total=carteira.reduce((n,a)=>n+Number(a.atual),0);
+  g('cartMeta').textContent=cartLoaded?`${carteira.length} ${carteira.length===1?'conta ou aplicação':'contas e aplicações'} · Exercício ${anoAtual}`:'Carregue suas aplicações para começar';
+  g('cartCount').textContent=cartLoaded?`${carteira.length} ${carteira.length===1?'aplicação para acompanhar':'aplicações para acompanhar'}`:'Seus saldos em uma visão organizada';
+  if(!cartLoaded){g('cartCards').innerHTML='<div class="wallet-empty"><span class="wallet-empty-symbol" aria-hidden="true">◌</span><h3>Sua carteira começa aqui</h3><p>Entre na sua conta e carregue os dados para acompanhar suas aplicações.</p></div>';}
+  else if(!carteira.length){g('cartCards').innerHTML='<div class="wallet-empty"><span class="wallet-empty-symbol" aria-hidden="true">＋</span><h3>Um lugar para cada parte do seu dinheiro.</h3><p>Cadastre uma conta ou investimento e comece a acompanhar seus saldos.</p><button class="btn-primary" onclick="abrirEditorCarteira()">Adicionar primeira aplicação</button></div>';}
+  else g('cartCards').innerHTML=carteira.map((a,i)=>{
+    const value=Number(a.atual),base=Number(a.investido),result=value-base,share=total>0?value/total*100:0;
+    const initial=Array.from(String(a.nome).trim()).slice(0,2).join('').toLocaleUpperCase('pt-BR');
+    const resultText=(result>0?'+ ':'')+fmt(result);
+    return `<article class="wallet-asset"><div class="wallet-asset-top"><span class="wallet-monogram" aria-hidden="true">${escHtml(initial)}</span><div><h3>${escHtml(a.nome)}</h3><span>${escHtml(cartCategorias[a.categoria]||a.categoria)} · ${a.tipo==='conta'?'Conta':'Investimento'}</span></div><details class="asset-menu"><summary aria-label="Opções de ${escHtml(a.nome)}">⋯</summary><div><button onclick="editarAtivo(${i})">Editar aplicação</button><button class="danger" onclick="excluirAtivo(${i})">Excluir aplicação</button></div></details></div><span class="wallet-asset-label">Saldo atual</span><strong class="wallet-asset-value priv">${escHtml(fmt(value))}</strong><div class="wallet-asset-result"><span>Resultado no saldo</span><strong class="priv ${result>=0?'movement-text-in':'movement-text-out'}">${escHtml(resultText)}</strong></div><div class="wallet-share-label"><span>Participação na carteira</span><strong class="priv">${share.toLocaleString('pt-BR',{maximumFractionDigits:1})}%</strong></div><div class="wallet-share-track priv"><span style="width:${Math.min(100,Math.max(0,share))}%"></span></div><div class="wallet-asset-actions"><button onclick="verHistoricoAtivo(${i})">Ver histórico</button><button onclick="abrirMovimentacao(${i})">Movimentar <span aria-hidden="true">↗</span></button></div></article>`;
+  }).join('');
+  setCarteiraView(carteiraVisual);
+}
+function atualizarPreviaMovimento(){
+  const box=g('movPrevia');if(!box)return;
+  const a=carteira.find(a=>a.id===g('movOrigem').value),b=carteira.find(a=>a.id===g('movDestino').value),v=Number(g('movValor').value),t=g('movTipo').value;
+  if(!a||!Number.isFinite(v)||v<=0){box.innerHTML='<span class="preview-eyebrow">ANTES DE CONFIRMAR</span><p>Escolha a aplicação e informe um valor para conferir o efeito no saldo.</p>';return;}
+  const internal=t==='transferencia'||(t==='resgate'&&b);
+  const enter=['aporte','rendimento'].includes(t);
+  if(internal&&(!b||a.id===b.id)){box.innerHTML='<p>Escolha uma aplicação de destino diferente da origem.</p>';return;}
+  if(!enter&&v>Number(a.atual)){box.innerHTML='<p class="movement-text-out">O valor informado é maior que o saldo disponível.</p>';return;}
+  const heading=internal?`${escHtml(a.nome)} <span aria-hidden="true">→</span> ${escHtml(b.nome)}`:enter?`Entrada em ${escHtml(a.nome)}`:`Saída de ${escHtml(a.nome)}`;
+  const after=Number(a.atual)+(enter?v:-v);
+  box.innerHTML=`<span class="preview-eyebrow">CONFIRA A MOVIMENTAÇÃO</span><strong>${heading}</strong><p class="priv">${escHtml(fmt(v))} · Saldo da ${escHtml(a.nome)} após: ${escHtml(fmt(after))}${internal?`<br>Saldo da ${escHtml(b.nome)} após: ${escHtml(fmt(Number(b.atual)+v))}`:''}</p><small>${internal?'O total da carteira não muda. Nenhuma nova receita ou despesa é criada.':enter?'Movimentação manual. Não repita uma receita que já foi vinculada.':'O valor sai da carteira. Nenhuma despesa é criada automaticamente.'}</small>`;
+  applyPrivacy();
+}
+for(const id of ['movOrigem','movDestino','movValor','movTipo'])g(id).addEventListener('input',atualizarPreviaMovimento);
 renderCarteira();
+
