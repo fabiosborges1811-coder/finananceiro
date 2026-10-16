@@ -160,109 +160,108 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
       </div>
 
       <!-- DASHBOARD -->
-      <div id="page-dashboard" class="page active">
-        <div class="pg-header"><div class="pg-title">Visão Geral</div><div class="pg-sub" id="dashSub"></div></div>
-        <div class="hero">
-          <div class="hero-grain"></div>
-          <div class="hero-top">
-            <button class="eye-btn" id="eyeBtn" onclick="togglePrivacy()" title="Modo privacidade (ocultar valores)">
-              <svg viewBox="0 0 24 24" id="eyeIco"><use href="#ni-eye"/></svg>
-            </button>
-            <div style="display:flex;align-items:center;gap:8px">
-              <label class="hero-patrim" title="Ver patrimônio acumulado">
-                <span>Ver Patrimônio</span>
-                <span class="switch"><input type="checkbox" id="patrimToggle" onchange="togglePatrimonio(this)"><span class="slider"></span></span>
-              </label>
-              <button class="eye-btn" id="bellBtn" onclick="abrirAlertas()" title="Alertas e insights">
-                <svg viewBox="0 0 24 24"><use href="#ni-bell"/></svg>
-                <span class="bell-badge" id="bellBadge" style="display:none">0</span>
-              </button>
-            </div>
-          </div>
-          <div class="hero-lbl" id="heroLbl">Saldo Líquido — <span id="heroAno"></span></div>
-          <div class="hero-val" id="heroSaldo">R$ 0,00</div>
-          <div class="hero-div"></div>
-          <div class="hero-cols">
-            <div class="hero-col"><span class="hc-lbl" id="heroRecLbl">Total Receitas</span><span class="hc-val g" id="heroRec">R$ 0</span></div>
-            <div class="hero-col"><span class="hc-lbl" id="heroDesLbl">Total Despesas</span><span class="hc-val r" id="heroDes">R$ 0</span></div>
-            <div class="hero-col"><span class="hc-lbl" id="heroTaxaLbl">Taxa de Poupança</span><span class="hc-val" id="heroTaxa">—</span></div>
-            <div class="hero-col"><span class="hc-lbl" id="heroMesesLbl">Meses Ativos</span><span class="hc-val" id="heroMeses">—</span></div>
-          </div>
-          <div class="hero-extra" id="heroExtra" style="display:none">
-            <label>Saldo inicial</label>
-            <input type="number" id="saldoInicialInput" placeholder="0,00" min="0" step="0.01">
-          </div>
-        </div>
-        <div class="kpi-strip">
-          <div class="kpi" style="--kc:var(--green)"><div class="kpi-lbl">Projeção Anual</div><div class="kpi-val mn" id="kpiRecMes">—</div><div class="badge nn" id="kpiRecBadge">—</div></div>
-          <div class="kpi" style="--kc:var(--red)"><div class="kpi-lbl">Despesa Mensal</div><div class="kpi-val mn r" id="kpiDesMes">R$ 0,00</div><div class="badge nn" id="kpiDesBadge">—</div></div>
-          <div class="kpi" style="--kc:var(--blue)"><div class="kpi-lbl">Saldo do Mês</div><div class="kpi-val mn" id="kpiSaldoMes">R$ 0,00</div><div class="badge nn" id="kpiSaldoBadge">—</div></div>
-          <div class="kpi" style="--kc:var(--amber)"><div class="kpi-lbl">Meta Mensal</div><div class="kpi-val mn" id="kpiMetaVal">—</div><div class="badge nn" id="kpiMetaBadge">—</div></div>
-        </div>
-        <div class="kpi" style="--kc:var(--purple);margin-bottom:12px;border-radius:var(--radius);background:var(--paper2);border:1px solid var(--line2);padding:18px 18px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden"><div class="kpi-lbl">Média Mensal de Receita</div><div class="kpi-val mn" id="kpiMediaRec">—</div><div class="badge nn" id="kpiMediaRecBadge">—</div></div>
-        <div class="growth-strip" id="diasStrip">
-          <div class="growth-card">
-            <div class="g-lbl">Dias Corridos Restantes</div>
-            <div class="g-val" id="diasCorridos">—</div>
-            <div class="g-sub" id="diasCorridosSub">—</div>
-          </div>
-          <div class="growth-card">
-            <div class="g-lbl">Dias Úteis Restantes</div>
-            <div class="g-val" id="diasUteis">—</div>
-            <div class="g-sub" id="diasUteisSub">—</div>
-          </div>
-        </div>
-        <div class="card" id="statsCard">
-          <div class="card-head"><span class="card-title">Estatísticas</span></div>
-          <div class="card-body">
-            <div class="stats-grid">
-              <div class="stats-item g"><span class="stats-lbl">Maior Receita</span><span class="stats-val g priv" id="statMaxRec">—</span></div>
-              <div class="stats-item r"><span class="stats-lbl">Maior Despesa</span><span class="stats-val r priv" id="statMaxDes">—</span></div>
-              <div class="stats-item g"><span class="stats-lbl">Melhor Mês</span><span class="stats-val g priv" id="statBest">—</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="card" id="insightsCard">
-          <div class="card-head">
-            <span class="card-title">Alertas &amp; Insights</span>
-            <span class="badge nn" id="insightBadge">0</span>
-          </div>
-          <div class="card-body" id="insightsBody"></div>
-        </div>
-        <div class="growth-strip" id="growthStrip" style="display:none">
-          <div class="growth-card"><div class="g-lbl">Crescimento Médio</div><div class="g-val" id="gMed">—</div><div class="g-sub">receita mês a mês</div></div>
-          <div class="growth-card"><div class="g-lbl">Tendência</div><div class="g-val" id="gTend">—</div><div class="g-sub" id="gTendSub">—</div></div>
-        </div>
-        <div class="card">
-          <div class="card-head">
-            <span class="card-title">Evolução Mensal</span>
-            <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-              <div class="chart-legend">
-                <span class="leg-item"><span class="leg-dot" style="background:#1c7a45"></span>Receitas</span>
-                <span class="leg-item"><span class="leg-dot" style="background:#b02020"></span>Despesas</span>
-                <span class="leg-item"><span class="leg-dot" style="background:#4a70c8"></span>Saldo</span>
-              </div>
-              <div class="chart-toggle">
-                <button class="chart-btn active" onclick="setChartMode('bar',this)">Barras</button>
-                <button class="chart-btn" onclick="setChartMode('line',this)">Linha</button>
-                <button class="chart-btn" onclick="setChartMode('both',this)">Ambos</button>
-              </div>
-            </div>
-          </div>
-          <div class="card-body"><div style="position:relative;height:268px"><canvas id="chartEvo"></canvas></div></div>
-        </div>
-        <div class="charts-grid">
-          <div class="card">
-            <div class="card-head"><span class="card-title">Composição Receitas</span><div class="chart-toggle" id="recToggle"><button class="chart-btn active pizza-btn" onclick="setPizzaMode('rec','annual')">Anual</button><button class="chart-btn pizza-btn" onclick="setPizzaMode('rec','monthly')">Mensal</button></div></div>
-            <div class="card-body"><div class="pizza-wrap"><div style="position:relative;height:158px"><canvas id="chartPRec"></canvas></div><div class="pizza-legend" id="lgPRec"></div></div></div>
-          </div>
-          <div class="card">
-            <div class="card-head"><span class="card-title">Composição Despesas</span><div class="chart-toggle" id="desToggle"><button class="chart-btn active pizza-btn" onclick="setPizzaMode('des','annual')">Anual</button><button class="chart-btn pizza-btn" onclick="setPizzaMode('des','monthly')">Mensal</button></div></div>
-            <div class="card-body"><div class="pizza-wrap"><div style="position:relative;height:158px"><canvas id="chartPDes"></canvas></div><div class="pizza-legend" id="lgPDes"></div></div></div>
-          </div>
-        </div>
-      </div>
+<div class="page active" id="page-dashboard">
+<div class="pg-header"><div class="pg-title">Visão Geral</div><div class="pg-sub" id="dashSub"></div></div>
+<div class="hero">
+<div class="hero-grain"></div>
+<div class="hero-top">
+<button class="eye-btn" id="eyeBtn" onclick="togglePrivacy()" title="Modo privacidade (ocultar valores)">
+<svg id="eyeIco" viewbox="0 0 24 24"><use href="#ni-eye"></use></svg>
+</button>
+<div style="display:flex;align-items:center;gap:8px">
+<label class="hero-patrim" title="Ver patrimônio acumulado">
+<span>Ver Patrimônio</span>
+<span class="switch"><input id="patrimToggle" onchange="togglePatrimonio(this)" type="checkbox"/><span class="slider"></span></span>
+</label>
+<button class="eye-btn" id="bellBtn" onclick="abrirAlertas()" title="Alertas e insights">
+<svg viewbox="0 0 24 24"><use href="#ni-bell"></use></svg>
+<span class="bell-badge" id="bellBadge" style="display:none">0</span>
+</button>
+</div>
+</div>
+<div class="hero-lbl" id="heroLbl">Saldo Líquido — <span id="heroAno"></span></div>
+<div class="hero-val" id="heroSaldo">R$ 0,00</div>
+<div class="hero-div"></div>
+<div class="hero-cols">
+<div class="hero-col"><span class="hc-lbl" id="heroRecLbl">Total Receitas</span><span class="hc-val g" id="heroRec">R$ 0</span></div>
+<div class="hero-col"><span class="hc-lbl" id="heroDesLbl">Total Despesas</span><span class="hc-val r" id="heroDes">R$ 0</span></div>
+<div class="hero-col"><span class="hc-lbl" id="heroTaxaLbl">Taxa de Poupança</span><span class="hc-val" id="heroTaxa">—</span></div>
+<div class="hero-col"><span class="hc-lbl" id="heroMesesLbl">Meses Ativos</span><span class="hc-val" id="heroMeses">—</span></div>
+</div>
+<div class="hero-extra" id="heroExtra" style="display:none">
+<label>Saldo inicial</label>
+<input id="saldoInicialInput" min="0" placeholder="0,00" step="0.01" type="number"/>
+</div>
+</div>
+<div class="kpi-strip">
+<div class="kpi" style="--kc:var(--green)"><div class="kpi-lbl">Projeção Anual</div><div class="kpi-val mn" id="kpiRecMes">—</div><div class="badge nn" id="kpiRecBadge">—</div></div>
+<div class="kpi" style="--kc:var(--red)"><div class="kpi-lbl">Despesa Mensal</div><div class="kpi-val mn r" id="kpiDesMes">R$ 0,00</div><div class="badge nn" id="kpiDesBadge">—</div></div>
+<div class="kpi" style="--kc:var(--blue)"><div class="kpi-lbl">Saldo do Mês</div><div class="kpi-val mn" id="kpiSaldoMes">R$ 0,00</div><div class="badge nn" id="kpiSaldoBadge">—</div></div>
+<div class="kpi" style="--kc:var(--amber)"><div class="kpi-lbl">Meta Mensal</div><div class="kpi-val mn" id="kpiMetaVal">—</div><div class="badge nn" id="kpiMetaBadge">—</div></div>
+</div>
+<div class="kpi" style="--kc:var(--purple);margin-bottom:12px;border-radius:var(--radius);background:var(--paper2);border:1px solid var(--line2);padding:18px 18px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden"><div class="kpi-lbl">Média Mensal de Receita</div><div class="kpi-val mn" id="kpiMediaRec">—</div><div class="badge nn" id="kpiMediaRecBadge">—</div></div>
 
+
+<div class="card" id="insightsCard">
+<div class="card-head">
+<span class="card-title">Alertas &amp; Insights</span>
+<span class="badge nn" id="insightBadge">0</span>
+</div>
+<div class="card-body" id="insightsBody"></div>
+</div>
+<div class="growth-strip" id="growthStrip" style="display:none">
+<div class="growth-card"><div class="g-lbl">Crescimento Médio</div><div class="g-val" id="gMed">—</div><div class="g-sub">receita mês a mês</div></div>
+<div class="growth-card"><div class="g-lbl">Tendência</div><div class="g-val" id="gTend">—</div><div class="g-sub" id="gTendSub">—</div></div>
+</div>
+<div class="card">
+<div class="card-head">
+<span class="card-title">Evolução Mensal</span>
+<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+<div class="chart-legend">
+<span class="leg-item"><span class="leg-dot" style="background:#1c7a45"></span>Receitas</span>
+<span class="leg-item"><span class="leg-dot" style="background:#b02020"></span>Despesas</span>
+<span class="leg-item"><span class="leg-dot" style="background:#4a70c8"></span>Saldo</span>
+</div>
+<div class="chart-toggle">
+<button class="chart-btn active" onclick="setChartMode('bar',this)">Barras</button>
+<button class="chart-btn" onclick="setChartMode('line',this)">Linha</button>
+<button class="chart-btn" onclick="setChartMode('both',this)">Ambos</button>
+</div>
+</div>
+</div>
+<div class="card-body"><div style="position:relative;height:268px"><canvas id="chartEvo"></canvas></div></div>
+</div>
+<div class="charts-grid">
+<div class="card">
+<div class="card-head"><span class="card-title">Composição Receitas</span><div class="chart-toggle" id="recToggle"><button class="chart-btn active pizza-btn" onclick="setPizzaMode('rec','annual')">Anual</button><button class="chart-btn pizza-btn" onclick="setPizzaMode('rec','monthly')">Mensal</button></div></div>
+<div class="card-body"><div class="pizza-wrap"><div style="position:relative;height:158px"><canvas id="chartPRec"></canvas></div><div class="pizza-legend" id="lgPRec"></div></div></div>
+</div>
+<div class="card">
+<div class="card-head"><span class="card-title">Composição Despesas</span><div class="chart-toggle" id="desToggle"><button class="chart-btn active pizza-btn" onclick="setPizzaMode('des','annual')">Anual</button><button class="chart-btn pizza-btn" onclick="setPizzaMode('des','monthly')">Mensal</button></div></div>
+<div class="card-body"><div class="pizza-wrap"><div style="position:relative;height:158px"><canvas id="chartPDes"></canvas></div><div class="pizza-legend" id="lgPDes"></div></div></div>
+</div>
+</div>
+<details class="card wallet-disclosure dashboard-details" id="dashDetails"><summary><span><strong>Mais detalhes do seu período</strong><small>Calendário e estatísticas de receitas e despesas</small></span><span aria-hidden="true" class="disclosure-plus">＋</span></summary><div class="card-body"><div class="growth-strip" id="diasStrip">
+<div class="growth-card">
+<div class="g-lbl">Dias Corridos Restantes</div>
+<div class="g-val" id="diasCorridos">—</div>
+<div class="g-sub" id="diasCorridosSub">—</div>
+</div>
+<div class="growth-card">
+<div class="g-lbl">Dias Úteis Restantes</div>
+<div class="g-val" id="diasUteis">—</div>
+<div class="g-sub" id="diasUteisSub">—</div>
+</div>
+</div><div class="card" id="statsCard">
+<div class="card-head"><span class="card-title">Estatísticas</span></div>
+<div class="card-body">
+<div class="stats-grid">
+<div class="stats-item g"><span class="stats-lbl">Maior Receita</span><span class="stats-val g priv" id="statMaxRec">—</span></div>
+<div class="stats-item r"><span class="stats-lbl">Maior Despesa</span><span class="stats-val r priv" id="statMaxDes">—</span></div>
+<div class="stats-item g"><span class="stats-lbl">Melhor Mês</span><span class="stats-val g priv" id="statBest">—</span></div>
+</div>
+</div>
+</div></div></details></div>
       <!-- RECEITAS -->
       <div id="page-receitas" class="page">
         <div class="pg-header"><div class="pg-title">Receitas</div><div class="pg-sub">Registre o dinheiro recebido: escolha o tipo, informe o valor e o mês</div></div>
@@ -431,73 +430,52 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
         </div>
       </div>
 
-      <!-- CARTEIRA -->
-      <div id="page-carteira" class="page">
-        <div class="pg-header cart-header"><div><div class="pg-title">Carteira</div><div class="pg-sub">Onde está seu dinheiro e seus rendimentos · <span id="cartAno"></span></div></div><button class="btn-ghost" type="button" onclick="abrirAjudaCarteira()">Como funciona?</button></div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Adicionar Ativo</span></div>
-          <div class="card-body">
-            <form id="cartForm" class="form-grid" onsubmit="event.preventDefault();salvarAtivo()">
-              <div class="field"><label for="cartNome">Nome</label><input type="text" id="cartNome" required maxlength="80" placeholder="Ex: Nubank, PETR4, Bitcoin"></div>
-              <div class="field"><label for="cartTipo">Tipo</label><select id="cartTipo"><option value="conta">Conta / Caixa</option><option value="investimento">Investimento</option></select></div>
-              <div class="field"><label for="cartCategoria">Categoria</label><select id="cartCategoria"><option value="banco">Banco</option><option value="poupanca">Poupança</option><option value="acoes">Ações</option><option value="fiis">FIIs</option><option value="cripto">Criptomoedas</option><option value="renda_fixa">Renda Fixa</option><option value="fundos">Fundos</option><option value="outros">Outros</option></select></div>
-              <div class="field"><label for="cartInvestido">Quanto você colocou (R$)</label><input type="number" id="cartInvestido" required max="9999999999999999" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
-              <div class="field"><label for="cartAtual">Quanto tem hoje (R$)</label><input type="number" id="cartAtual" required max="9999999999999999" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
-              <button class="btn-primary" id="cartSave" type="submit">+ Adicionar</button>
-              <button class="btn-ghost" type="button" id="cartCancel" hidden onclick="cancelarAtivo()">Cancelar edição</button>
-            </form>
-            <p class="cart-note">No cadastro, informe a posição inicial. Depois, use Movimentar dinheiro para aportes, transferências, retiradas e resgates. Receitas vinculadas entram automaticamente: não repita o lançamento aqui. Editar valores registra um ajuste; editar o nome não altera os registros antigos.</p>
-            <div id="cartStatus" role="status" aria-live="polite"></div>
-            <button class="btn-ghost" type="button" onclick="loadCarteira()">Atualizar dados</button>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Resumo</span></div>
-          <div class="card-body">
-            <div class="stats-grid">
-              <div class="stats-item g"><span class="stats-lbl">Base restante</span><span class="stats-val g priv" id="cartTotalInvestido">—</span></div>
-              <div class="stats-item g"><span class="stats-lbl">Total na carteira</span><span class="stats-val g priv" id="cartTotalAtual">—</span></div>
-              <div class="stats-item g"><span class="stats-lbl">Resultado no saldo (atual − base)</span><span class="stats-val g priv" id="cartRendimento">—</span></div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Entradas, saídas e resultados</span></div>
-          <div class="card-body"><div id="movResumo" class="mov-resumo"></div><p class="field-help">A posição inicial preserva os saldos anteriores à ativação do histórico. Transferências internas não contam como novos aportes ou retiradas. Valores não representam rentabilidade fiscal.</p></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Movimentar dinheiro</span></div>
-          <div class="card-body">
-            <form id="movForm" class="form-grid" onsubmit="event.preventDefault();salvarMovimento()">
-              <div class="field"><label for="movTipo">O que deseja fazer?</label><select id="movTipo" onchange="atualizarFormMovimento()"><option value="transferencia">Transferir entre aplicações</option><option value="retirada">Retirar para fora da carteira</option><option value="resgate">Resgatar investimento</option><option value="aporte">Adicionar aporte manual</option><option value="rendimento">Adicionar rendimento manual</option></select></div>
-              <div class="field"><label for="movOrigem" id="movOrigemLabel">De qual aplicação?</label><select id="movOrigem" required></select></div>
-              <div class="field" id="movDestinoField"><label for="movDestino">Para onde?</label><select id="movDestino"></select></div>
-              <div class="field"><label for="movValor">Valor (R$)</label><input id="movValor" type="number" required min="0.01" step="0.01" inputmode="decimal" placeholder="0,00"></div>
-              <div class="field"><label for="movData">Data</label><input id="movData" type="date" required></div>
-              <div class="field"><label for="movDescricao">Descrição (opcional)</label><input type="text" id="movDescricao" maxlength="240" placeholder="Ex.: resgate para minha conta"></div>
-              <button class="btn-primary" id="movSave" type="submit">Confirmar movimentação</button>
-            </form>
-            <p class="field-help" id="movAjuda"></p><div id="movStatus" role="status" aria-live="polite"></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Onde está meu dinheiro?</span></div>
-          <div class="card-body"><p class="field-help">Distribuição pelo saldo atual de cada conta ou aplicação no exercício selecionado.</p><div id="cartDistribuicao" class="cart-distribuicao"></div></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Ativos</span></div>
-          <div class="tbl-scroll"><table><thead><tr><th>Ativo</th><th>Categoria</th><th>Base restante</th><th>Saldo atual</th><th>Resultado %</th><th>Ações</th></tr></thead><tbody id="tbCarteira"></tbody><tfoot id="tfCarteira"></tfoot></table></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Histórico de movimentações</span></div>
-          <div class="card-body"><div class="form-grid">
-            <div class="field"><label for="movFiltroAtivo">Aplicação</label><select id="movFiltroAtivo" onchange="filtrarMovimentos()"><option value="">Todas</option></select></div>
-            <div class="field"><label for="movFiltroTipo">Movimentação</label><select id="movFiltroTipo" onchange="filtrarMovimentos()"><option value="">Todas</option><option value="abertura">Posição inicial</option><option value="aporte">Aportes e estornos</option><option value="rendimento">Rendimentos e estornos</option><option value="transferencia">Transferências</option><option value="retirada">Retiradas</option><option value="resgate">Resgates externos</option><option value="ajuste">Ajustes</option></select></div>
-          </div><p class="field-help">Transferências têm uma saída e uma entrada com o mesmo código. O histórico é permanente; correções manuais de saldo ficam registradas como ajustes.</p></div>
-          <div class="tbl-scroll"><table><thead><tr><th>Data</th><th>Tipo</th><th>Aplicação</th><th>Variação do saldo</th><th>Saldo após</th><th>Descrição / operação</th></tr></thead><tbody id="movHistorico"></tbody></table></div>
-          <div class="card-body"><button id="movMais" class="btn-ghost" onclick="maisMovimentos()" hidden>Mostrar mais</button></div>
-        </div>
-      </div>
+      <!-- CARTEIRA: interface visual, sem alterar regras financeiras -->
+<div id="page-carteira" class="page"><div class="pg-header cart-header"><div><div class="pg-title">Carteira</div><div class="pg-sub">Onde está seu dinheiro e seus rendimentos · <span id="cartAno"></span></div></div><button class="btn-ghost" onclick="abrirAjudaCarteira()" type="button">Como funciona?</button></div><section class="wallet-hero" aria-label="Resumo da carteira"><div class="wallet-hero-top"><span class="wallet-pill"><span class="wallet-live-dot"></span> Seu dinheiro, em um só lugar</span><button class="eye-btn" onclick="togglePrivacy()" aria-label="Mostrar ou ocultar valores"><svg><use href="#ni-eye"/></svg></button></div><p class="wallet-hero-label">Total na carteira</p><div class="wallet-hero-value priv" id="cartTotalAtual">—</div><p class="wallet-hero-meta" id="cartMeta">Carregue suas aplicações para começar</p><div class="wallet-hero-bottom"><div><span>Base restante</span><strong class="priv" id="cartTotalInvestido">—</strong></div><div><span>Resultado no saldo <span class="wallet-help-hint" title="Saldo atual menos base restante. Não é rentabilidade ajustada por aportes.">ⓘ</span></span><strong class="priv" id="cartRendimento">—</strong></div><div><span>Como acompanhar</span><p>Registre entradas.<br>Confira cada movimento.</p></div></div></section><section class="wallet-kpis" aria-label="Fluxos registrados"><div class="wallet-kpi"><span class="wallet-kpi-icon tone-in" aria-hidden="true">↙</span><div><span>Aportes registrados</span><strong class="priv" id="cartAportesVis">—</strong><small>Líquidos de estornos</small></div></div><div class="wallet-kpi"><span class="wallet-kpi-icon tone-yield" aria-hidden="true">↗</span><div><span>Rendimentos registrados</span><strong class="priv" id="cartRendVis">—</strong><small>Sem repetir a posição inicial</small></div></div><div class="wallet-kpi"><span class="wallet-kpi-icon tone-out" aria-hidden="true">↗</span><div><span>Retiradas e resgates</span><strong class="priv" id="cartSaidasVis">—</strong><small>Apenas saídas externas</small></div></div></section>
+<details class="card wallet-disclosure wallet-reconcile"><summary><span><strong>Entenda de onde vem o saldo</strong><small>Posição inicial, aportes, saídas e ajustes</small></span><span class="disclosure-plus" aria-hidden="true">＋</span></summary><div class="card-body"><div class="mov-resumo" id="movResumo"></div><p class="field-help">A posição inicial preserva os saldos anteriores à ativação do histórico. Transferências internas não contam como novos aportes ou retiradas. Valores não representam rentabilidade fiscal.</p></div></details><div class="wallet-actions"><button class="btn-primary" onclick="abrirEditorCarteira()"><span aria-hidden="true">＋</span> Adicionar aplicação</button><button class="btn-secondary" onclick="abrirMovimentacao()"><svg aria-hidden="true"><use href="#ni-wallet"/></svg> Movimentar dinheiro</button><button class="btn-ghost wallet-refresh" onclick="loadCarteira()">↻ Atualizar</button></div>
+<div id="cartStatus" class="wallet-status" role="status" aria-live="polite"></div>
+<div class="wallet-editors">
+<details id="cartEditor" class="card wallet-disclosure"><summary><span><span class="section-eyebrow">CADASTRO</span><strong id="cartEditorTitle">Adicionar uma aplicação</strong></span><span class="disclosure-plus" aria-hidden="true">＋</span></summary><div class="card-body">
+<form class="form-grid" id="cartForm" onsubmit="event.preventDefault();salvarAtivo()">
+<div class="field"><label for="cartNome">Nome</label><input id="cartNome" maxlength="80" placeholder="Ex: Nubank, PETR4, Bitcoin" required="" type="text"/></div>
+<div class="field"><label for="cartTipo">Tipo</label><select id="cartTipo"><option value="conta">Conta / Caixa</option><option value="investimento">Investimento</option></select></div>
+<div class="field"><label for="cartCategoria">Categoria</label><select id="cartCategoria"><option value="banco">Banco</option><option value="poupanca">Poupança</option><option value="acoes">Ações</option><option value="fiis">FIIs</option><option value="cripto">Criptomoedas</option><option value="renda_fixa">Renda Fixa</option><option value="fundos">Fundos</option><option value="outros">Outros</option></select></div>
+<div class="field"><label for="cartInvestido">Quanto você colocou (R$)</label><input id="cartInvestido" inputmode="decimal" max="9999999999999999" min="0" placeholder="0,00" required="" step="0.01" type="number"/></div>
+<div class="field"><label for="cartAtual">Quanto tem hoje (R$)</label><input id="cartAtual" inputmode="decimal" max="9999999999999999" min="0" placeholder="0,00" required="" step="0.01" type="number"/></div>
+<button class="btn-primary" id="cartSave" type="submit">+ Adicionar</button>
+<button class="btn-ghost" hidden="" id="cartCancel" onclick="cancelarAtivo()" type="button">Cancelar edição</button>
+</form>
+<p class="cart-note">No cadastro, informe a posição inicial. Depois, use Movimentar dinheiro para aportes, transferências, retiradas e resgates. Receitas vinculadas entram automaticamente: não repita o lançamento aqui. Editar valores registra um ajuste; editar o nome não altera os registros antigos.</p>
+
+
+</div></details>
+<details id="movEditor" class="card wallet-disclosure"><summary><span><span class="section-eyebrow">MOVIMENTAÇÃO</span><strong>O que vamos fazer com seu dinheiro?</strong></span><span class="disclosure-plus" aria-hidden="true">＋</span></summary><div class="card-body">
+<form class="form-grid" id="movForm" onsubmit="event.preventDefault();salvarMovimento()">
+<div class="field"><label for="movTipo">O que deseja fazer?</label><select id="movTipo" onchange="atualizarFormMovimento()"><option value="transferencia">Transferir entre aplicações</option><option value="retirada">Retirar para fora da carteira</option><option value="resgate">Resgatar investimento</option><option value="aporte">Adicionar aporte manual</option><option value="rendimento">Adicionar rendimento manual</option></select></div>
+<div class="field"><label for="movOrigem" id="movOrigemLabel">De qual aplicação?</label><select id="movOrigem" required=""></select></div>
+<div class="field" id="movDestinoField"><label for="movDestino">Para onde?</label><select id="movDestino"></select></div>
+<div class="field"><label for="movValor">Valor (R$)</label><input id="movValor" inputmode="decimal" min="0.01" placeholder="0,00" required="" step="0.01" type="number"/></div>
+<div class="field"><label for="movData">Data</label><input id="movData" required="" type="date"/></div>
+<div class="field"><label for="movDescricao">Descrição (opcional)</label><input id="movDescricao" maxlength="240" placeholder="Ex.: resgate para minha conta" type="text"/></div>
+<div id="movPrevia" class="movement-preview" aria-live="polite"></div><button class="btn-primary" id="movSave" type="submit">Confirmar movimentação</button>
+</form>
+<p class="field-help" id="movAjuda"></p><div aria-live="polite" id="movStatus" role="status"></div>
+</div></details>
+</div><div class="wallet-distribution-grid"><div class="card wallet-allocation">
+<div class="card-head"><span class="card-title">Onde está meu dinheiro?</span></div>
+<div class="card-body"><p class="field-help">A participação de cada conta ou aplicação no seu saldo atual.</p><div class="cart-distribuicao" id="cartDistribuicao"></div></div>
+</div></div><div class="card">
+<div class="card-head"><div><span class="card-title">Suas aplicações</span><p class="section-subtitle" id="cartCount">Contas e investimentos</p></div><div aria-label="Visualização das aplicações" class="wallet-view" role="group"><button aria-pressed="true" class="on" id="cartViewCards" onclick="setCarteiraView('cards')">Cartões</button><button aria-pressed="false" id="cartViewTable" onclick="setCarteiraView('table')">Tabela</button></div></div><div class="wallet-asset-grid" id="cartCards"></div>
+<div class="tbl-scroll" hidden="" id="cartTableView"><table><thead><tr><th>Ativo</th><th>Categoria</th><th>Base restante</th><th>Saldo atual</th><th>Resultado %</th><th>Ações</th></tr></thead><tbody id="tbCarteira"></tbody><tfoot id="tfCarteira"></tfoot></table></div>
+</div><div class="card" id="walletHistory">
+<div class="card-head"><span class="card-title">Seu dinheiro em movimento</span></div>
+<div class="card-body"><div class="form-grid wallet-history-filters">
+<div class="field"><label for="movFiltroAtivo">Aplicação</label><select id="movFiltroAtivo" onchange="filtrarMovimentos()"><option value="">Todas</option></select></div>
+<div class="field"><label for="movFiltroTipo">Movimentação</label><select id="movFiltroTipo" onchange="filtrarMovimentos()"><option value="">Todas</option><option value="abertura">Posição inicial</option><option value="aporte">Aportes e estornos</option><option value="rendimento">Rendimentos e estornos</option><option value="transferencia">Transferências</option><option value="retirada">Retiradas</option><option value="resgate">Resgates externos</option><option value="ajuste">Ajustes</option></select></div>
+</div><p class="field-help">Transferências têm uma saída e uma entrada com o mesmo código. O histórico é permanente; correções manuais de saldo ficam registradas como ajustes.</p></div>
+<p class="wallet-swipe-hint">Deslize a tabela para ver o saldo e os detalhes →</p><div class="tbl-scroll"><table><thead><tr><th>Data</th><th>Tipo</th><th>Aplicação</th><th>Variação do saldo</th><th>Saldo após</th><th>Descrição / operação</th></tr></thead><tbody id="movHistorico"></tbody></table></div>
+<div class="card-body"><button class="btn-ghost" hidden="" id="movMais" onclick="maisMovimentos()">Mostrar mais</button></div>
+</div></div>
     </main>
   </div>
 
@@ -612,6 +590,7 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
     <div class="wn-head"><h2 class="wn-title" id="novidadesTitulo">Conheça a nova Carteira</h2><span class="wn-ver">Atualização completa</span></div>
     <p class="wn-sub" id="novidadesSub">Agora você pode acompanhar onde seu dinheiro está, quanto rendeu e como ele se movimenta — tudo em uma nova aba.</p>
     <div class="wn-list">
+      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-eye"/></svg></span><div><div class="wn-name">Um visual mais claro e organizado</div><p class="wn-desc">A Carteira ganhou resumo em destaque, aplicações em cartões, opção de tabela, formulários recolhidos e prévia da movimentação. Textos mais legíveis e histórico com tipos identificados por cor e nome. Na Visão Geral, calendário e estatísticas ficam em <b>Mais detalhes do seu período</b>.</p></div></div>
       <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-wallet"/></svg></span><div><div class="wn-name">Uma nova aba: Carteira</div><p class="wn-desc">Cadastre suas contas e aplicações, como banco, poupança, CDB, Tesouro, ações, FIIs, fundos e cripto. Informe o valor colocado e o saldo atual, separados por exercício. Os valores são informados por você, <b>sem cotações automáticas</b>.</p></div></div>
       <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-grid"/></svg></span><div><div class="wn-name">Veja onde seu dinheiro está</div><p class="wn-desc">Um gráfico mostra a distribuição do saldo atual entre as aplicações, com <b>valor em reais e participação em porcentagem</b>. Consulte também o total da carteira, a base restante e o resultado no saldo.</p></div></div>
       <div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-up"/></svg></span><div><div class="wn-name">Receitas conectadas à Carteira — se você quiser</div><p class="wn-desc">Ao registrar renda fixa/regular, renda extra ou rendimento, escolha uma aplicação no campo <b>Adicionar à carteira? (opcional)</b>. Sem selecionar uma, o lançamento fica somente em Receitas. Essa opção também está na entrada rápida.</p></div></div>
