@@ -60,6 +60,7 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
   <symbol id="ni-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="ni-eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></symbol>
   <symbol id="ni-bell" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
+  <symbol id="ni-wallet" viewBox="0 0 16 16"><rect x="2" y="4" width="12" height="9" rx="2"/><path d="M2 7h12"/><circle cx="11" cy="10" r="1"/></symbol>
 </svg>
 
 <!-- CONFIG -->
@@ -118,6 +119,7 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
       <div class="nav-item" data-page="despesas" onclick="navTo('despesas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-down"/></svg></span>Despesas</div>
       <div class="nav-item" data-page="relatorio" onclick="navTo('relatorio')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-doc"/></svg></span>Relatório</div>
       <div class="nav-item" data-page="metas" onclick="navTo('metas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-star"/></svg></span>Metas</div>
+      <div class="nav-item" data-page="carteira" onclick="navTo('carteira')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-wallet"/></svg></span>Carteira</div>
       <div class="sidebar-foot">
         <div class="uca" id="sideUserCard">
           <div class="uca-av" id="sideAvatar">?</div>
@@ -263,13 +265,14 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 
       <!-- RECEITAS -->
       <div id="page-receitas" class="page">
-        <div class="pg-header"><div class="pg-title">Receitas</div><div class="pg-sub">Registre suas entradas por mês</div></div>
+        <div class="pg-header"><div class="pg-title">Receitas</div><div class="pg-sub">Registre o dinheiro recebido: escolha o tipo, informe o valor e o mês</div></div>
         <div class="card">
           <div class="card-head"><span class="card-title">Lançar Receita</span></div>
           <div class="card-body">
             <div class="form-grid">
               <div class="field"><label for="recValor">Valor (R$)</label><input type="number" id="recValor" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
-              <div class="field"><label for="recOrigem">Categoria</label><select id="recOrigem"><option value="fixa">Renda Fixa</option><option value="variavel">Renda Variável</option><option value="rendimento">Rendimento</option></select></div>
+              <div class="field"><label for="recOrigem">Categoria</label><select id="recOrigem" onchange="atualizarOrigemRendimento()"><option value="fixa">Salário / renda regular</option><option value="variavel">Renda extra</option><option value="rendimento">Rendimento</option></select></div>
+              <div id="recCarteiraField" class="field rendimento-field" hidden><label for="recCarteira">Adicionar à carteira? (opcional)</label><select id="recCarteira"></select><p class="field-help">Escolha onde o dinheiro entrou. Renda fixa e extra aumentam o valor colocado e o saldo; rendimento aumenta só o saldo. Deixe “Não adicionar” para registrar apenas a receita.</p><button class="btn-ghost" type="button" onclick="loadCarteira()">Atualizar lista</button></div>
               <div class="field"><label for="recMes">Mês</label><select id="recMes"></select></div>
               <button class="btn-primary" onclick="salvarReceita()">+ Adicionar</button>
             </div>
@@ -290,6 +293,11 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
         <div class="card">
           <div class="card-head"><span class="card-title">Histórico — <span id="recAnoLbl"></span></span></div>
           <div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Renda Fixa</th><th>Renda Variável</th><th>Rendimento</th><th>Total</th><th>Variação</th></tr></thead><tbody id="tbRec"></tbody><tfoot id="tfRec"></tfoot></table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Receitas e aplicações</span></div>
+          <div class="card-body"><p class="field-help">Veja o destino de cada receita. “Somado à carteira” indica que o saldo da aplicação foi atualizado. Sem vínculo, a entrada fica apenas em Receitas. Lançamentos antigos não são somados novamente.</p></div>
+          <div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Tipo</th><th>Conta ou investimento</th><th>Valor recebido</th><th>Ação</th></tr></thead><tbody id="tbRendimentos"></tbody></table></div>
         </div>
         <div class="card" id="insightsCardR">
           <div class="card-head">
@@ -422,6 +430,74 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
           <button class="btn-primary" onclick="abrirWizard()">Criar minha primeira meta</button>
         </div>
       </div>
+
+      <!-- CARTEIRA -->
+      <div id="page-carteira" class="page">
+        <div class="pg-header cart-header"><div><div class="pg-title">Carteira</div><div class="pg-sub">Onde está seu dinheiro e seus rendimentos · <span id="cartAno"></span></div></div><button class="btn-ghost" type="button" onclick="abrirAjudaCarteira()">Como funciona?</button></div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Adicionar Ativo</span></div>
+          <div class="card-body">
+            <form id="cartForm" class="form-grid" onsubmit="event.preventDefault();salvarAtivo()">
+              <div class="field"><label for="cartNome">Nome</label><input type="text" id="cartNome" required maxlength="80" placeholder="Ex: Nubank, PETR4, Bitcoin"></div>
+              <div class="field"><label for="cartTipo">Tipo</label><select id="cartTipo"><option value="conta">Conta / Caixa</option><option value="investimento">Investimento</option></select></div>
+              <div class="field"><label for="cartCategoria">Categoria</label><select id="cartCategoria"><option value="banco">Banco</option><option value="poupanca">Poupança</option><option value="acoes">Ações</option><option value="fiis">FIIs</option><option value="cripto">Criptomoedas</option><option value="renda_fixa">Renda Fixa</option><option value="fundos">Fundos</option><option value="outros">Outros</option></select></div>
+              <div class="field"><label for="cartInvestido">Quanto você colocou (R$)</label><input type="number" id="cartInvestido" required max="9999999999999999" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
+              <div class="field"><label for="cartAtual">Quanto tem hoje (R$)</label><input type="number" id="cartAtual" required max="9999999999999999" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
+              <button class="btn-primary" id="cartSave" type="submit">+ Adicionar</button>
+              <button class="btn-ghost" type="button" id="cartCancel" hidden onclick="cancelarAtivo()">Cancelar edição</button>
+            </form>
+            <p class="cart-note">No cadastro, informe a posição inicial. Depois, use Movimentar dinheiro para aportes, transferências, retiradas e resgates. Receitas vinculadas entram automaticamente: não repita o lançamento aqui. Editar valores registra um ajuste; editar o nome não altera os registros antigos.</p>
+            <div id="cartStatus" role="status" aria-live="polite"></div>
+            <button class="btn-ghost" type="button" onclick="loadCarteira()">Atualizar dados</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Resumo</span></div>
+          <div class="card-body">
+            <div class="stats-grid">
+              <div class="stats-item g"><span class="stats-lbl">Base restante</span><span class="stats-val g priv" id="cartTotalInvestido">—</span></div>
+              <div class="stats-item g"><span class="stats-lbl">Total na carteira</span><span class="stats-val g priv" id="cartTotalAtual">—</span></div>
+              <div class="stats-item g"><span class="stats-lbl">Resultado no saldo (atual − base)</span><span class="stats-val g priv" id="cartRendimento">—</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Entradas, saídas e resultados</span></div>
+          <div class="card-body"><div id="movResumo" class="mov-resumo"></div><p class="field-help">A posição inicial preserva os saldos anteriores à ativação do histórico. Transferências internas não contam como novos aportes ou retiradas. Valores não representam rentabilidade fiscal.</p></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Movimentar dinheiro</span></div>
+          <div class="card-body">
+            <form id="movForm" class="form-grid" onsubmit="event.preventDefault();salvarMovimento()">
+              <div class="field"><label for="movTipo">O que deseja fazer?</label><select id="movTipo" onchange="atualizarFormMovimento()"><option value="transferencia">Transferir entre aplicações</option><option value="retirada">Retirar para fora da carteira</option><option value="resgate">Resgatar investimento</option><option value="aporte">Adicionar aporte manual</option><option value="rendimento">Adicionar rendimento manual</option></select></div>
+              <div class="field"><label for="movOrigem" id="movOrigemLabel">De qual aplicação?</label><select id="movOrigem" required></select></div>
+              <div class="field" id="movDestinoField"><label for="movDestino">Para onde?</label><select id="movDestino"></select></div>
+              <div class="field"><label for="movValor">Valor (R$)</label><input id="movValor" type="number" required min="0.01" step="0.01" inputmode="decimal" placeholder="0,00"></div>
+              <div class="field"><label for="movData">Data</label><input id="movData" type="date" required></div>
+              <div class="field"><label for="movDescricao">Descrição (opcional)</label><input type="text" id="movDescricao" maxlength="240" placeholder="Ex.: resgate para minha conta"></div>
+              <button class="btn-primary" id="movSave" type="submit">Confirmar movimentação</button>
+            </form>
+            <p class="field-help" id="movAjuda"></p><div id="movStatus" role="status" aria-live="polite"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Onde está meu dinheiro?</span></div>
+          <div class="card-body"><p class="field-help">Distribuição pelo saldo atual de cada conta ou aplicação no exercício selecionado.</p><div id="cartDistribuicao" class="cart-distribuicao"></div></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Ativos</span></div>
+          <div class="tbl-scroll"><table><thead><tr><th>Ativo</th><th>Categoria</th><th>Base restante</th><th>Saldo atual</th><th>Resultado %</th><th>Ações</th></tr></thead><tbody id="tbCarteira"></tbody><tfoot id="tfCarteira"></tfoot></table></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><span class="card-title">Histórico de movimentações</span></div>
+          <div class="card-body"><div class="form-grid">
+            <div class="field"><label for="movFiltroAtivo">Aplicação</label><select id="movFiltroAtivo" onchange="filtrarMovimentos()"><option value="">Todas</option></select></div>
+            <div class="field"><label for="movFiltroTipo">Movimentação</label><select id="movFiltroTipo" onchange="filtrarMovimentos()"><option value="">Todas</option><option value="abertura">Posição inicial</option><option value="aporte">Aportes e estornos</option><option value="rendimento">Rendimentos e estornos</option><option value="transferencia">Transferências</option><option value="retirada">Retiradas</option><option value="resgate">Resgates externos</option><option value="ajuste">Ajustes</option></select></div>
+          </div><p class="field-help">Transferências têm uma saída e uma entrada com o mesmo código. O histórico é permanente; correções manuais de saldo ficam registradas como ajustes.</p></div>
+          <div class="tbl-scroll"><table><thead><tr><th>Data</th><th>Tipo</th><th>Aplicação</th><th>Variação do saldo</th><th>Saldo após</th><th>Descrição / operação</th></tr></thead><tbody id="movHistorico"></tbody></table></div>
+          <div class="card-body"><button id="movMais" class="btn-ghost" onclick="maisMovimentos()" hidden>Mostrar mais</button></div>
+        </div>
+      </div>
     </main>
   </div>
 
@@ -429,9 +505,17 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
     <button class="mob-nav-btn active" data-page="dashboard" onclick="navTo('dashboard')" aria-label="Início"><svg><use href="#ni-grid"/></svg>Início</button>
     <button class="mob-nav-btn" data-page="receitas" onclick="navTo('receitas')" aria-label="Receitas"><svg><use href="#ni-up"/></svg>Receitas</button>
     <button class="mob-nav-btn" data-page="despesas" onclick="navTo('despesas')" aria-label="Despesas"><svg><use href="#ni-down"/></svg>Despesas</button>
-    <button class="mob-nav-btn" data-page="relatorio" onclick="navTo('relatorio')" aria-label="Relatório"><svg><use href="#ni-doc"/></svg>Relatório</button>
-    <button class="mob-nav-btn" data-page="metas" onclick="navTo('metas')" aria-label="Metas"><svg><use href="#ni-star"/></svg>Metas</button>
+    <button class="mob-nav-btn" data-page="carteira" onclick="navTo('carteira')" aria-label="Carteira"><svg><use href="#ni-wallet"/></svg>Carteira</button>
+    <button class="mob-nav-btn" data-page="mais" onclick="abrirMais()" aria-label="Mais"><svg><use href="#ni-doc"/></svg>Mais</button>
   </div></nav>
+  <div id="moreOverlay" class="more-overlay" onclick="fecharMaisFora(event)">
+    <div class="more-sheet" role="dialog" aria-modal="true" aria-label="Mais opções">
+      <div class="more-title">Mais</div>
+      <button class="more-item" onclick="navTo('relatorio');fecharMais()"><svg><use href="#ni-doc"/></svg> Relatório</button>
+      <button class="more-item" onclick="navTo('metas');fecharMais()"><svg><use href="#ni-star"/></svg> Metas</button>
+      <button class="more-item" onclick="abrirConta();fecharMais()"><svg><use href="#ni-eye"/></svg> Conta</button>
+    </div>
+  </div>
 </div>
 
 <!-- WIZARD -->
@@ -514,29 +598,48 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
     </div>
     <div class="quick-body">
       <div class="field full"><label>Valor (R$)</label><input type="number" id="qValor" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
-      <div class="field"><label id="qCatLabel">Categoria</label><select id="qCat"></select></div>
+      <div class="field"><label id="qCatLabel">Categoria</label><select id="qCat" onchange="atualizarOrigemRendimento()"></select></div>
+      <div id="qCarteiraField" class="field full rendimento-field" hidden><label for="qCarteira">Adicionar à carteira? (opcional)</label><select id="qCarteira"></select><p class="field-help">Opcional. Renda fixa e extra somam ao valor colocado e ao saldo. Rendimento soma apenas ao saldo.</p></div>
       <div class="field"><label>Mês</label><select id="qMes"></select></div>
     </div>
     <button class="btn-primary" style="width:100%;padding:13px" onclick="quickSalvar()">Salvar entrada</button>
     <div class="quick-badge">Atalho: tecla N · Enter salva · Esc fecha</div>
   </div>
 </div>
-<!-- Nota de atualização (aparece uma vez) -->
+<!-- Novidades da versão: exibidas uma vez por usuário/navegador. -->
 <div id="whatsnewOverlay" class="wn-overlay" onclick="fecharWhatsNewFora(event)">
-  <div class="wn-modal">
-    <div class="wn-head"><span class="wn-title">O que há de novo</span><span class="wn-ver">v2.0</span></div>
-    <div class="wn-sub">Uma nova cara para o Capita</div>
+  <div class="wn-modal" role="dialog" aria-modal="true" aria-labelledby="novidadesTitulo" aria-describedby="novidadesSub" tabindex="-1">
+    <div class="wn-head"><h2 class="wn-title" id="novidadesTitulo">Conheça a nova Carteira</h2><span class="wn-ver">Atualização completa</span></div>
+    <p class="wn-sub" id="novidadesSub">Agora você pode acompanhar onde seu dinheiro está, quanto rendeu e como ele se movimenta — tudo em uma nova aba.</p>
     <div class="wn-list">
-      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-doc"/></svg></span><div><div class="wn-name">Relatório em PDF</div><div class="wn-desc">Gere um relatório anual completo em <b>Relatório &rsaquo; Ações</b>: resumo, indicadores, gráficos, tabela mês a mês e suas metas — pronto para imprimir ou arquivar.</div></div></div>
-      <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-grid"/></svg></span><div><div class="wn-name">Novo visual da Visão Geral</div><div class="wn-desc">Saldo com acabamento em degradê, cartões com relevo e brilho, números alinhados e animações de entrada em cascata.</div></div></div>
-      <div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-up"/></svg></span><div><div class="wn-name">Gráficos redesenhados</div><div class="wn-desc">Barras com degradê, linha de saldo suave, guia vertical ao passar o cursor, rosca com o total no centro e novas dicas de contexto.</div></div></div>
-      <div class="wn-item"><span class="wn-ico amber"><svg><use href="#ni-star"/></svg></span><div><div class="wn-name">Metas mais bonitas</div><div class="wn-desc">Cartão do sonho com fundo iluminado, emblema em destaque, arco de progresso maior e animado, e tabela com o mês atual em evidência.</div></div></div>
-      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-check"/></svg></span><div><div class="wn-name">Menu lateral repaginado</div><div class="wn-desc">Fundo com profundidade, itens em pílula com indicador luminoso, avatar com status e seletor de exercício renovado.</div></div></div>
-      <div class="wn-item"><span class="wn-ico red"><svg><use href="#ni-down"/></svg></span><div><div class="wn-name">Listas e tabelas refinadas</div><div class="wn-desc">Variações em pílulas coloridas, barras de progresso mais visíveis, botões com brilho e destaque na linha sob o cursor.</div></div></div>
-      <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-eye"/></svg></span><div><div class="wn-name">Estatísticas corrigidas</div><div class="wn-desc">Os valores não são mais cortados no celular — cada estatística aparece por extenso, com mês e valor separados.</div></div></div>
-      <div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-moon"/></svg></span><div><div class="wn-name">Painel mais enxuto</div><div class="wn-desc">Removemos os blocos de Independência Financeira, Termômetro de Orçamento, Projeção e a barra de status para deixar a Visão Geral direta ao ponto.</div></div></div>
+      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-wallet"/></svg></span><div><div class="wn-name">Uma nova aba: Carteira</div><p class="wn-desc">Cadastre suas contas e aplicações, como banco, poupança, CDB, Tesouro, ações, FIIs, fundos e cripto. Informe o valor colocado e o saldo atual, separados por exercício. Os valores são informados por você, <b>sem cotações automáticas</b>.</p></div></div>
+      <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-grid"/></svg></span><div><div class="wn-name">Veja onde seu dinheiro está</div><p class="wn-desc">Um gráfico mostra a distribuição do saldo atual entre as aplicações, com <b>valor em reais e participação em porcentagem</b>. Consulte também o total da carteira, a base restante e o resultado no saldo.</p></div></div>
+      <div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-up"/></svg></span><div><div class="wn-name">Receitas conectadas à Carteira — se você quiser</div><p class="wn-desc">Ao registrar renda fixa/regular, renda extra ou rendimento, escolha uma aplicação no campo <b>Adicionar à carteira? (opcional)</b>. Sem selecionar uma, o lançamento fica somente em Receitas. Essa opção também está na entrada rápida.</p></div></div>
+      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-plus"/></svg></span><div><div class="wn-name">Saldo e rendimentos atualizados</div><p class="wn-desc">Renda fixa e extra vinculadas aumentam o saldo e a base. Um rendimento vinculado aumenta só o saldo e, por isso, o <b>resultado no saldo</b>. Exemplo: R$ 1.000 de base e saldo + R$ 50 de rendimento = R$ 1.050 de saldo e R$ 50 de resultado. <b>Não repita a entrada manualmente na Carteira.</b></p></div></div>
+      <div class="wn-item"><span class="wn-ico amber"><svg><use href="#ni-doc"/></svg></span><div><div class="wn-name">Histórico e números separados</div><p class="wn-desc">Consulte movimentações com data, aplicação, descrição e saldo após cada operação. Filtre o histórico e veja <b>posição inicial, aportes, rendimentos, retiradas e ajustes</b> separados. Correções manuais de saldo também ficam registradas.</p></div></div>
+      <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-wallet"/></svg></span><div><div class="wn-name">Transferências entre aplicações</div><p class="wn-desc">Mova dinheiro de uma aplicação para outra sem criar uma nova receita ou despesa. O histórico registra saída e entrada com o mesmo código, e <b>o total da carteira não muda</b>.</p></div></div>
+      <div class="wn-item"><span class="wn-ico red"><svg><use href="#ni-down"/></svg></span><div><div class="wn-name">Retiradas e resgates</div><p class="wn-desc">Resgate para outra conta da carteira ou retire para fora dela. Saídas externas reduzem o total, <b>sem criar uma despesa automaticamente</b>. O sistema bloqueia valores acima do saldo disponível.</p></div></div>
+      <div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-check"/></svg></span><div><div class="wn-name">Seus dados preservados e um guia para começar</div><p class="wn-desc">Os saldos anteriores foram preservados como <b>posição inicial</b>, sem somar receitas antigas novamente. Na primeira visita à Carteira, você verá um guia; depois, pode reler em <b>Como funciona?</b>. No celular, Relatório e Metas ficam no menu <b>Mais</b>.</p></div></div>
     </div>
-    <button class="btn-primary" style="width:100%;padding:13px" onclick="fecharWhatsNew()">Entendi</button>
+    <button class="btn-primary onboarding-ok" type="button" onclick="fecharWhatsNew()">Entendi, vamos lá</button>
+  </div>
+</div>
+
+<!-- Explicação na primeira visita à Carteira; pode ser consultada novamente. -->
+<div id="carteiraAjudaOverlay" class="wn-overlay" onclick="fecharAjudaCarteiraFora(event)">
+  <div class="wn-modal cart-help-modal" role="dialog" aria-modal="true" aria-labelledby="carteiraAjudaTitulo" aria-describedby="carteiraAjudaSub" tabindex="-1">
+    <div class="wn-head"><h2 class="wn-title" id="carteiraAjudaTitulo">Como usar sua Carteira</h2></div>
+    <p class="wn-sub" id="carteiraAjudaSub">Um guia rápido para não contar o mesmo dinheiro duas vezes.</p>
+    <ol class="cart-help-steps">
+      <li><strong>Cadastre onde seu dinheiro está.</strong><p>Crie suas contas e aplicações. No cadastro, informe quanto colocou e quanto tem hoje: esses valores serão a posição inicial.</p></li>
+      <li><strong>Escolha onde entram suas receitas.</strong><p>Em Receitas, o destino é opcional. Se escolher uma aplicação, o saldo será atualizado automaticamente. Rendimento aumenta o resultado no saldo; renda fixa e extra aumentam também a base.</p></li>
+      <li><strong>Mova o dinheiro sem duplicar entradas.</strong><p>Transferência ou resgate para outra aplicação só move dinheiro dentro da carteira. Não é uma nova receita. Retirada ou resgate para fora reduz o total, sem criar despesa automaticamente.</p></li>
+      <li><strong>Entenda os números.</strong><p><b>Saldo atual</b> é quanto tem hoje. <b>Base restante</b> é a parte do valor colocado que permanece nas aplicações. <b>Resultado no saldo</b> é saldo menos base, não o total de rendimentos recebidos.</p></li>
+      <li><strong>Confira o histórico.</strong><p>O resumo separa aportes, rendimentos, saídas e ajustes. Transferências aparecem como saída e entrada com o mesmo código. Ao editar um saldo, a diferença fica registrada como ajuste.</p></li>
+    </ol>
+    <div class="cart-help-example"><strong>Exemplo simples</strong><p>Você colocou R$ 1.000 e tem R$ 1.000. Ao lançar R$ 50 de rendimento vinculado, o saldo vira R$ 1.050, a base continua R$ 1.000 e o resultado no saldo passa a R$ 50.</p></div>
+    <p class="field-help">As posições são separadas por exercício. Os valores antigos não viram movimentações retroativas. Para reler, use <b>Como funciona?</b> no topo da Carteira.</p>
+    <button class="btn-primary onboarding-ok" type="button" onclick="fecharAjudaCarteira()">Entendi, começar a usar</button>
   </div>
 </div>
 
@@ -544,10 +647,10 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="script.js"></script>
+<script src="carteira.js"></script>
 
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{})</script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4bc70e2c01a94c73b74392e4234840661791215815920" integrity="sha512-L0ha0OXavK/8okipN9F8BtP84dg9DUhPERbBXzwI6dgTA55d2+yweo3pn5CSFYs45/r8md2+xvUPtTdvTNRfjA==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","spa":2}' crossorigin="anonymous"></script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a4b7c45aecfd2d4c',t:'MTc5MjE2MTA4NA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
 
 
