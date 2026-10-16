@@ -1574,3 +1574,4 @@ body{transition:background .2s ease}
 .wallet-distribution-grid{grid-template-columns:minmax(0,1fr)}
 .wallet-allocation .cart-distribuicao{grid-template-columns:minmax(180px,280px) minmax(0,1fr);gap:36px}
 @media(max-width:600px){.wallet-allocation .cart-distribuicao{grid-template-columns:minmax(0,1fr);gap:16px}}
+
