@@ -1575,3 +1575,81 @@ body{transition:background .2s ease}
 .wallet-allocation .cart-distribuicao{grid-template-columns:minmax(180px,280px) minmax(0,1fr);gap:36px}
 @media(max-width:600px){.wallet-allocation .cart-distribuicao{grid-template-columns:minmax(0,1fr);gap:16px}}
 
+/* Metas — nova composição. Estilos locais, sem bibliotecas ou imagens extras. */
+#page-metas .goal-eyebrow{font-size:10px;letter-spacing:1.7px;font-weight:600;color:var(--green);margin-bottom:9px}
+#page-metas .goal-header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:30px}
+#page-metas .goal-header .pg-sub{margin-top:8px;line-height:1.6}
+#page-metas .goal-header .btn-primary{flex-shrink:0}
+#page-metas .goal-toolbar{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:0 0 17px;flex-wrap:wrap}
+#page-metas .goal-toolbar[hidden]{display:none}
+#page-metas .goal-toolbar-title{display:flex;align-items:center;gap:10px}
+#page-metas .goal-toolbar h2{margin:0;font-size:14px;font-weight:500;color:var(--ink)}
+#page-metas .goal-count{font-size:10px;color:var(--ink4);border:1px solid var(--line2);border-radius:20px;padding:4px 9px}
+#page-metas .goal-filters{display:flex;gap:3px;border:1px solid var(--line2);border-radius:10px;background:var(--paper2);padding:4px}
+#page-metas .goal-filters button{border:0;background:transparent;color:var(--ink4);padding:8px 12px;font:inherit;font-size:11px;cursor:pointer;border-radius:7px;white-space:nowrap}
+#page-metas .goal-filters button.on{background:var(--paper3);color:var(--ink)}
+#page-metas .sonho-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px;margin:0 0 35px}
+#page-metas .goal-card{padding:23px;border:1px solid var(--line2);border-radius:18px;background:var(--paper2);display:flex;flex-direction:column;gap:0;position:relative;box-shadow:none;animation:none;transform:none;cursor:default;transition:border-color .15s}
+#page-metas .goal-card:hover{box-shadow:none;transform:none;border-color:var(--ink4)}
+#page-metas .goal-card.active-goal{border-color:var(--green);background:var(--paper2)}
+#page-metas .goal-card::before{display:none}
+#page-metas .goal-card-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:21px}
+#page-metas .goal-icon{font-size:26px;background:var(--paper3);border:1px solid var(--line2);width:48px;height:48px;border-radius:14px;display:grid;place-items:center}
+#page-metas .goal-state{font-size:9px;color:var(--ink4);letter-spacing:.1px}
+#page-metas .goal-state.done{color:var(--green)}
+#page-metas .goal-card h3{font-size:17px;letter-spacing:-.3px;font-weight:500;color:var(--ink);line-height:1.4;overflow-wrap:anywhere;margin:0 0 7px}
+#page-metas .goal-card-desc{font-size:11px;line-height:1.7;color:var(--ink4);margin:0 0 25px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:37px}
+#page-metas .goal-card-meter{margin-top:auto;display:flex;justify-content:space-between;font-size:10px;color:var(--ink4);gap:12px;margin-bottom:10px}
+#page-metas .goal-card-meter strong{color:var(--green);font-size:12px;font-weight:500}
+#page-metas .goal-track{height:5px;background:var(--paper3);border-radius:8px;overflow:hidden}
+#page-metas .goal-track>span{display:block;height:100%;background:var(--green);border-radius:8px;transition:width .2s}
+#page-metas .goal-card-money{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin:12px 0 22px;font-variant-numeric:tabular-nums}
+#page-metas .goal-card-money strong{font-size:14px;color:var(--ink);font-weight:500}
+#page-metas .goal-card-money>span{font-size:10px;color:var(--ink4)}
+#page-metas .goal-card-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;padding-top:15px;border-top:1px solid var(--line2);font-size:10px;color:var(--ink4)}
+#page-metas .goal-card-bottom button{border:0;background:none;padding:7px 0 7px 10px;font:inherit;font-size:11px;color:var(--ink);cursor:pointer;display:flex;gap:10px;align-items:center}
+#page-metas .goal-card-bottom button[aria-pressed=true]{color:var(--green)}
+#page-metas #sonhoDetalhe{scroll-margin-top:25px;border-top:1px solid var(--line2);padding-top:27px}
+#page-metas .goal-detail-head{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:23px}
+#page-metas .goal-detail-head h2{font-family:var(--font-display);font-style:italic;font-size:29px;font-weight:400;color:var(--ink);margin:0;line-height:1.3;overflow-wrap:anywhere}
+#page-metas .goal-detail-head p{color:var(--ink4);font-size:12px;line-height:1.7;margin:7px 0 0;overflow-wrap:anywhere}
+#page-metas .goal-detail-actions{display:flex;gap:6px;flex-shrink:0}
+#page-metas .goal-focus-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:18px;align-items:stretch;margin-bottom:18px}
+#page-metas .goal-progress-panel,#page-metas .goal-aporte{background:var(--paper2);border:1px solid var(--line2);border-radius:17px;padding:24px;min-width:0}
+#page-metas .goal-progress-head{display:flex;align-items:center;gap:10px;color:var(--ink4);font-size:11px;margin-bottom:19px}
+#page-metas .goal-progress-head>span:first-child{font-size:22px}
+#page-metas .goal-progress-head strong{margin-left:auto;color:var(--green);font-size:16px;font-weight:500}
+#page-metas .goal-current{padding-top:25px;display:flex;flex-direction:column;gap:7px}
+#page-metas .goal-current>span{font-size:10px;color:var(--ink4)}
+#page-metas .goal-current strong{font-size:30px;letter-spacing:-1px;font-weight:400;color:var(--ink);line-height:1.3;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+#page-metas .goal-values{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:22px 0;padding-bottom:22px;border-bottom:1px solid var(--line2)}
+#page-metas .goal-values>div{display:flex;flex-direction:column;gap:8px;min-width:0}
+#page-metas .goal-values span{font-size:10px;color:var(--ink4)}
+#page-metas .goal-values strong{font-size:14px;color:var(--ink2);font-weight:400;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+#page-metas .goal-plan-note{font-size:11px;line-height:1.8;color:var(--ink4)}
+#page-metas .goal-plan-note strong{font-weight:500;color:var(--ink2)}
+#page-metas .goal-aporte h3{font-size:15px;font-weight:500;color:var(--ink);margin:0 0 8px}
+#page-metas .goal-aporte>p{font-size:11px;color:var(--ink4);line-height:1.8;margin:0 0 24px}
+#page-metas .goal-aporte .aporte-fields{grid-template-columns:1fr;margin-bottom:18px;gap:16px}
+#page-metas .goal-aporte .aporte-btn-full{font-size:12px;padding:13px;transform:none}
+#page-metas .goal-aporte .enter-hint{margin-top:12px}
+#page-metas .goal-timeline{border:1px solid var(--line2);border-radius:16px;background:var(--paper2);overflow:hidden}
+#page-metas .goal-timeline>summary{display:flex;align-items:center;gap:12px;justify-content:space-between;cursor:pointer;padding:19px 23px;list-style:none;color:var(--ink2);font-size:12px}
+#page-metas .goal-timeline>summary::-webkit-details-marker{display:none}
+#page-metas .goal-timeline>summary::after{content:'＋';color:var(--ink4);font-size:16px}
+#page-metas .goal-timeline[open]>summary::after{content:'−'}
+#page-metas .goal-timeline .badge{margin-left:auto}
+#page-metas .goal-timeline .proj-table td,#page-metas .goal-timeline .proj-table th{white-space:nowrap}
+#page-metas .goal-filter-empty{padding:35px 20px;text-align:center;color:var(--ink4);font-size:12px;border:1px dashed var(--line2);border-radius:16px;margin-bottom:30px}
+#page-metas .goal-filter-empty[hidden]{display:none}
+#page-metas .empty-state{background:var(--paper2);border:1px dashed var(--line3);border-radius:20px;padding:60px 24px}
+#page-metas .empty-state h2{font:italic 28px var(--font-display);color:var(--ink);margin:0 0 12px}
+#page-metas .empty-state p{line-height:1.9;margin:0 0 24px}
+#page-metas button:focus-visible,#page-metas summary:focus-visible{outline:2px solid var(--green);outline-offset:4px}
+@media(max-width:1200px){#page-metas .sonho-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:850px){#page-metas .goal-focus-grid{grid-template-columns:minmax(0,1fr)}#page-metas .goal-aporte .aporte-fields{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){#page-metas .goal-header{gap:12px;margin-bottom:27px;align-items:flex-start}#page-metas .goal-header .btn-primary{padding:11px;font-size:11px;margin-top:21px}#page-metas .goal-header .pg-sub{font-size:11px;max-width:195px}#page-metas .goal-eyebrow{font-size:9px}#page-metas .goal-toolbar{gap:14px}#page-metas .goal-filters{width:100%}#page-metas .goal-filters button{flex:1;padding:9px 6px}#page-metas .sonho-list{grid-template-columns:minmax(0,1fr);gap:13px;margin-bottom:26px}#page-metas .goal-card{padding:20px}#page-metas .goal-card-desc{min-height:0;margin-bottom:21px}#page-metas .goal-card-top{margin-bottom:15px}#page-metas .goal-detail-head{flex-direction:column;gap:12px}#page-metas .goal-detail-head h2{font-size:26px}#page-metas .goal-progress-panel,#page-metas .goal-aporte{padding:20px}#page-metas .goal-current strong{font-size:27px}#page-metas .goal-aporte .aporte-fields{grid-template-columns:minmax(0,1fr)}#page-metas .goal-timeline>summary{padding:17px;font-size:11px}#page-metas .goal-timeline .badge{font-size:9px}}
+@media(prefers-reduced-motion:reduce){#page-metas *,#page-metas *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+#page-metas > *{animation:none!important;opacity:1!important;transform:none!important}
+
