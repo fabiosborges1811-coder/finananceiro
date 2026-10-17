@@ -1,0 +1,34 @@
+/* Accent de l'interface distinct des gains/pertes financiers. */
+:root{--ui-cor:#1e3a5f;--ui-texto:#1e3a5f;--ui-suave:rgba(30,58,95,.10);--ui-contraste:#fff}
+body.dark{--ui-texto:#9cbce2;--ui-suave:rgba(30,58,95,.24)}
+body .btn-primary:not(.red),body.dark .btn-primary:not(.red),body .btn-pdf,body .aporte-btn-full{background:var(--ui-cor);color:var(--ui-contraste)}
+body .sidebar .nav-item.active,body .sidebar .yq.on,body .mob-nav-btn.active{color:var(--ui-texto);background:var(--ui-suave)}
+body .sidebar .uca-av{color:var(--ui-texto);background:var(--ui-suave)}
+body .chart-btn.active,body.dark .chart-btn.active,body .mode-btn.active,body .wallet-view button.on{color:var(--ui-texto);background:var(--ui-suave)}
+body .suite-eyebrow,body #page-metas .goal-eyebrow{color:var(--ui-texto)}
+body input:focus,body select:focus,body textarea:focus{border-color:var(--ui-texto);box-shadow:0 0 0 3px var(--ui-suave)}
+body button:focus-visible,body summary:focus-visible,body .nav-item:focus-visible,body #page-metas button:focus-visible{outline-color:var(--ui-texto)}
+body #page-metas .goal-card.active-goal{border-color:var(--ui-texto)}
+body #page-metas .goal-filters button.on{background:var(--ui-suave);color:var(--ui-texto)}
+body #page-metas .goal-track>span{background:var(--ui-texto)}
+body #page-metas .goal-card-meter strong,body #page-metas .goal-progress-head strong,body #page-metas .goal-card-bottom button[aria-pressed=true]{color:var(--ui-texto)}
+body .wallet-asset{border-top:3px solid var(--aplicacao-cor,var(--line2))}
+body .wallet-asset .wallet-monogram{box-shadow:none}
+.aplicacao-color{border-top:1px solid var(--line2);margin-top:13px;padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:11px;color:var(--ink4)}
+body input[type=color]{appearance:auto;-webkit-appearance:auto;width:45px;height:34px;min-height:34px;padding:3px;border:1px solid var(--line3);border-radius:8px;background:var(--paper);cursor:pointer}
+body input[type=color]:disabled{opacity:.5;cursor:wait}
+body .aplicacao-color-table{display:inline-flex;vertical-align:middle;border:0;margin:5px 0 5px 8px;padding:0;font-size:10px}
+.aplicacao-dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:8px;vertical-align:middle}
+.aparencia-box{padding:18px 0;margin:5px 0 16px;border-top:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+.aparencia-box h3{font-size:13px;color:var(--ink);font-weight:500;margin:0 0 6px}
+.aparencia-box p{font-size:11px;color:var(--ink4);line-height:1.7;margin:0 0 13px}
+.aparencia-picker{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px;font-size:12px;color:var(--ink2)}
+.aparencia-actions{display:flex;gap:7px;flex-wrap:wrap}
+#aparenciaStatus{font-size:11px;color:var(--ink4);line-height:1.7;margin-top:11px}
+body #accModal{max-height:calc(100dvh - 24px);overflow-y:auto}
+@media(max-width:600px){body input[type=color]{min-width:44px;height:40px}}
+body .wallet-asset,body .wallet-asset:hover{border-top-color:var(--aplicacao-cor,var(--line2))}
+body .wallet-asset-actions button:last-child{color:var(--ui-texto)}
+body .wallet-live-dot{background:var(--ui-texto)}
+body .rendimento-field{background:var(--ui-suave)}
+body #movForm input[type=date]:focus{border-color:var(--ui-texto);box-shadow:0 0 0 3px var(--ui-suave)}
