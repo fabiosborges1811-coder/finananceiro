@@ -1,168 +1,159 @@
 <!DOCTYPE html>
+
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>Capita · Finanças</title>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0a0a0a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<link rel="icon" href="capita-img.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-
-</head>
-
+<link href="manifest.json" rel="manifest"/>
+<meta content="#0a0a0a" name="theme-color"/>
+<meta content="yes" name="apple-mobile-web-app-capable"/>
+<link href="capita-img.png" rel="icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&amp;family=DM+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="style.css?v=visual3" rel="stylesheet"/>
+<link href="visual.css?v=3" rel="stylesheet"/><link href="aparencia.css?v=1" rel="stylesheet"/></head>
 <body>
-
 <!-- SPLASH -->
 <div id="splash">
-  <div class="splash-bg"></div>
-  <div class="splash-grain"></div>
-  <div class="splash-inner">
-    <img class="splash-logo" id="splashLogo" src="capita-img.png" alt="Capita">
-    <div class="splash-word">Capita</div>
-    <div class="splash-tag">Finanças Pessoais</div>
-    <div class="splash-rule"></div>
-    <div class="splash-dots">
-      <div class="splash-dot"></div>
-      <div class="splash-dot"></div>
-      <div class="splash-dot"></div>
-    </div>
-  </div>
+<div class="splash-bg"></div>
+<div class="splash-grain"></div>
+<div class="splash-inner">
+<img alt="Capita" class="splash-logo" id="splashLogo" src="capita-img.png"/>
+<div class="splash-word">Capita</div>
+<div class="splash-tag">Finanças Pessoais</div>
+<div class="splash-rule"></div>
+<div class="splash-dots">
+<div class="splash-dot"></div>
+<div class="splash-dot"></div>
+<div class="splash-dot"></div>
 </div>
-
+</div>
+</div>
 <script type="module">
 import{createClient}from'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 </script>
-
 <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-  <symbol id="ico-moradia" viewBox="0 0 16 16"><path d="M2 8.5L8 2l6 6.5"/><path d="M4 8.5V14h3v-3.5h2V14h3V8.5"/></symbol>
-  <symbol id="ico-alimentacao" viewBox="0 0 16 16"><path d="M5 2v5a3 3 0 006 0V2"/><line x1="8" y1="10" x2="8" y2="14"/></symbol>
-  <symbol id="ico-transporte" viewBox="0 0 16 16"><rect x="2" y="5" width="12" height="7" rx="2"/><circle cx="5" cy="12" r="1.5"/><circle cx="11" cy="12" r="1.5"/><path d="M2 8h12M5 5V3h6v2"/></symbol>
-  <symbol id="ico-saude" viewBox="0 0 16 16"><path d="M8 14C4 11 2 8.5 2 6a4 4 0 018 0 4 4 0 018 0c0 2.5-2 5-6 8z"/></symbol>
-  <symbol id="ico-lazer" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M5.5 9.5c.7 1.1 1.5 1.5 2.5 1.5s1.8-.4 2.5-1.5"/><circle cx="6" cy="6.5" r=".75" fill="currentColor" stroke="none"/><circle cx="10" cy="6.5" r=".75" fill="currentColor" stroke="none"/></symbol>
-  <symbol id="ico-educacao" viewBox="0 0 16 16"><path d="M1 6l7-3 7 3-7 3z"/><path d="M4 7.5V11c0 1.1 1.8 2 4 2s4-.9 4-2V7.5"/><line x1="14" y1="6" x2="14" y2="10.5"/></symbol>
-  <symbol id="ico-outros" viewBox="0 0 16 16"><circle cx="4" cy="8" r="1"/><circle cx="8" cy="8" r="1"/><circle cx="12" cy="8" r="1"/></symbol>
-  <symbol id="ni-grid" viewBox="0 0 16 16"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></symbol>
-  <symbol id="ni-up" viewBox="0 0 16 16"><line x1="8" y1="13" x2="8" y2="3"/><polyline points="4,7 8,3 12,7"/></symbol>
-  <symbol id="ni-down" viewBox="0 0 16 16"><line x1="8" y1="3" x2="8" y2="13"/><polyline points="4,9 8,13 12,9"/></symbol>
-  <symbol id="ni-doc" viewBox="0 0 16 16"><rect x="2" y="1" width="12" height="14" rx="1.5"/><line x1="5" y1="5" x2="11" y2="5"/><line x1="5" y1="8" x2="11" y2="8"/><line x1="5" y1="11" x2="8" y2="11"/></symbol>
-  <symbol id="ni-star" viewBox="0 0 16 16"><path d="M8 2l1.8 3.6L14 6.5l-3 2.9.7 4.1L8 11.5l-3.7 1.9.7-4.1-3-2.9 4.2-.9z"/></symbol>
-  <symbol id="ni-check" viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></symbol>
-  <symbol id="ni-sun" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3.5"/><line x1="8" y1="1" x2="8" y2="2.5"/><line x1="8" y1="13.5" x2="8" y2="15"/><line x1="1" y1="8" x2="2.5" y2="8"/><line x1="13.5" y1="8" x2="15" y2="8"/><line x1="3.1" y1="3.1" x2="4.2" y2="4.2"/><line x1="11.8" y1="11.8" x2="12.9" y2="12.9"/><line x1="12.9" y1="3.1" x2="11.8" y2="4.2"/><line x1="4.2" y1="11.8" x2="3.1" y2="12.9"/></symbol>
-  <symbol id="ni-moon" viewBox="0 0 16 16"><path d="M13.5 11A6 6 0 015 2.5a6.5 6.5 0 1010.5 10 6 6 0 01-2-1.5z"/></symbol>
-  <symbol id="ni-left" viewBox="0 0 10 10"><polyline points="7,2 3,5 7,8"/></symbol>
-  <symbol id="ni-right" viewBox="0 0 10 10"><polyline points="3,2 7,5 3,8"/></symbol>
-  <symbol id="ni-plus" viewBox="0 0 14 14"><line x1="7" y1="2" x2="7" y2="12"/><line x1="2" y1="7" x2="12" y2="7"/></symbol>
-  <symbol id="ni-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
-  <symbol id="ni-eye-off" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></symbol>
-  <symbol id="ni-bell" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></symbol>
-  <symbol id="ni-wallet" viewBox="0 0 16 16"><rect x="2" y="4" width="12" height="9" rx="2"/><path d="M2 7h12"/><circle cx="11" cy="10" r="1"/></symbol>
+<symbol id="ico-moradia" viewbox="0 0 16 16"><path d="M2 8.5L8 2l6 6.5"></path><path d="M4 8.5V14h3v-3.5h2V14h3V8.5"></path></symbol>
+<symbol id="ico-alimentacao" viewbox="0 0 16 16"><path d="M5 2v5a3 3 0 006 0V2"></path><line x1="8" x2="8" y1="10" y2="14"></line></symbol>
+<symbol id="ico-transporte" viewbox="0 0 16 16"><rect height="7" rx="2" width="12" x="2" y="5"></rect><circle cx="5" cy="12" r="1.5"></circle><circle cx="11" cy="12" r="1.5"></circle><path d="M2 8h12M5 5V3h6v2"></path></symbol>
+<symbol id="ico-saude" viewbox="0 0 16 16"><path d="M8 14C4 11 2 8.5 2 6a4 4 0 018 0 4 4 0 018 0c0 2.5-2 5-6 8z"></path></symbol>
+<symbol id="ico-lazer" viewbox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><path d="M5.5 9.5c.7 1.1 1.5 1.5 2.5 1.5s1.8-.4 2.5-1.5"></path><circle cx="6" cy="6.5" fill="currentColor" r=".75" stroke="none"></circle><circle cx="10" cy="6.5" fill="currentColor" r=".75" stroke="none"></circle></symbol>
+<symbol id="ico-educacao" viewbox="0 0 16 16"><path d="M1 6l7-3 7 3-7 3z"></path><path d="M4 7.5V11c0 1.1 1.8 2 4 2s4-.9 4-2V7.5"></path><line x1="14" x2="14" y1="6" y2="10.5"></line></symbol>
+<symbol id="ico-outros" viewbox="0 0 16 16"><circle cx="4" cy="8" r="1"></circle><circle cx="8" cy="8" r="1"></circle><circle cx="12" cy="8" r="1"></circle></symbol>
+<symbol id="ni-grid" viewbox="0 0 16 16"><rect height="6" rx="1.5" width="6" x="1" y="1"></rect><rect height="6" rx="1.5" width="6" x="9" y="1"></rect><rect height="6" rx="1.5" width="6" x="1" y="9"></rect><rect height="6" rx="1.5" width="6" x="9" y="9"></rect></symbol>
+<symbol id="ni-up" viewbox="0 0 16 16"><line x1="8" x2="8" y1="13" y2="3"></line><polyline points="4,7 8,3 12,7"></polyline></symbol>
+<symbol id="ni-down" viewbox="0 0 16 16"><line x1="8" x2="8" y1="3" y2="13"></line><polyline points="4,9 8,13 12,9"></polyline></symbol>
+<symbol id="ni-doc" viewbox="0 0 16 16"><rect height="14" rx="1.5" width="12" x="2" y="1"></rect><line x1="5" x2="11" y1="5" y2="5"></line><line x1="5" x2="11" y1="8" y2="8"></line><line x1="5" x2="8" y1="11" y2="11"></line></symbol>
+<symbol id="ni-star" viewbox="0 0 16 16"><path d="M8 2l1.8 3.6L14 6.5l-3 2.9.7 4.1L8 11.5l-3.7 1.9.7-4.1-3-2.9 4.2-.9z"></path></symbol>
+<symbol id="ni-check" viewbox="0 0 12 12"><polyline points="2,6 5,9 10,3"></polyline></symbol>
+<symbol id="ni-sun" viewbox="0 0 16 16"><circle cx="8" cy="8" r="3.5"></circle><line x1="8" x2="8" y1="1" y2="2.5"></line><line x1="8" x2="8" y1="13.5" y2="15"></line><line x1="1" x2="2.5" y1="8" y2="8"></line><line x1="13.5" x2="15" y1="8" y2="8"></line><line x1="3.1" x2="4.2" y1="3.1" y2="4.2"></line><line x1="11.8" x2="12.9" y1="11.8" y2="12.9"></line><line x1="12.9" x2="11.8" y1="3.1" y2="4.2"></line><line x1="4.2" x2="3.1" y1="11.8" y2="12.9"></line></symbol>
+<symbol id="ni-moon" viewbox="0 0 16 16"><path d="M13.5 11A6 6 0 015 2.5a6.5 6.5 0 1010.5 10 6 6 0 01-2-1.5z"></path></symbol>
+<symbol id="ni-left" viewbox="0 0 10 10"><polyline points="7,2 3,5 7,8"></polyline></symbol>
+<symbol id="ni-right" viewbox="0 0 10 10"><polyline points="3,2 7,5 3,8"></polyline></symbol>
+<symbol id="ni-plus" viewbox="0 0 14 14"><line x1="7" x2="7" y1="2" y2="12"></line><line x1="2" x2="12" y1="7" y2="7"></line></symbol>
+<symbol id="ni-eye" viewbox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></symbol>
+<symbol id="ni-eye-off" viewbox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" x2="23" y1="1" y2="23"></line></symbol>
+<symbol id="ni-bell" viewbox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></symbol>
+<symbol id="ni-wallet" viewbox="0 0 16 16"><rect height="9" rx="2" width="12" x="2" y="4"></rect><path d="M2 7h12"></path><circle cx="11" cy="10" r="1"></circle></symbol>
 </svg>
-
 <!-- CONFIG -->
-<div id="configScreen" class="auth-screen">
-  <div class="auth-box" style="max-width:500px">
-    <div class="auth-logo"><img class="auth-logo-img" src="capita-img.png" alt="Capita"><span class="auth-title">Configuração</span></div>
-    <div class="config-notice"><strong>⚙️ Configure o backend Supabase (gratuito)</strong><ol><li>Acesse <strong>supabase.com</strong> → crie uma conta gratuita</li><li>Crie um novo projeto</li><li>Vá em <strong>Settings → API</strong></li><li>Copie a <code>Project URL</code> e a <code>anon public key</code></li><li>Cole abaixo e salve — depois execute o SQL gerado no Supabase</li></ol></div>
-    <div class="auth-field"><label for="cfgUrl">Supabase Project URL</label><input type="text" id="cfgUrl" placeholder="https://xxxxxxxxxxx.supabase.co"></div>
-    <div class="auth-field"><label for="cfgKey">Supabase Anon Key</label><input type="text" id="cfgKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."></div>
-    <button class="btn-primary auth-btn" onclick="salvarConfig()">Salvar e Continuar →</button>
-    <div id="sqlBlock" style="display:none;margin-top:22px">
-      <div class="auth-field"><label for="sqlText">Execute este SQL no Supabase (SQL Editor):</label></div>
-      <textarea id="sqlText" readonly style="width:100%;height:200px;background:var(--paper3);border:1px solid var(--line2);border-radius:10px;padding:14px;color:var(--ink);font-family:var(--font-mono);font-size:11px;resize:vertical"></textarea>
-      <button class="btn-ghost" style="margin-top:8px;width:100%" onclick="copiarSQL()">📋 Copiar SQL</button>
-      <p style="font-size:11.5px;color:var(--ink4);margin-top:12px;text-align:center">Após executar o SQL, recarregue a página.</p>
-    </div>
-  </div>
+<div class="auth-screen" id="configScreen">
+<div class="auth-box" style="max-width:500px">
+<div class="auth-logo"><img alt="Capita" class="auth-logo-img" src="capita-img.png"/><span class="auth-title">Configuração</span></div>
+<div class="config-notice"><strong>⚙️ Configure o backend Supabase (gratuito)</strong><ol><li>Acesse <strong>supabase.com</strong> → crie uma conta gratuita</li><li>Crie um novo projeto</li><li>Vá em <strong>Settings → API</strong></li><li>Copie a <code>Project URL</code> e a <code>anon public key</code></li><li>Cole abaixo e salve — depois execute o SQL gerado no Supabase</li></ol></div>
+<div class="auth-field"><label for="cfgUrl">Supabase Project URL</label><input id="cfgUrl" placeholder="https://xxxxxxxxxxx.supabase.co" type="text"/></div>
+<div class="auth-field"><label for="cfgKey">Supabase Anon Key</label><input id="cfgKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." type="text"/></div>
+<button class="btn-primary auth-btn" onclick="salvarConfig()">Salvar e Continuar →</button>
+<div id="sqlBlock" style="display:none;margin-top:22px">
+<div class="auth-field"><label for="sqlText">Execute este SQL no Supabase (SQL Editor):</label></div>
+<textarea id="sqlText" readonly="" style="width:100%;height:200px;background:var(--paper3);border:1px solid var(--line2);border-radius:10px;padding:14px;color:var(--ink);font-family:var(--font-mono);font-size:11px;resize:vertical"></textarea>
+<button class="btn-ghost" onclick="copiarSQL()" style="margin-top:8px;width:100%">📋 Copiar SQL</button>
+<p style="font-size:11.5px;color:var(--ink4);margin-top:12px;text-align:center">Após executar o SQL, recarregue a página.</p>
 </div>
-
+</div>
+</div>
 <!-- AUTH -->
-<div id="authScreen" class="auth-screen">
-  <div class="auth-box">
-    <div class="auth-logo"><img class="auth-logo-img" src="capita-img.png" alt="Capita"><span class="auth-title">Capita</span></div>
-    <p class="auth-sub">Finanças Pessoais · Sua conta</p>
-    <div id="authErr" class="auth-err" role="alert"></div>
-    <div id="loginForm">
-      <div class="auth-field"><label for="loginEmail">Email</label><input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"></div>
-      <div class="auth-field"><label for="loginPass">Senha</label><input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password"></div>
-      <button class="btn-primary auth-btn" id="loginBtn" onclick="fazerLogin()">Entrar</button>
-      <div class="auth-switch">Não tem conta? <a onclick="mostrarCadastro()">Criar conta</a></div>
-    </div>
-    <div id="registerForm" style="display:none">
-      <div class="auth-field"><label for="regName">Nome</label><input type="text" id="regName" placeholder="Seu nome" autocomplete="name"></div>
-      <div class="auth-field"><label for="regEmail">Email</label><input type="email" id="regEmail" placeholder="seu@email.com" autocomplete="email"></div>
-      <div class="auth-field"><label for="regPass">Senha</label><input type="password" id="regPass" placeholder="mínimo 6 caracteres" autocomplete="new-password"></div>
-      <button class="btn-primary auth-btn" id="regBtn" onclick="fazerCadastro()">Criar Conta</button>
-      <div class="auth-switch">Já tem conta? <a onclick="mostrarLogin()">Entrar</a></div>
-    </div>
-  </div>
+<div class="auth-screen" id="authScreen">
+<div class="auth-box">
+<div class="auth-logo"><img alt="Capita" class="auth-logo-img" src="capita-img.png"/><span class="auth-title">Capita</span></div>
+<p class="auth-sub">Finanças Pessoais · Sua conta</p>
+<div class="auth-err" id="authErr" role="alert"></div>
+<div id="loginForm">
+<div class="auth-field"><label for="loginEmail">Email</label><input autocomplete="email" id="loginEmail" placeholder="seu@email.com" type="email"/></div>
+<div class="auth-field"><label for="loginPass">Senha</label><input autocomplete="current-password" id="loginPass" placeholder="••••••••" type="password"/></div>
+<button class="btn-primary auth-btn" id="loginBtn" onclick="fazerLogin()">Entrar</button>
+<div class="auth-switch">Não tem conta? <a onclick="mostrarCadastro()">Criar conta</a></div>
 </div>
-
+<div id="registerForm" style="display:none">
+<div class="auth-field"><label for="regName">Nome</label><input autocomplete="name" id="regName" placeholder="Seu nome" type="text"/></div>
+<div class="auth-field"><label for="regEmail">Email</label><input autocomplete="email" id="regEmail" placeholder="seu@email.com" type="email"/></div>
+<div class="auth-field"><label for="regPass">Senha</label><input autocomplete="new-password" id="regPass" placeholder="mínimo 6 caracteres" type="password"/></div>
+<button class="btn-primary auth-btn" id="regBtn" onclick="fazerCadastro()">Criar Conta</button>
+<div class="auth-switch">Já tem conta? <a onclick="mostrarLogin()">Entrar</a></div>
+</div>
+</div>
+</div>
 <!-- APP -->
 <div id="appScreen" style="display:none">
-  <div id="metaBanner" role="status"><span id="bannerTxt">Meta atingida!</span><button onclick="closeBanner()" aria-label="Fechar aviso">×</button></div>
-  <div class="layout">
-    <nav class="sidebar">
-      <div class="logo-wrap">
-    <div class="logo-row">
-        <span class="logo-name">Capita</span>
-        <span class="logo-sub">Finanças Pessoais</span>
-    </div>
+<div id="metaBanner" role="status"><span id="bannerTxt">Meta atingida!</span><button aria-label="Fechar aviso" onclick="closeBanner()">×</button></div>
+<div class="layout">
+<nav class="sidebar">
+<div class="logo-wrap">
+<div class="logo-row">
+<span class="logo-name">Capita</span>
+<span class="logo-sub">Finanças Pessoais</span>
 </div>
-      <div class="nav-group">Principal</div>
-      <div class="nav-item active" data-page="dashboard" onclick="navTo('dashboard')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-grid"/></svg></span>Visão Geral</div>
-      <div class="nav-item" data-page="receitas" onclick="navTo('receitas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-up"/></svg></span>Receitas</div>
-      <div class="nav-item" data-page="despesas" onclick="navTo('despesas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-down"/></svg></span>Despesas</div>
-      <div class="nav-item" data-page="relatorio" onclick="navTo('relatorio')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-doc"/></svg></span>Relatório</div>
-      <div class="nav-item" data-page="metas" onclick="navTo('metas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-star"/></svg></span>Metas</div>
-      <div class="nav-item" data-page="carteira" onclick="navTo('carteira')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-wallet"/></svg></span>Carteira</div>
-      <div class="sidebar-foot">
-        <div class="uca" id="sideUserCard">
-          <div class="uca-av" id="sideAvatar">?</div>
-          <div class="uca-info"><div class="uca-name" id="sideUserName">—</div><div class="uca-email" id="sideUserEmail">—</div></div>
-          <button class="uca-out" onclick="fazerLogout()">Sair</button>
-        </div>
-        <div class="year-card">
-          <div class="year-card-lbl">Exercício</div>
-          <div class="year-row">
-            <button class="yarr" onclick="mudarAno(-1)" aria-label="Ano anterior"><svg><use href="#ni-left"/></svg></button>
-            <span class="year-val" id="sidebarAno" onclick="goCurrentYear()">2026</span>
-            <button class="yarr" onclick="mudarAno(1)" aria-label="Ano seguinte"><svg><use href="#ni-right"/></svg></button>
-          </div>
-          <div class="year-quick" id="yearQuick"></div>
-        </div>
-        <button class="theme-toggle" onclick="toggleTheme()">
-          <svg id="themeIco"><use href="#ni-sun"/></svg>
-          <span id="themeTxt">Modo Escuro</span>
-        </button>
-      </div>
-    </nav>
-
-    <main class="main">
-      <div class="mob-top">
-        <div class="mob-logo">
+</div>
+<div class="nav-group">Principal</div>
+<div class="nav-item active" data-page="dashboard" onclick="navTo('dashboard')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-grid"></use></svg></span>Visão Geral</div>
+<div class="nav-item" data-page="receitas" onclick="navTo('receitas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-up"></use></svg></span>Receitas</div>
+<div class="nav-item" data-page="despesas" onclick="navTo('despesas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-down"></use></svg></span>Despesas</div>
+<div class="nav-item" data-page="relatorio" onclick="navTo('relatorio')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-doc"></use></svg></span>Relatório</div>
+<div class="nav-item" data-page="metas" onclick="navTo('metas')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-star"></use></svg></span>Metas</div>
+<div class="nav-item" data-page="carteira" onclick="navTo('carteira')" role="button" tabindex="0"><span class="nav-icon"><svg><use href="#ni-wallet"></use></svg></span>Carteira</div>
+<div class="sidebar-foot">
+<div class="uca" id="sideUserCard">
+<div class="uca-av" id="sideAvatar">?</div>
+<div class="uca-info"><div class="uca-name" id="sideUserName">—</div><div class="uca-email" id="sideUserEmail">—</div></div>
+<button class="uca-out" onclick="fazerLogout()">Sair</button>
+</div>
+<div class="year-card">
+<div class="year-card-lbl">Exercício</div>
+<div class="year-row">
+<button aria-label="Ano anterior" class="yarr" onclick="mudarAno(-1)"><svg><use href="#ni-left"></use></svg></button>
+<span class="year-val" id="sidebarAno" onclick="goCurrentYear()">2026</span>
+<button aria-label="Ano seguinte" class="yarr" onclick="mudarAno(1)"><svg><use href="#ni-right"></use></svg></button>
+</div>
+<div class="year-quick" id="yearQuick"></div>
+</div>
+<button class="theme-toggle" onclick="abrirConta()" type="button">◉ Aparência</button><button class="theme-toggle" onclick="toggleTheme()">
+<svg id="themeIco"><use href="#ni-sun"></use></svg>
+<span id="themeTxt">Modo Escuro</span>
+</button>
+</div>
+</nav>
+<main class="main">
+<div class="mob-top">
+<div class="mob-logo">
     Capita
 </div>
-        <div class="mob-right">
-          <div class="mob-year-pill">
-            <span id="mobAno">2026</span>
-            <div class="mob-yr-arrows">
-              <button class="mob-yarr" onclick="mudarAno(-1)" aria-label="Ano anterior"><svg><use href="#ni-left"/></svg></button>
-              <button class="mob-yarr" onclick="mudarAno(1)" aria-label="Ano seguinte"><svg><use href="#ni-right"/></svg></button>
-            </div>
-          </div>
-          <button class="mob-profile" id="mobProfileBtn" onclick="abrirConta()" aria-label="Conta">?</button>
-        </div>
-      </div>
-
-      <!-- DASHBOARD -->
+<div class="mob-right">
+<div class="mob-year-pill">
+<span id="mobAno">2026</span>
+<div class="mob-yr-arrows">
+<button aria-label="Ano anterior" class="mob-yarr" onclick="mudarAno(-1)"><svg><use href="#ni-left"></use></svg></button>
+<button aria-label="Ano seguinte" class="mob-yarr" onclick="mudarAno(1)"><svg><use href="#ni-right"></use></svg></button>
+</div>
+</div>
+<button aria-label="Conta" class="mob-profile" id="mobProfileBtn" onclick="abrirConta()">?</button>
+</div>
+</div>
+<!-- DASHBOARD -->
 <div class="page active" id="page-dashboard">
-<div class="pg-header"><div class="pg-title">Visão Geral</div><div class="pg-sub" id="dashSub"></div></div>
-<div class="hero">
+<div class="pg-header"><div class="suite-eyebrow">SEU PANORAMA</div><div class="pg-title">Visão Geral</div><div class="pg-sub" id="dashSub"></div></div>
+<div class="overview-top"><div class="hero">
 <div class="hero-grain"></div>
 <div class="hero-top">
 <button class="eye-btn" id="eyeBtn" onclick="togglePrivacy()" title="Modo privacidade (ocultar valores)">
@@ -192,28 +183,13 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 <label>Saldo inicial</label>
 <input id="saldoInicialInput" min="0" placeholder="0,00" step="0.01" type="number"/>
 </div>
-</div>
-<div class="kpi-strip">
+</div><div class="kpi-strip">
 <div class="kpi" style="--kc:var(--green)"><div class="kpi-lbl">Projeção Anual</div><div class="kpi-val mn" id="kpiRecMes">—</div><div class="badge nn" id="kpiRecBadge">—</div></div>
 <div class="kpi" style="--kc:var(--red)"><div class="kpi-lbl">Despesa Mensal</div><div class="kpi-val mn r" id="kpiDesMes">R$ 0,00</div><div class="badge nn" id="kpiDesBadge">—</div></div>
 <div class="kpi" style="--kc:var(--blue)"><div class="kpi-lbl">Saldo do Mês</div><div class="kpi-val mn" id="kpiSaldoMes">R$ 0,00</div><div class="badge nn" id="kpiSaldoBadge">—</div></div>
 <div class="kpi" style="--kc:var(--amber)"><div class="kpi-lbl">Meta Mensal</div><div class="kpi-val mn" id="kpiMetaVal">—</div><div class="badge nn" id="kpiMetaBadge">—</div></div>
-</div>
-<div class="kpi" style="--kc:var(--purple);margin-bottom:12px;border-radius:var(--radius);background:var(--paper2);border:1px solid var(--line2);padding:18px 18px 16px;box-shadow:var(--shadow);position:relative;overflow:hidden"><div class="kpi-lbl">Média Mensal de Receita</div><div class="kpi-val mn" id="kpiMediaRec">—</div><div class="badge nn" id="kpiMediaRecBadge">—</div></div>
-
-
-<div class="card" id="insightsCard">
-<div class="card-head">
-<span class="card-title">Alertas &amp; Insights</span>
-<span class="badge nn" id="insightBadge">0</span>
-</div>
-<div class="card-body" id="insightsBody"></div>
-</div>
-<div class="growth-strip" id="growthStrip" style="display:none">
-<div class="growth-card"><div class="g-lbl">Crescimento Médio</div><div class="g-val" id="gMed">—</div><div class="g-sub">receita mês a mês</div></div>
-<div class="growth-card"><div class="g-lbl">Tendência</div><div class="g-val" id="gTend">—</div><div class="g-sub" id="gTendSub">—</div></div>
-</div>
-<div class="card">
+<div class="kpi" style="--kc:var(--purple)"><div class="kpi-lbl">Média Mensal de Receita</div><div class="kpi-val mn" id="kpiMediaRec">—</div><div class="badge nn" id="kpiMediaRecBadge">—</div></div></div></div>
+<div class="overview-charts"><div class="card overview-chart">
 <div class="card-head">
 <span class="card-title">Evolução Mensal</span>
 <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
@@ -230,7 +206,13 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 </div>
 </div>
 <div class="card-body"><div style="position:relative;height:268px"><canvas id="chartEvo"></canvas></div></div>
+</div><div class="card" id="insightsCard">
+<div class="card-head">
+<span class="card-title">Alertas &amp; Insights</span>
+<span class="badge nn" id="insightBadge">0</span>
 </div>
+<div class="card-body" id="insightsBody"></div>
+</div></div>
 <div class="charts-grid">
 <div class="card">
 <div class="card-head"><span class="card-title">Composição Receitas</span><div class="chart-toggle" id="recToggle"><button class="chart-btn active pizza-btn" onclick="setPizzaMode('rec','annual')">Anual</button><button class="chart-btn pizza-btn" onclick="setPizzaMode('rec','monthly')">Mensal</button></div></div>
@@ -241,7 +223,10 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 <div class="card-body"><div class="pizza-wrap"><div style="position:relative;height:158px"><canvas id="chartPDes"></canvas></div><div class="pizza-legend" id="lgPDes"></div></div></div>
 </div>
 </div>
-<details class="card wallet-disclosure dashboard-details" id="dashDetails"><summary><span><strong>Mais detalhes do seu período</strong><small>Calendário e estatísticas de receitas e despesas</small></span><span aria-hidden="true" class="disclosure-plus">＋</span></summary><div class="card-body"><div class="growth-strip" id="diasStrip">
+<details class="card wallet-disclosure dashboard-details" id="dashDetails"><summary><span><strong>Mais detalhes do seu período</strong><small>Calendário e estatísticas de receitas e despesas</small></span><span aria-hidden="true" class="disclosure-plus">＋</span></summary><div class="card-body"><div class="growth-strip" id="growthStrip" style="display:none">
+<div class="growth-card"><div class="g-lbl">Crescimento Médio</div><div class="g-val" id="gMed">—</div><div class="g-sub">receita mês a mês</div></div>
+<div class="growth-card"><div class="g-lbl">Tendência</div><div class="g-val" id="gTend">—</div><div class="g-sub" id="gTendSub">—</div></div>
+</div><div class="growth-strip" id="diasStrip">
 <div class="growth-card">
 <div class="g-lbl">Dias Corridos Restantes</div>
 <div class="g-val" id="diasCorridos">—</div>
@@ -262,180 +247,142 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 </div>
 </div>
 </div></div></details></div>
-      <!-- RECEITAS -->
-      <div id="page-receitas" class="page">
-        <div class="pg-header"><div class="pg-title">Receitas</div><div class="pg-sub">Registre o dinheiro recebido: escolha o tipo, informe o valor e o mês</div></div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Lançar Receita</span></div>
-          <div class="card-body">
-            <div class="form-grid">
-              <div class="field"><label for="recValor">Valor (R$)</label><input type="number" id="recValor" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
-              <div class="field"><label for="recOrigem">Categoria</label><select id="recOrigem" onchange="atualizarOrigemRendimento()"><option value="fixa">Salário / renda regular</option><option value="variavel">Renda extra</option><option value="rendimento">Rendimento</option></select></div>
-              <div id="recCarteiraField" class="field rendimento-field" hidden><label for="recCarteira">Adicionar à carteira? (opcional)</label><select id="recCarteira"></select><p class="field-help">Escolha onde o dinheiro entrou. Renda fixa e extra aumentam o valor colocado e o saldo; rendimento aumenta só o saldo. Deixe “Não adicionar” para registrar apenas a receita.</p><button class="btn-ghost" type="button" onclick="loadCarteira()">Atualizar lista</button></div>
-              <div class="field"><label for="recMes">Mês</label><select id="recMes"></select></div>
-              <button class="btn-primary" onclick="salvarReceita()">+ Adicionar</button>
-            </div>
-            <div class="enter-hint"><kbd>Enter</kbd> para salvar rapidamente</div>
-            <div style="margin-top:16px">
-              <div class="meta-block"><label for="metaRecMes">Meta Mensal de Receita (R$)</label><input type="number" id="metaRecMes" inputmode="decimal" placeholder="Ex: 5000" min="0"><div class="progress-row"><div class="progress-track"><div class="progress-fill" id="fillRecMes"></div></div><span class="meta-pct" id="pctRecMes">—</span></div></div>
-            </div>
-            <div class="actions-row">
-              <button class="btn-ghost" onclick="apagarMes()">Apagar mês</button>
-              <button class="btn-ghost" onclick="exportarDados()">Exportar JSON</button>
-              <button class="btn-ghost" onclick="importarDados()">Importar JSON</button>
-              <button class="btn-ghost" onclick="exportarCSV()">Exportar CSV</button>
-              <button class="btn-ghost danger" onclick="apagarTudo()">Apagar tudo</button>
-            </div>
-            <input type="file" id="fileInput" accept=".json" hidden>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Histórico — <span id="recAnoLbl"></span></span></div>
-          <div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Renda Fixa</th><th>Renda Variável</th><th>Rendimento</th><th>Total</th><th>Variação</th></tr></thead><tbody id="tbRec"></tbody><tfoot id="tfRec"></tfoot></table></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Receitas e aplicações</span></div>
-          <div class="card-body"><p class="field-help">Veja o destino de cada receita. “Somado à carteira” indica que o saldo da aplicação foi atualizado. Sem vínculo, a entrada fica apenas em Receitas. Lançamentos antigos não são somados novamente.</p></div>
-          <div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Tipo</th><th>Conta ou investimento</th><th>Valor recebido</th><th>Ação</th></tr></thead><tbody id="tbRendimentos"></tbody></table></div>
-        </div>
-        <div class="card" id="insightsCardR">
-          <div class="card-head">
-            <span class="card-title">Alertas &amp; Insights</span>
-            <span class="badge nn" id="insightBadgeR">0</span>
-          </div>
-          <div class="card-body" id="insightsBodyR"></div>
-        </div>
-      </div>
-
-      <!-- DESPESAS -->
-      <div id="page-despesas" class="page">
-        <div class="pg-header"><div class="pg-title">Despesas</div><div class="pg-sub">Controle seus gastos por categoria</div></div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Modo de Controle</span></div>
-          <div class="card-body">
-            <div class="mode-toggle"><button class="mode-btn" id="btnLinked" onclick="setMode('linked')">Vinculado à Receita</button><button class="mode-btn" id="btnFree" onclick="setMode('free')">Independente</button></div>
-            <div class="mode-desc" id="modeDesc"></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Lançar Despesa</span></div>
-          <div class="card-body">
-            <div class="form-grid">
-              <div class="field"><label for="desValor">Valor (R$)</label><input type="number" id="desValor" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
-              <div class="field"><label for="desCategoria">Categoria</label><select id="desCategoria"><option value="moradia">Moradia</option><option value="alimentacao">Alimentação</option><option value="transporte">Transporte</option><option value="saude">Saúde</option><option value="lazer">Lazer</option><option value="educacao">Educação</option><option value="outros">Outros</option></select></div>
-              <div class="field"><label for="desMes">Mês</label><select id="desMes"></select></div>
-              <button class="btn-primary red" onclick="salvarDespesa()">+ Adicionar</button>
-            </div>
-            <div class="enter-hint"><kbd>Enter</kbd> para salvar rapidamente</div>
-            <div class="free-budget" id="freeBudget" style="display:none">
-              <label for="metaDesLivre">Orçamento Independente (R$)</label>
-              <input type="number" id="metaDesLivre" inputmode="decimal" placeholder="Ex: 2500" min="0">
-              <div class="progress-row" style="margin-top:9px"><div class="progress-track"><div class="progress-fill" id="fillDesLivre" style="background:var(--purple)"></div></div><span class="meta-pct" id="pctDesLivre">—</span></div>
-            </div>
-            <div id="linkedLimit">
-              <div style="margin-top:14px">
-                <div class="meta-block"><label for="metaDesMes">Limite Mensal de Gastos (R$)</label><input type="number" id="metaDesMes" inputmode="decimal" placeholder="Ex: 3000" min="0"><div class="progress-row"><div class="progress-track"><div class="progress-fill" id="fillDesMes" style="background:var(--red)"></div></div><span class="meta-pct" id="pctDesMes">—</span></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Orçamentos por Categoria</span><span style="font-size:10.5px;color:var(--ink4)">mensal · opcional</span></div>
-          <div class="card-body">
-            <div class="cat-limits-grid" id="catLimitsGrid"></div>
-            <div class="actions-row"><button class="btn-ghost" onclick="salvarCatLimits()">Salvar orçamentos</button></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Gastos do Mês</span><span style="font-size:11px;color:var(--ink4)" id="desMesLabel">—</span></div>
-          <div style="padding:4px 7px"><div class="entry-list" id="entryList"><div style="padding:24px;text-align:center;color:var(--ink4);font-size:12.5px">Nenhuma despesa lançada neste mês.</div></div></div>
-        </div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Resumo por Mês</span></div>
-          <div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Moradia</th><th>Alimentação</th><th>Transporte</th><th>Saúde</th><th>Lazer</th><th>Educação</th><th>Outros</th><th>Total</th></tr></thead><tbody id="tbDes"></tbody><tfoot id="tfDes"></tfoot></table></div>
-        </div>
-        <div class="card" id="insightsCardD">
-          <div class="card-head">
-            <span class="card-title">Alertas &amp; Insights</span>
-            <span class="badge nn" id="insightBadgeD">0</span>
-          </div>
-          <div class="card-body" id="insightsBodyD"></div>
-        </div>
-      </div>
-
-      <!-- RELATÓRIO -->
-      <div id="page-relatorio" class="page">
-        <div class="pg-header"><div class="pg-title">Relatório</div><div class="pg-sub" id="relSub">Visão completa do período</div></div>
-        <div class="card">
-          <div class="card-head"><span class="card-title">Saldo Mês a Mês</span></div>
-          <div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Receita</th><th>Despesa</th><th>Saldo</th><th>Tx. Poupança</th><th>Var. Saldo</th></tr></thead><tbody id="tbRel"></tbody><tfoot id="tfRel"></tfoot></table></div>
-        </div>
-        <div class="card" style="margin-top:12px"><div class="card-head"><span class="card-title">Resumo por Categoria</span></div><div class="cat-grid" id="catGrid"></div></div>
-        <div class="card" style="margin-top:12px"><div class="card-head"><span class="card-title">Ações</span></div><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px"><button class="btn-pdf" onclick="gerarPDF()"><svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5v8"/><polyline points="4.5,6.5 8,10 11.5,6.5"/><path d="M2 11.5v2a1 1 0 001 1h10a1 1 0 001-1v-2"/></svg> Gerar Relatório PDF</button><button class="btn-ghost" onclick="exportarDados()">Exportar JSON</button><button class="btn-ghost" onclick="importarDados()">Importar JSON</button><button class="btn-ghost" onclick="exportarCSV()">Exportar CSV</button></div></div></div>
-      </div>
-
-      <!-- METAS -->
-      <div id="page-metas" class="page">
-        <div class="pg-header" style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
-          <div><div class="pg-title">Metas</div><div class="pg-sub">Defina seus sonhos e acompanhe o progresso</div></div>
-          <button class="btn-primary" onclick="abrirWizard()" style="flex-shrink:0;margin-top:4px"><svg style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round"><use href="#ni-plus"/></svg> Nova Meta</button>
-        </div>
-        <div id="sonhoList" class="sonho-list"></div>
-        <div id="sonhoDetalhe" style="display:none">
-          <div class="sonho-result">
-            <div class="sr-top">
-              <div class="sr-grain"></div>
-              <div class="sd-emoji" id="sdEmoji">🎯</div>
-              <div class="sonho-titulo" id="sdTitulo">Meu Sonho</div>
-              <div class="sonho-sub" id="sdSub"></div>
-              <div class="arc-wrap">
-                <svg class="arc-svg" viewBox="0 0 220 126">
-                  <path class="arc-bg" d="M22,114 A88,88 0 0,1 198,114"/>
-                  <path class="arc-fill" id="arcFill" d="M22,114 A88,88 0 0,1 198,114" stroke-dasharray="276" stroke-dashoffset="276"/>
-                  <text class="arc-pct" x="110" y="100" text-anchor="middle" id="arcPct">0%</text>
-                  <text class="arc-lbl" x="110" y="118" text-anchor="middle" id="arcLbl">do objetivo</text>
-                </svg>
-              </div>
-              <div class="sr-stats" style="width:100%;border-radius:12px;overflow:hidden;margin-top:4px">
-                <div class="sr-stat"><span class="sr-stat-lbl">Acumulado</span><span class="sr-stat-val g" id="sdAcumulado">—</span></div>
-                <div class="sr-stat"><span class="sr-stat-lbl">Falta guardar</span><span class="sr-stat-val" id="sdFalta">—</span></div>
-                <div class="sr-stat"><span class="sr-stat-lbl">Objetivo</span><span class="sr-stat-val" id="sdObjetivo">—</span></div>
-                <div class="sr-stat"><span class="sr-stat-lbl">Por mês</span><span class="sr-stat-val" id="sdPorMes">—</span></div>
-              </div>
-            </div>
-            <div class="sr-footer">
-              <div class="sr-footer-left"><span class="sr-footer-lbl">📅 Conclusão estimada</span><span class="sr-footer-val" id="sdPrazo">—</span></div>
-              <div class="sr-footer-actions"><button class="btn-ghost" onclick="editarMeta()">Editar</button><button class="btn-ghost danger" onclick="deletarMetaAtiva()">Excluir</button></div>
-            </div>
-          </div>
-          <div class="aporte-card">
-            <div class="aporte-card-head">Lançar Aporte</div>
-            <div class="aporte-card-body">
-              <div class="aporte-fields">
-                <div class="field"><label for="aporteVal">Valor (R$)</label><input type="number" id="aporteVal" inputmode="decimal" placeholder="0,00" min="0"></div>
-                <div class="field"><label for="aporteMes">Mês</label><select id="aporteMes"></select></div>
-              </div>
-              <button class="aporte-btn-full" onclick="lancarAporte()">Salvar aporte</button>
-              <div class="enter-hint" style="margin-top:9px"><kbd>Enter</kbd> para salvar</div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="card-head"><span class="card-title">Progressão Mês a Mês</span><span class="badge nn" id="projBadge">—</span></div>
-            <div class="tbl-scroll"><table class="proj-table"><thead><tr><th>Mês / Ano</th><th>Aporte</th><th>Acumulado</th><th>Progresso</th><th>Status</th></tr></thead><tbody id="projBody"></tbody></table></div>
-          </div>
-        </div>
-        <div id="sonhoEmpty" class="empty-state" style="display:none">
-          <p>Nenhuma meta criada ainda.<br>Crie a sua primeira para começar a acompanhar seu progresso.</p>
-          <button class="btn-primary" onclick="abrirWizard()">Criar minha primeira meta</button>
-        </div>
-      </div>
-
-      <!-- CARTEIRA: interface visual, sem alterar regras financeiras -->
-<div id="page-carteira" class="page"><div class="pg-header cart-header"><div><div class="pg-title">Carteira</div><div class="pg-sub">Onde está seu dinheiro e seus rendimentos · <span id="cartAno"></span></div></div><button class="btn-ghost" onclick="abrirAjudaCarteira()" type="button">Como funciona?</button></div><section class="wallet-hero" aria-label="Resumo da carteira"><div class="wallet-hero-top"><span class="wallet-pill"><span class="wallet-live-dot"></span> Seu dinheiro, em um só lugar</span><button class="eye-btn" onclick="togglePrivacy()" aria-label="Mostrar ou ocultar valores"><svg><use href="#ni-eye"/></svg></button></div><p class="wallet-hero-label">Total na carteira</p><div class="wallet-hero-value priv" id="cartTotalAtual">—</div><p class="wallet-hero-meta" id="cartMeta">Carregue suas aplicações para começar</p><div class="wallet-hero-bottom"><div><span>Base restante</span><strong class="priv" id="cartTotalInvestido">—</strong></div><div><span>Resultado no saldo <span class="wallet-help-hint" title="Saldo atual menos base restante. Não é rentabilidade ajustada por aportes.">ⓘ</span></span><strong class="priv" id="cartRendimento">—</strong></div><div><span>Como acompanhar</span><p>Registre entradas.<br>Confira cada movimento.</p></div></div></section><section class="wallet-kpis" aria-label="Fluxos registrados"><div class="wallet-kpi"><span class="wallet-kpi-icon tone-in" aria-hidden="true">↙</span><div><span>Aportes registrados</span><strong class="priv" id="cartAportesVis">—</strong><small>Líquidos de estornos</small></div></div><div class="wallet-kpi"><span class="wallet-kpi-icon tone-yield" aria-hidden="true">↗</span><div><span>Rendimentos registrados</span><strong class="priv" id="cartRendVis">—</strong><small>Sem repetir a posição inicial</small></div></div><div class="wallet-kpi"><span class="wallet-kpi-icon tone-out" aria-hidden="true">↗</span><div><span>Retiradas e resgates</span><strong class="priv" id="cartSaidasVis">—</strong><small>Apenas saídas externas</small></div></div></section>
-<details class="card wallet-disclosure wallet-reconcile"><summary><span><strong>Entenda de onde vem o saldo</strong><small>Posição inicial, aportes, saídas e ajustes</small></span><span class="disclosure-plus" aria-hidden="true">＋</span></summary><div class="card-body"><div class="mov-resumo" id="movResumo"></div><p class="field-help">A posição inicial preserva os saldos anteriores à ativação do histórico. Transferências internas não contam como novos aportes ou retiradas. Valores não representam rentabilidade fiscal.</p></div></details><div class="wallet-actions"><button class="btn-primary" onclick="abrirEditorCarteira()"><span aria-hidden="true">＋</span> Adicionar aplicação</button><button class="btn-secondary" onclick="abrirMovimentacao()"><svg aria-hidden="true"><use href="#ni-wallet"/></svg> Movimentar dinheiro</button><button class="btn-ghost wallet-refresh" onclick="loadCarteira()">↻ Atualizar</button></div>
-<div id="cartStatus" class="wallet-status" role="status" aria-live="polite"></div>
+<!-- RECEITAS -->
+<div class="page" id="page-receitas">
+<div class="pg-header"><div class="suite-eyebrow">ENTRADAS</div><div class="pg-title">Receitas</div><div class="pg-sub">Registre o dinheiro recebido: escolha o tipo, informe o valor e o mês</div></div>
+<div class="card">
+<div class="card-head"><span class="card-title">Lançar Receita</span></div>
+<div class="card-body">
+<div class="form-grid">
+<div class="field"><label for="recValor">Valor (R$)</label><input id="recValor" inputmode="decimal" min="0" placeholder="0,00" step="0.01" type="number"/></div>
+<div class="field"><label for="recOrigem">Categoria</label><select id="recOrigem" onchange="atualizarOrigemRendimento()"><option value="fixa">Salário / renda regular</option><option value="variavel">Renda extra</option><option value="rendimento">Rendimento</option></select></div>
+<div class="field"><label for="recMes">Mês</label><select id="recMes"></select></div>
+<button class="btn-primary" onclick="salvarReceita()">+ Adicionar</button>
+<div class="field rendimento-field" hidden="" id="recCarteiraField"><label for="recCarteira">Adicionar à carteira? (opcional)</label><select id="recCarteira"></select><p class="field-help">Escolha onde o dinheiro entrou. Renda fixa e extra aumentam o valor colocado e o saldo; rendimento aumenta só o saldo. Deixe “Não adicionar” para registrar apenas a receita.</p><button class="btn-ghost" onclick="loadCarteira()" type="button">Atualizar lista</button></div></div>
+<div class="enter-hint"><kbd>Enter</kbd> para salvar rapidamente</div>
+<details class="suite-details suite-inline-details"><summary>Meta mensal de receita</summary><div class="suite-details-body"><div style="margin-top:16px">
+<div class="meta-block"><label for="metaRecMes">Meta Mensal de Receita (R$)</label><input id="metaRecMes" inputmode="decimal" min="0" placeholder="Ex: 5000" type="number"/><div class="progress-row"><div class="progress-track"><div class="progress-fill" id="fillRecMes"></div></div><span class="meta-pct" id="pctRecMes">—</span></div></div>
+</div></div></details>
+<details class="suite-details suite-inline-details"><summary>Importar, exportar e limpar dados</summary><div class="suite-details-body"><div class="actions-row">
+<button class="btn-ghost" onclick="apagarMes()">Apagar mês</button>
+<button class="btn-ghost" onclick="exportarDados()">Exportar JSON</button>
+<button class="btn-ghost" onclick="importarDados()">Importar JSON</button>
+<button class="btn-ghost" onclick="exportarCSV()">Exportar CSV</button>
+<button class="btn-ghost danger" onclick="apagarTudo()">Apagar tudo</button>
+</div></div></details>
+<input accept=".json" hidden="" id="fileInput" type="file"/>
+</div>
+</div>
+<div class="card">
+<div class="card-head"><span class="card-title">Histórico — <span id="recAnoLbl"></span></span></div>
+<div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Renda Fixa</th><th>Renda Variável</th><th>Rendimento</th><th>Total</th><th>Variação</th></tr></thead><tbody id="tbRec"></tbody><tfoot id="tfRec"></tfoot></table></div>
+</div>
+<div class="card">
+<div class="card-head"><span class="card-title">Receitas e aplicações</span></div>
+<div class="card-body"><p class="field-help">Veja o destino de cada receita. “Somado à carteira” indica que o saldo da aplicação foi atualizado. Sem vínculo, a entrada fica apenas em Receitas. Lançamentos antigos não são somados novamente.</p></div>
+<div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Tipo</th><th>Conta ou investimento</th><th>Valor recebido</th><th>Ação</th></tr></thead><tbody id="tbRendimentos"></tbody></table></div>
+</div>
+<div class="card" id="insightsCardR">
+<div class="card-head">
+<span class="card-title">Alertas &amp; Insights</span>
+<span class="badge nn" id="insightBadgeR">0</span>
+</div>
+<div class="card-body" id="insightsBodyR"></div>
+</div>
+</div>
+<!-- DESPESAS -->
+<div class="page" id="page-despesas">
+<div class="pg-header"><div class="suite-eyebrow">SAÍDAS</div><div class="pg-title">Despesas</div><div class="pg-sub">Controle seus gastos por categoria</div></div><div class="card">
+<div class="card-head"><span class="card-title">Lançar Despesa</span></div>
+<div class="card-body">
+<div class="form-grid">
+<div class="field"><label for="desValor">Valor (R$)</label><input id="desValor" inputmode="decimal" min="0" placeholder="0,00" step="0.01" type="number"/></div>
+<div class="field"><label for="desCategoria">Categoria</label><select id="desCategoria"><option value="moradia">Moradia</option><option value="alimentacao">Alimentação</option><option value="transporte">Transporte</option><option value="saude">Saúde</option><option value="lazer">Lazer</option><option value="educacao">Educação</option><option value="outros">Outros</option></select></div>
+<div class="field"><label for="desMes">Mês</label><select id="desMes"></select></div>
+<button class="btn-primary red" onclick="salvarDespesa()">+ Adicionar</button>
+</div>
+<div class="enter-hint"><kbd>Enter</kbd> para salvar rapidamente</div>
+<div class="free-budget" id="freeBudget" style="display:none">
+<label for="metaDesLivre">Orçamento Independente (R$)</label>
+<input id="metaDesLivre" inputmode="decimal" min="0" placeholder="Ex: 2500" type="number"/>
+<div class="progress-row" style="margin-top:9px"><div class="progress-track"><div class="progress-fill" id="fillDesLivre" style="background:var(--purple)"></div></div><span class="meta-pct" id="pctDesLivre">—</span></div>
+</div>
+<div id="linkedLimit">
+<div style="margin-top:14px">
+<div class="meta-block"><label for="metaDesMes">Limite Mensal de Gastos (R$)</label><input id="metaDesMes" inputmode="decimal" min="0" placeholder="Ex: 3000" type="number"/><div class="progress-row"><div class="progress-track"><div class="progress-fill" id="fillDesMes" style="background:var(--red)"></div></div><span class="meta-pct" id="pctDesMes">—</span></div></div>
+</div>
+</div>
+</div>
+</div><div class="card">
+<div class="card-head"><span class="card-title">Gastos do Mês</span><span id="desMesLabel" style="font-size:11px;color:var(--ink4)">—</span></div>
+<div style="padding:4px 7px"><div class="entry-list" id="entryList"><div style="padding:24px;text-align:center;color:var(--ink4);font-size:12.5px">Nenhuma despesa lançada neste mês.</div></div></div>
+</div>
+<details class="suite-details"><summary>Preferências de controle de despesas</summary><div class="suite-details-body"><div class="card">
+<div class="card-head"><span class="card-title">Modo de Controle</span></div>
+<div class="card-body">
+<div class="mode-toggle"><button class="mode-btn" id="btnLinked" onclick="setMode('linked')">Vinculado à Receita</button><button class="mode-btn" id="btnFree" onclick="setMode('free')">Independente</button></div>
+<div class="mode-desc" id="modeDesc"></div>
+</div>
+</div></div></details>
+<details class="suite-details"><summary>Orçamentos por categoria · opcional</summary><div class="suite-details-body"><div class="card">
+<div class="card-head"><span class="card-title">Orçamentos por Categoria</span><span style="font-size:10.5px;color:var(--ink4)">mensal · opcional</span></div>
+<div class="card-body">
+<div class="cat-limits-grid" id="catLimitsGrid"></div>
+<div class="actions-row"><button class="btn-ghost" onclick="salvarCatLimits()">Salvar orçamentos</button></div>
+</div>
+</div></div></details>
+<div class="card">
+<div class="card-head"><span class="card-title">Resumo por Mês</span></div>
+<div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Moradia</th><th>Alimentação</th><th>Transporte</th><th>Saúde</th><th>Lazer</th><th>Educação</th><th>Outros</th><th>Total</th></tr></thead><tbody id="tbDes"></tbody><tfoot id="tfDes"></tfoot></table></div>
+</div>
+<div class="card" id="insightsCardD">
+<div class="card-head">
+<span class="card-title">Alertas &amp; Insights</span>
+<span class="badge nn" id="insightBadgeD">0</span>
+</div>
+<div class="card-body" id="insightsBodyD"></div>
+</div>
+</div>
+<!-- RELATÓRIO -->
+<div class="page" id="page-relatorio">
+<div class="pg-header suite-report-header"><div><div class="suite-eyebrow">ACOMPANHAMENTO</div><div class="pg-title">Relatório</div><div class="pg-sub" id="relSub">Visão completa do período</div></div><button class="btn-pdf" onclick="gerarPDF()"><svg fill="none" height="13" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" viewbox="0 0 16 16" width="13"><path d="M8 1.5v8"></path><polyline points="4.5,6.5 8,10 11.5,6.5"></polyline><path d="M2 11.5v2a1 1 0 001 1h10a1 1 0 001-1v-2"></path></svg> Gerar Relatório PDF</button></div>
+<div class="card">
+<div class="card-head"><span class="card-title">Saldo Mês a Mês</span></div>
+<div class="tbl-scroll"><table><thead><tr><th>Mês</th><th>Receita</th><th>Despesa</th><th>Saldo</th><th>Tx. Poupança</th><th>Var. Saldo</th></tr></thead><tbody id="tbRel"></tbody><tfoot id="tfRel"></tfoot></table></div>
+</div>
+<div class="card" style="margin-top:12px"><div class="card-head"><span class="card-title">Resumo por Categoria</span></div><div class="cat-grid" id="catGrid"></div></div>
+<details class="suite-details"><summary>Exportar e importar dados</summary><div class="suite-details-body"><div class="card" style="margin-top:12px"><div class="card-head"><span class="card-title">Ações</span></div><div class="card-body"><div style="display:flex;flex-wrap:wrap;gap:8px"><button class="btn-ghost" onclick="exportarDados()">Exportar JSON</button><button class="btn-ghost" onclick="importarDados()">Importar JSON</button><button class="btn-ghost" onclick="exportarCSV()">Exportar CSV</button></div></div></div></div></details>
+</div>
+<!-- METAS -->
+<div class="page" id="page-metas">
+<header class="pg-header goal-header"><div><div class="goal-eyebrow">PLANOS QUE SAEM DO PAPEL</div><div class="pg-title">Metas</div><div class="pg-sub">Escolha um objetivo. Acompanhe cada conquista.</div></div><button class="btn-primary" onclick="abrirWizard()" type="button">＋ Nova meta</button></header>
+<div class="goal-toolbar" id="goalToolbar"><div class="goal-toolbar-title"><h2>Seus objetivos</h2><span class="goal-count" id="goalCount"></span></div><div aria-label="Filtrar metas" class="goal-filters" role="group"><button aria-pressed="true" class="on" data-goal-filter="todas" onclick="filtrarMetas('todas')" type="button">Todas</button><button aria-pressed="false" data-goal-filter="andamento" onclick="filtrarMetas('andamento')" type="button">Em andamento</button><button aria-pressed="false" data-goal-filter="concluidas" onclick="filtrarMetas('concluidas')" type="button">Concluídas</button></div></div>
+<div class="sonho-list" id="sonhoList"></div>
+<div class="goal-filter-empty" hidden="" id="goalFilterEmpty">Nenhuma meta neste filtro. Cada conquista tem seu tempo.</div>
+<div id="sonhoDetalhe" style="display:none">
+<div class="goal-detail-head"><div><div class="goal-eyebrow">META EM FOCO</div><h2 id="sdTitulo">Meu objetivo</h2><p id="sdSub"></p></div><div class="goal-detail-actions"><button class="btn-ghost" onclick="editarMeta()" type="button">Editar meta</button><button class="btn-ghost danger" onclick="deletarMetaAtiva()" type="button">Excluir</button></div></div>
+<div class="goal-focus-grid">
+<section aria-label="Progresso da meta selecionada" class="goal-progress-panel">
+<div class="goal-progress-head"><span aria-hidden="true" id="sdEmoji">🎯</span><span>Seu progresso</span><strong id="goalDetailPct">0%</strong></div>
+<div aria-hidden="true" class="goal-track"><span id="goalDetailBar" style="width:0%"></span></div>
+<div class="goal-current"><span>Você já guardou</span><strong class="priv" id="sdAcumulado">—</strong></div>
+<div class="goal-values"><div><span>Falta para chegar lá</span><strong class="priv" id="sdFalta">—</strong></div><div><span>Valor desta meta</span><strong class="priv" id="sdObjetivo">—</strong></div></div>
+<div class="goal-plan-note">Para alcançar o objetivo: <strong class="priv" id="sdPorMes">—</strong> por mês.<br/>Conclusão estimada em <strong id="sdPrazo">—</strong>.</div>
+</section>
+<section aria-label="Registrar aporte" class="goal-aporte"><h3>Mais um passo na sua meta</h3><p>Adicione o valor que você guardou para este objetivo.</p><div class="aporte-fields"><div class="field"><label for="aporteVal">Valor do aporte (R$)</label><input id="aporteVal" inputmode="decimal" min="0" placeholder="0,00" type="number"/></div><div class="field"><label for="aporteMes">Mês de referência</label><select id="aporteMes"></select></div></div><button class="aporte-btn-full" onclick="lancarAporte()" type="button">＋ Registrar aporte</button><div class="enter-hint"><kbd>Enter</kbd> para registrar</div></section>
+</div>
+<details class="goal-timeline"><summary><span>Progressão mês a mês</span><span class="badge nn" id="projBadge">—</span></summary><div class="tbl-scroll"><table class="proj-table"><thead><tr><th>Mês / Ano</th><th>Aporte</th><th>Acumulado</th><th>Progresso</th><th>Status</th></tr></thead><tbody id="projBody"></tbody></table></div></details>
+<!-- Mantém os pontos usados pelo cálculo original, sem renderizar o arco antigo. -->
+<svg aria-hidden="true" style="display:none"><path id="arcFill"></path><text id="arcPct"></text><text id="arcLbl"></text></svg>
+</div>
+<div class="empty-state" id="sonhoEmpty" style="display:none"><div aria-hidden="true" style="font-size:38px;margin-bottom:20px">🎯</div><h2>Todo plano começa com uma meta.</h2><p>Uma reserva, uma viagem ou um novo começo.<br/>Defina seu objetivo e acompanhe o caminho até lá.</p><button class="btn-primary" onclick="abrirWizard()" type="button">Criar minha primeira meta</button></div>
+</div>
+<!-- CARTEIRA: interface visual, sem alterar regras financeiras -->
+<div class="page" id="page-carteira"><div class="pg-header cart-header"><div><div class="suite-eyebrow">CONTAS E INVESTIMENTOS</div><div class="pg-title">Carteira</div><div class="pg-sub">Onde está seu dinheiro e seus rendimentos · <span id="cartAno"></span></div></div><button class="btn-ghost" onclick="abrirAjudaCarteira()" type="button">Como funciona?</button></div><section aria-label="Resumo da carteira" class="wallet-hero"><div class="wallet-hero-top"><span class="wallet-pill"><span class="wallet-live-dot"></span> Seu dinheiro, em um só lugar</span><button aria-label="Mostrar ou ocultar valores" class="eye-btn" onclick="togglePrivacy()"><svg><use href="#ni-eye"></use></svg></button></div><p class="wallet-hero-label">Total na carteira</p><div class="wallet-hero-value priv" id="cartTotalAtual">—</div><p class="wallet-hero-meta" id="cartMeta">Carregue suas aplicações para começar</p><div class="wallet-hero-bottom"><div><span>Base restante</span><strong class="priv" id="cartTotalInvestido">—</strong></div><div><span>Resultado no saldo <span class="wallet-help-hint" title="Saldo atual menos base restante. Não é rentabilidade ajustada por aportes.">ⓘ</span></span><strong class="priv" id="cartRendimento">—</strong></div><div><span>Como acompanhar</span><p>Registre entradas.<br/>Confira cada movimento.</p></div></div></section><section aria-label="Fluxos registrados" class="wallet-kpis"><div class="wallet-kpi"><span aria-hidden="true" class="wallet-kpi-icon tone-in">↙</span><div><span>Aportes registrados</span><strong class="priv" id="cartAportesVis">—</strong><small>Líquidos de estornos</small></div></div><div class="wallet-kpi"><span aria-hidden="true" class="wallet-kpi-icon tone-yield">↗</span><div><span>Rendimentos registrados</span><strong class="priv" id="cartRendVis">—</strong><small>Sem repetir a posição inicial</small></div></div><div class="wallet-kpi"><span aria-hidden="true" class="wallet-kpi-icon tone-out">↗</span><div><span>Retiradas e resgates</span><strong class="priv" id="cartSaidasVis">—</strong><small>Apenas saídas externas</small></div></div></section>
+<details class="card wallet-disclosure wallet-reconcile"><summary><span><strong>Entenda de onde vem o saldo</strong><small>Posição inicial, aportes, saídas e ajustes</small></span><span aria-hidden="true" class="disclosure-plus">＋</span></summary><div class="card-body"><div class="mov-resumo" id="movResumo"></div><p class="field-help">A posição inicial preserva os saldos anteriores à ativação do histórico. Transferências internas não contam como novos aportes ou retiradas. Valores não representam rentabilidade fiscal.</p></div></details><div class="wallet-actions"><button class="btn-primary" onclick="abrirEditorCarteira()"><span aria-hidden="true">＋</span> Adicionar aplicação</button><button class="btn-secondary" onclick="abrirMovimentacao()"><svg aria-hidden="true"><use href="#ni-wallet"></use></svg> Movimentar dinheiro</button><button class="btn-ghost wallet-refresh" onclick="loadCarteira()">↻ Atualizar</button></div>
+<div aria-live="polite" class="wallet-status" id="cartStatus" role="status"></div>
 <div class="wallet-editors">
-<details id="cartEditor" class="card wallet-disclosure"><summary><span><span class="section-eyebrow">CADASTRO</span><strong id="cartEditorTitle">Adicionar uma aplicação</strong></span><span class="disclosure-plus" aria-hidden="true">＋</span></summary><div class="card-body">
+<details class="card wallet-disclosure" id="cartEditor"><summary><span><span class="section-eyebrow">CADASTRO</span><strong id="cartEditorTitle">Adicionar uma aplicação</strong></span><span aria-hidden="true" class="disclosure-plus">＋</span></summary><div class="card-body">
 <form class="form-grid" id="cartForm" onsubmit="event.preventDefault();salvarAtivo()">
 <div class="field"><label for="cartNome">Nome</label><input id="cartNome" maxlength="80" placeholder="Ex: Nubank, PETR4, Bitcoin" required="" type="text"/></div>
 <div class="field"><label for="cartTipo">Tipo</label><select id="cartTipo"><option value="conta">Conta / Caixa</option><option value="investimento">Investimento</option></select></div>
@@ -446,10 +393,8 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 <button class="btn-ghost" hidden="" id="cartCancel" onclick="cancelarAtivo()" type="button">Cancelar edição</button>
 </form>
 <p class="cart-note">No cadastro, informe a posição inicial. Depois, use Movimentar dinheiro para aportes, transferências, retiradas e resgates. Receitas vinculadas entram automaticamente: não repita o lançamento aqui. Editar valores registra um ajuste; editar o nome não altera os registros antigos.</p>
-
-
 </div></details>
-<details id="movEditor" class="card wallet-disclosure"><summary><span><span class="section-eyebrow">MOVIMENTAÇÃO</span><strong>O que vamos fazer com seu dinheiro?</strong></span><span class="disclosure-plus" aria-hidden="true">＋</span></summary><div class="card-body">
+<details class="card wallet-disclosure" id="movEditor"><summary><span><span class="section-eyebrow">MOVIMENTAÇÃO</span><strong>O que vamos fazer com seu dinheiro?</strong></span><span aria-hidden="true" class="disclosure-plus">＋</span></summary><div class="card-body">
 <form class="form-grid" id="movForm" onsubmit="event.preventDefault();salvarMovimento()">
 <div class="field"><label for="movTipo">O que deseja fazer?</label><select id="movTipo" onchange="atualizarFormMovimento()"><option value="transferencia">Transferir entre aplicações</option><option value="retirada">Retirar para fora da carteira</option><option value="resgate">Resgatar investimento</option><option value="aporte">Adicionar aporte manual</option><option value="rendimento">Adicionar rendimento manual</option></select></div>
 <div class="field"><label for="movOrigem" id="movOrigemLabel">De qual aplicação?</label><select id="movOrigem" required=""></select></div>
@@ -457,7 +402,7 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 <div class="field"><label for="movValor">Valor (R$)</label><input id="movValor" inputmode="decimal" min="0.01" placeholder="0,00" required="" step="0.01" type="number"/></div>
 <div class="field"><label for="movData">Data</label><input id="movData" required="" type="date"/></div>
 <div class="field"><label for="movDescricao">Descrição (opcional)</label><input id="movDescricao" maxlength="240" placeholder="Ex.: resgate para minha conta" type="text"/></div>
-<div id="movPrevia" class="movement-preview" aria-live="polite"></div><button class="btn-primary" id="movSave" type="submit">Confirmar movimentação</button>
+<div aria-live="polite" class="movement-preview" id="movPrevia"></div><button class="btn-primary" id="movSave" type="submit">Confirmar movimentação</button>
 </form>
 <p class="field-help" id="movAjuda"></p><div aria-live="polite" id="movStatus" role="status"></div>
 </div></details>
@@ -476,158 +421,150 @@ window._sbCreate=createClient;window.dispatchEvent(new Event('sbready'));
 <p class="wallet-swipe-hint">Deslize a tabela para ver o saldo e os detalhes →</p><div class="tbl-scroll"><table><thead><tr><th>Data</th><th>Tipo</th><th>Aplicação</th><th>Variação do saldo</th><th>Saldo após</th><th>Descrição / operação</th></tr></thead><tbody id="movHistorico"></tbody></table></div>
 <div class="card-body"><button class="btn-ghost" hidden="" id="movMais" onclick="maisMovimentos()">Mostrar mais</button></div>
 </div></div>
-    </main>
-  </div>
-
-  <nav class="mob-nav" aria-label="Navegação principal"><div class="mob-nav-inner">
-    <button class="mob-nav-btn active" data-page="dashboard" onclick="navTo('dashboard')" aria-label="Início"><svg><use href="#ni-grid"/></svg>Início</button>
-    <button class="mob-nav-btn" data-page="receitas" onclick="navTo('receitas')" aria-label="Receitas"><svg><use href="#ni-up"/></svg>Receitas</button>
-    <button class="mob-nav-btn" data-page="despesas" onclick="navTo('despesas')" aria-label="Despesas"><svg><use href="#ni-down"/></svg>Despesas</button>
-    <button class="mob-nav-btn" data-page="carteira" onclick="navTo('carteira')" aria-label="Carteira"><svg><use href="#ni-wallet"/></svg>Carteira</button>
-    <button class="mob-nav-btn" data-page="mais" onclick="abrirMais()" aria-label="Mais"><svg><use href="#ni-doc"/></svg>Mais</button>
-  </div></nav>
-  <div id="moreOverlay" class="more-overlay" onclick="fecharMaisFora(event)">
-    <div class="more-sheet" role="dialog" aria-modal="true" aria-label="Mais opções">
-      <div class="more-title">Mais</div>
-      <button class="more-item" onclick="navTo('relatorio');fecharMais()"><svg><use href="#ni-doc"/></svg> Relatório</button>
-      <button class="more-item" onclick="navTo('metas');fecharMais()"><svg><use href="#ni-star"/></svg> Metas</button>
-      <button class="more-item" onclick="abrirConta();fecharMais()"><svg><use href="#ni-eye"/></svg> Conta</button>
-    </div>
-  </div>
+</main>
 </div>
-
+<nav aria-label="Navegação principal" class="mob-nav"><div class="mob-nav-inner">
+<button aria-label="Início" class="mob-nav-btn active" data-page="dashboard" onclick="navTo('dashboard')"><svg><use href="#ni-grid"></use></svg>Início</button>
+<button aria-label="Receitas" class="mob-nav-btn" data-page="receitas" onclick="navTo('receitas')"><svg><use href="#ni-up"></use></svg>Receitas</button>
+<button aria-label="Despesas" class="mob-nav-btn" data-page="despesas" onclick="navTo('despesas')"><svg><use href="#ni-down"></use></svg>Despesas</button>
+<button aria-label="Carteira" class="mob-nav-btn" data-page="carteira" onclick="navTo('carteira')"><svg><use href="#ni-wallet"></use></svg>Carteira</button>
+<button aria-label="Mais" class="mob-nav-btn" data-page="mais" onclick="abrirMais()"><svg><use href="#ni-doc"></use></svg>Mais</button>
+</div></nav>
+<div class="more-overlay" id="moreOverlay" onclick="fecharMaisFora(event)">
+<div aria-label="Mais opções" aria-modal="true" class="more-sheet" role="dialog">
+<div class="more-title">Mais</div>
+<button class="more-item" onclick="navTo('relatorio');fecharMais()"><svg><use href="#ni-doc"></use></svg> Relatório</button>
+<button class="more-item" onclick="navTo('metas');fecharMais()"><svg><use href="#ni-star"></use></svg> Metas</button>
+<button class="more-item" onclick="abrirConta();fecharMais()"><svg><use href="#ni-eye"></use></svg> Conta</button>
+</div>
+</div>
+</div>
 <!-- WIZARD -->
 <div id="wizOverlay" onclick="fecharWizardFora(event)">
-  <div id="wizModal">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
-      <div style="font-family:'DM Serif Display',serif;font-size:21px;color:var(--ink);font-style:italic;letter-spacing:-.3px" id="wizTitle">Nova Meta</div>
-      <button onclick="fecharWizard()" aria-label="Fechar" style="background:none;border:none;font-size:21px;color:var(--ink4);cursor:pointer;padding:3px 8px;border-radius:7px">×</button>
-    </div>
-    <div class="wizard-steps">
-      <div class="wstep cur" id="ws1"><span class="wstep-num">1</span><span>Sonho</span></div>
-      <div class="wstep-sep"></div>
-      <div class="wstep" id="ws2"><span class="wstep-num">2</span><span>Imagem</span></div>
-      <div class="wstep-sep"></div>
-      <div class="wstep" id="ws3"><span class="wstep-num">3</span><span>Plano</span></div>
-    </div>
-    <div class="wizard-panel active" id="wp1">
-      <p style="font-size:12.5px;color:var(--ink4);margin-bottom:15px">O que você quer conquistar?</p>
-      <div class="field" style="margin-bottom:11px"><label for="wizNome">Nome da meta</label><input type="text" id="wizNome" placeholder="Ex: Viagem para Europa" maxlength="40"></div>
-      <div class="field"><label for="wizDesc">Descrição (opcional)</label><input type="text" id="wizDesc" placeholder="Ex: Férias em julho de 2027" maxlength="60"></div>
-      <div style="display:flex;justify-content:flex-end;margin-top:18px"><button class="btn-primary" onclick="wizNext(1)">Continuar</button></div>
-    </div>
-    <div class="wizard-panel" id="wp2">
-      <p style="font-size:12.5px;color:var(--ink4);margin-bottom:4px">Escolha uma imagem para sua meta:</p>
-      <div class="dream-grid" id="dreamGrid"></div>
-      <div style="display:flex;justify-content:space-between;margin-top:9px">
-        <button class="btn-ghost" onclick="wizBack(2)">← Voltar</button>
-        <button class="btn-primary" onclick="wizNext(2)">Continuar</button>
-      </div>
-    </div>
-    <div class="wizard-panel" id="wp3">
-      <p style="font-size:12.5px;color:var(--ink4);margin-bottom:15px">Defina o valor e o prazo:</p>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px">
-        <div class="field"><label for="wizValor">Valor total (R$)</label><input type="number" id="wizValor" placeholder="Ex: 10000" inputmode="decimal" oninput="calcWizPreview()" min="0"></div>
-        <div class="field"><label for="wizJaTenho">Já guardei (R$)</label><input type="number" id="wizJaTenho" placeholder="0,00" inputmode="decimal" oninput="calcWizPreview()" min="0"></div>
-        <div class="field"><label for="wizMesInicio">Mês de início</label><select id="wizMesInicio"></select></div>
-        <div class="field"><label for="wizPrazo">Prazo (meses)</label><input type="number" id="wizPrazo" placeholder="Ex: 12" inputmode="numeric" min="1" max="120" oninput="calcWizPreview()"></div>
-      </div>
-      <div id="wizPreview" style="display:none;background:var(--paper3);border-radius:var(--radius-sm);padding:13px 15px;font-size:12px;color:var(--ink4)">
-        <div style="display:flex;gap:18px;flex-wrap:wrap">
-          <div><span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:3px">Guardar por mês</span><strong id="wizPreviewMes" style="font-size:16px;color:var(--green);font-family:var(--font-mono)">—</strong></div>
-          <div><span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:3px">Falta guardar</span><strong id="wizPreviewFalta" style="font-size:16px;color:var(--ink);font-family:var(--font-mono)">—</strong></div>
-          <div><span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:3px">Conclusão estimada</span><strong id="wizPreviewData" style="font-size:13px;color:var(--ink3);font-family:var(--font-mono)">—</strong></div>
-        </div>
-      </div>
-      <div style="display:flex;justify-content:space-between;margin-top:16px">
-        <button class="btn-ghost" onclick="wizBack(3)">← Voltar</button>
-        <button class="btn-primary" onclick="salvarMeta()">Criar Meta</button>
-      </div>
-    </div>
-  </div>
+<div id="wizModal">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+<div id="wizTitle" style="font-family:'DM Serif Display',serif;font-size:21px;color:var(--ink);font-style:italic;letter-spacing:-.3px">Nova Meta</div>
+<button aria-label="Fechar" onclick="fecharWizard()" style="background:none;border:none;font-size:21px;color:var(--ink4);cursor:pointer;padding:3px 8px;border-radius:7px">×</button>
 </div>
-
+<div class="wizard-steps">
+<div class="wstep cur" id="ws1"><span class="wstep-num">1</span><span>Sonho</span></div>
+<div class="wstep-sep"></div>
+<div class="wstep" id="ws2"><span class="wstep-num">2</span><span>Imagem</span></div>
+<div class="wstep-sep"></div>
+<div class="wstep" id="ws3"><span class="wstep-num">3</span><span>Plano</span></div>
+</div>
+<div class="wizard-panel active" id="wp1">
+<p style="font-size:12.5px;color:var(--ink4);margin-bottom:15px">O que você quer conquistar?</p>
+<div class="field" style="margin-bottom:11px"><label for="wizNome">Nome da meta</label><input id="wizNome" maxlength="40" placeholder="Ex: Viagem para Europa" type="text"/></div>
+<div class="field"><label for="wizDesc">Descrição (opcional)</label><input id="wizDesc" maxlength="60" placeholder="Ex: Férias em julho de 2027" type="text"/></div>
+<div style="display:flex;justify-content:flex-end;margin-top:18px"><button class="btn-primary" onclick="wizNext(1)">Continuar</button></div>
+</div>
+<div class="wizard-panel" id="wp2">
+<p style="font-size:12.5px;color:var(--ink4);margin-bottom:4px">Escolha uma imagem para sua meta:</p>
+<div class="dream-grid" id="dreamGrid"></div>
+<div style="display:flex;justify-content:space-between;margin-top:9px">
+<button class="btn-ghost" onclick="wizBack(2)">← Voltar</button>
+<button class="btn-primary" onclick="wizNext(2)">Continuar</button>
+</div>
+</div>
+<div class="wizard-panel" id="wp3">
+<p style="font-size:12.5px;color:var(--ink4);margin-bottom:15px">Defina o valor e o prazo:</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px">
+<div class="field"><label for="wizValor">Valor total (R$)</label><input id="wizValor" inputmode="decimal" min="0" oninput="calcWizPreview()" placeholder="Ex: 10000" type="number"/></div>
+<div class="field"><label for="wizJaTenho">Já guardei (R$)</label><input id="wizJaTenho" inputmode="decimal" min="0" oninput="calcWizPreview()" placeholder="0,00" type="number"/></div>
+<div class="field"><label for="wizMesInicio">Mês de início</label><select id="wizMesInicio"></select></div>
+<div class="field"><label for="wizPrazo">Prazo (meses)</label><input id="wizPrazo" inputmode="numeric" max="120" min="1" oninput="calcWizPreview()" placeholder="Ex: 12" type="number"/></div>
+</div>
+<div id="wizPreview" style="display:none;background:var(--paper3);border-radius:var(--radius-sm);padding:13px 15px;font-size:12px;color:var(--ink4)">
+<div style="display:flex;gap:18px;flex-wrap:wrap">
+<div><span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:3px">Guardar por mês</span><strong id="wizPreviewMes" style="font-size:16px;color:var(--green);font-family:var(--font-mono)">—</strong></div>
+<div><span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:3px">Falta guardar</span><strong id="wizPreviewFalta" style="font-size:16px;color:var(--ink);font-family:var(--font-mono)">—</strong></div>
+<div><span style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.8px;display:block;margin-bottom:3px">Conclusão estimada</span><strong id="wizPreviewData" style="font-size:13px;color:var(--ink3);font-family:var(--font-mono)">—</strong></div>
+</div>
+</div>
+<div style="display:flex;justify-content:space-between;margin-top:16px">
+<button class="btn-ghost" onclick="wizBack(3)">← Voltar</button>
+<button class="btn-primary" onclick="salvarMeta()">Criar Meta</button>
+</div>
+</div>
+</div>
+</div>
 <!-- ACCOUNT SHEET (mobile: profile, theme, logout) -->
 <div id="accOverlay" onclick="fecharContaFora(event)">
-  <div id="accModal">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-      <div style="font-family:'DM Serif Display',serif;font-size:19px;color:var(--ink);font-style:italic;letter-spacing:-.3px">Conta</div>
-      <button onclick="fecharConta()" aria-label="Fechar" style="background:none;border:none;font-size:21px;color:var(--ink4);cursor:pointer;padding:3px 8px;border-radius:7px">×</button>
-    </div>
-    <div class="user-card" style="margin-bottom:16px">
-      <div class="user-avatar" id="accAvatar">?</div>
-      <div class="user-info"><div class="user-name" id="accUserName">—</div><div class="user-email" id="accUserEmail">—</div></div>
-    </div>
-    <button class="btn-ghost" style="width:100%;justify-content:center;display:flex;align-items:center;gap:8px;padding:12px;margin-bottom:9px" onclick="toggleTheme()">
-      <svg id="accThemeIco" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round"><use href="#ni-sun"/></svg>
-      <span id="accThemeTxt">Modo Escuro</span>
-    </button>
-    <button class="btn-ghost danger" style="width:100%;justify-content:center;display:flex;padding:12px" onclick="fazerLogout()">Sair da conta</button>
-  </div>
+<div id="accModal">
+<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+<div style="font-family:'DM Serif Display',serif;font-size:19px;color:var(--ink);font-style:italic;letter-spacing:-.3px">Conta</div>
+<button aria-label="Fechar" onclick="fecharConta()" style="background:none;border:none;font-size:21px;color:var(--ink4);cursor:pointer;padding:3px 8px;border-radius:7px">×</button>
 </div>
-
+<div class="user-card" style="margin-bottom:16px">
+<div class="user-avatar" id="accAvatar">?</div>
+<div class="user-info"><div class="user-name" id="accUserName">—</div><div class="user-email" id="accUserEmail">—</div></div>
+</div><section aria-label="Cores da interface" class="aparencia-box"><h3>Aparência</h3><p>Personalize os botões e os destaques. A cor fica salva na sua conta; ganhos e perdas mantêm suas cores de significado.</p><label class="aparencia-picker" for="corSistema"><span>Cor do sistema</span><input id="corSistema" oninput="preverCorSistema(this.value)" type="color" value="#1e3a5f"/></label><div class="aparencia-actions"><button class="btn-primary" id="salvarCorSistema" onclick="salvarCorSistema()" type="button">Salvar cor</button><button class="btn-ghost" onclick="restaurarCorSistema()" type="button">Azul-marinho</button><button class="btn-ghost" onclick="carregarAparencia()" type="button">Recarregar</button></div><div aria-live="polite" id="aparenciaStatus" role="status">Carregue suas preferências para editar.</div></section>
+<button class="btn-ghost" onclick="toggleTheme()" style="width:100%;justify-content:center;display:flex;align-items:center;gap:8px;padding:12px;margin-bottom:9px">
+<svg id="accThemeIco" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round"><use href="#ni-sun"></use></svg>
+<span id="accThemeTxt">Modo Escuro</span>
+</button>
+<button class="btn-ghost danger" onclick="fazerLogout()" style="width:100%;justify-content:center;display:flex;padding:12px">Sair da conta</button>
+</div>
+</div>
 <!-- Quick insert overlay -->
-<div id="quickOverlay" class="quick-overlay" onclick="fecharQuickFora(event)">
-  <div class="quick-modal">
-    <div class="quick-head"><span>Nova Entrada Rápida</span><button onclick="fecharQuick()">×</button></div>
-    <div class="mode-toggle">
-      <button class="mode-btn active" id="qRec" onclick="setQuickTipo('rec')">Receita</button>
-      <button class="mode-btn" id="qDes" onclick="setQuickTipo('des')">Despesa</button>
-    </div>
-    <div class="quick-body">
-      <div class="field full"><label>Valor (R$)</label><input type="number" id="qValor" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
-      <div class="field"><label id="qCatLabel">Categoria</label><select id="qCat" onchange="atualizarOrigemRendimento()"></select></div>
-      <div id="qCarteiraField" class="field full rendimento-field" hidden><label for="qCarteira">Adicionar à carteira? (opcional)</label><select id="qCarteira"></select><p class="field-help">Opcional. Renda fixa e extra somam ao valor colocado e ao saldo. Rendimento soma apenas ao saldo.</p></div>
-      <div class="field"><label>Mês</label><select id="qMes"></select></div>
-    </div>
-    <button class="btn-primary" style="width:100%;padding:13px" onclick="quickSalvar()">Salvar entrada</button>
-    <div class="quick-badge">Atalho: tecla N · Enter salva · Esc fecha</div>
-  </div>
+<div class="quick-overlay" id="quickOverlay" onclick="fecharQuickFora(event)">
+<div class="quick-modal">
+<div class="quick-head"><span>Nova Entrada Rápida</span><button onclick="fecharQuick()">×</button></div>
+<div class="mode-toggle">
+<button class="mode-btn active" id="qRec" onclick="setQuickTipo('rec')">Receita</button>
+<button class="mode-btn" id="qDes" onclick="setQuickTipo('des')">Despesa</button>
+</div>
+<div class="quick-body">
+<div class="field full"><label>Valor (R$)</label><input id="qValor" inputmode="decimal" min="0" placeholder="0,00" step="0.01" type="number"/></div>
+<div class="field"><label id="qCatLabel">Categoria</label><select id="qCat" onchange="atualizarOrigemRendimento()"></select></div>
+<div class="field full rendimento-field" hidden="" id="qCarteiraField"><label for="qCarteira">Adicionar à carteira? (opcional)</label><select id="qCarteira"></select><p class="field-help">Opcional. Renda fixa e extra somam ao valor colocado e ao saldo. Rendimento soma apenas ao saldo.</p></div>
+<div class="field"><label>Mês</label><select id="qMes"></select></div>
+</div>
+<button class="btn-primary" onclick="quickSalvar()" style="width:100%;padding:13px">Salvar entrada</button>
+<div class="quick-badge">Atalho: tecla N · Enter salva · Esc fecha</div>
+</div>
 </div>
 <!-- Novidades da versão: exibidas uma vez por usuário/navegador. -->
-<div id="whatsnewOverlay" class="wn-overlay" onclick="fecharWhatsNewFora(event)">
-  <div class="wn-modal" role="dialog" aria-modal="true" aria-labelledby="novidadesTitulo" aria-describedby="novidadesSub" tabindex="-1">
-    <div class="wn-head"><h2 class="wn-title" id="novidadesTitulo">Conheça a nova Carteira</h2><span class="wn-ver">Atualização completa</span></div>
-    <p class="wn-sub" id="novidadesSub">Agora você pode acompanhar onde seu dinheiro está, quanto rendeu e como ele se movimenta — tudo em uma nova aba.</p>
-    <div class="wn-list">
-      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-eye"/></svg></span><div><div class="wn-name">Um visual mais claro e organizado</div><p class="wn-desc">A Carteira ganhou resumo em destaque, aplicações em cartões, opção de tabela, formulários recolhidos e prévia da movimentação. Textos mais legíveis e histórico com tipos identificados por cor e nome. Na Visão Geral, calendário e estatísticas ficam em <b>Mais detalhes do seu período</b>.</p></div></div>
-      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-wallet"/></svg></span><div><div class="wn-name">Uma nova aba: Carteira</div><p class="wn-desc">Cadastre suas contas e aplicações, como banco, poupança, CDB, Tesouro, ações, FIIs, fundos e cripto. Informe o valor colocado e o saldo atual, separados por exercício. Os valores são informados por você, <b>sem cotações automáticas</b>.</p></div></div>
-      <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-grid"/></svg></span><div><div class="wn-name">Veja onde seu dinheiro está</div><p class="wn-desc">Um gráfico mostra a distribuição do saldo atual entre as aplicações, com <b>valor em reais e participação em porcentagem</b>. Consulte também o total da carteira, a base restante e o resultado no saldo.</p></div></div>
-      <div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-up"/></svg></span><div><div class="wn-name">Receitas conectadas à Carteira — se você quiser</div><p class="wn-desc">Ao registrar renda fixa/regular, renda extra ou rendimento, escolha uma aplicação no campo <b>Adicionar à carteira? (opcional)</b>. Sem selecionar uma, o lançamento fica somente em Receitas. Essa opção também está na entrada rápida.</p></div></div>
-      <div class="wn-item"><span class="wn-ico"><svg><use href="#ni-plus"/></svg></span><div><div class="wn-name">Saldo e rendimentos atualizados</div><p class="wn-desc">Renda fixa e extra vinculadas aumentam o saldo e a base. Um rendimento vinculado aumenta só o saldo e, por isso, o <b>resultado no saldo</b>. Exemplo: R$ 1.000 de base e saldo + R$ 50 de rendimento = R$ 1.050 de saldo e R$ 50 de resultado. <b>Não repita a entrada manualmente na Carteira.</b></p></div></div>
-      <div class="wn-item"><span class="wn-ico amber"><svg><use href="#ni-doc"/></svg></span><div><div class="wn-name">Histórico e números separados</div><p class="wn-desc">Consulte movimentações com data, aplicação, descrição e saldo após cada operação. Filtre o histórico e veja <b>posição inicial, aportes, rendimentos, retiradas e ajustes</b> separados. Correções manuais de saldo também ficam registradas.</p></div></div>
-      <div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-wallet"/></svg></span><div><div class="wn-name">Transferências entre aplicações</div><p class="wn-desc">Mova dinheiro de uma aplicação para outra sem criar uma nova receita ou despesa. O histórico registra saída e entrada com o mesmo código, e <b>o total da carteira não muda</b>.</p></div></div>
-      <div class="wn-item"><span class="wn-ico red"><svg><use href="#ni-down"/></svg></span><div><div class="wn-name">Retiradas e resgates</div><p class="wn-desc">Resgate para outra conta da carteira ou retire para fora dela. Saídas externas reduzem o total, <b>sem criar uma despesa automaticamente</b>. O sistema bloqueia valores acima do saldo disponível.</p></div></div>
-      <div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-check"/></svg></span><div><div class="wn-name">Seus dados preservados e um guia para começar</div><p class="wn-desc">Os saldos anteriores foram preservados como <b>posição inicial</b>, sem somar receitas antigas novamente. Na primeira visita à Carteira, você verá um guia; depois, pode reler em <b>Como funciona?</b>. No celular, Relatório e Metas ficam no menu <b>Mais</b>.</p></div></div>
-    </div>
-    <button class="btn-primary onboarding-ok" type="button" onclick="fecharWhatsNew()">Entendi, vamos lá</button>
-  </div>
+<div class="wn-overlay" id="whatsnewOverlay" onclick="fecharWhatsNewFora(event)">
+<div aria-describedby="novidadesSub" aria-labelledby="novidadesTitulo" aria-modal="true" class="wn-modal" role="dialog" tabindex="-1">
+<div class="wn-head"><h2 class="wn-title" id="novidadesTitulo">Conheça a nova Carteira</h2><span class="wn-ver">Atualização completa</span></div>
+<p class="wn-sub" id="novidadesSub">Agora você pode acompanhar onde seu dinheiro está, quanto rendeu e como ele se movimenta — tudo em uma nova aba.</p>
+<div class="wn-list">
+<div class="wn-item"><span class="wn-ico"><svg><use href="#ni-eye"></use></svg></span><div><div class="wn-name">Um visual mais claro e organizado</div><p class="wn-desc">A Carteira ganhou resumo em destaque, aplicações em cartões, opção de tabela, formulários recolhidos e prévia da movimentação. Textos mais legíveis e histórico com tipos identificados por cor e nome. Na Visão Geral, calendário e estatísticas ficam em <b>Mais detalhes do seu período</b>.</p></div></div>
+<div class="wn-item"><span class="wn-ico"><svg><use href="#ni-wallet"></use></svg></span><div><div class="wn-name">Uma nova aba: Carteira</div><p class="wn-desc">Cadastre suas contas e aplicações, como banco, poupança, CDB, Tesouro, ações, FIIs, fundos e cripto. Informe o valor colocado e o saldo atual, separados por exercício. Os valores são informados por você, <b>sem cotações automáticas</b>.</p></div></div>
+<div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-grid"></use></svg></span><div><div class="wn-name">Veja onde seu dinheiro está</div><p class="wn-desc">Um gráfico mostra a distribuição do saldo atual entre as aplicações, com <b>valor em reais e participação em porcentagem</b>. Consulte também o total da carteira, a base restante e o resultado no saldo.</p></div></div>
+<div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-up"></use></svg></span><div><div class="wn-name">Receitas conectadas à Carteira — se você quiser</div><p class="wn-desc">Ao registrar renda fixa/regular, renda extra ou rendimento, escolha uma aplicação no campo <b>Adicionar à carteira? (opcional)</b>. Sem selecionar uma, o lançamento fica somente em Receitas. Essa opção também está na entrada rápida.</p></div></div>
+<div class="wn-item"><span class="wn-ico"><svg><use href="#ni-plus"></use></svg></span><div><div class="wn-name">Saldo e rendimentos atualizados</div><p class="wn-desc">Renda fixa e extra vinculadas aumentam o saldo e a base. Um rendimento vinculado aumenta só o saldo e, por isso, o <b>resultado no saldo</b>. Exemplo: R$ 1.000 de base e saldo + R$ 50 de rendimento = R$ 1.050 de saldo e R$ 50 de resultado. <b>Não repita a entrada manualmente na Carteira.</b></p></div></div>
+<div class="wn-item"><span class="wn-ico amber"><svg><use href="#ni-doc"></use></svg></span><div><div class="wn-name">Histórico e números separados</div><p class="wn-desc">Consulte movimentações com data, aplicação, descrição e saldo após cada operação. Filtre o histórico e veja <b>posição inicial, aportes, rendimentos, retiradas e ajustes</b> separados. Correções manuais de saldo também ficam registradas.</p></div></div>
+<div class="wn-item"><span class="wn-ico blue"><svg><use href="#ni-wallet"></use></svg></span><div><div class="wn-name">Transferências entre aplicações</div><p class="wn-desc">Mova dinheiro de uma aplicação para outra sem criar uma nova receita ou despesa. O histórico registra saída e entrada com o mesmo código, e <b>o total da carteira não muda</b>.</p></div></div>
+<div class="wn-item"><span class="wn-ico red"><svg><use href="#ni-down"></use></svg></span><div><div class="wn-name">Retiradas e resgates</div><p class="wn-desc">Resgate para outra conta da carteira ou retire para fora dela. Saídas externas reduzem o total, <b>sem criar uma despesa automaticamente</b>. O sistema bloqueia valores acima do saldo disponível.</p></div></div>
+<div class="wn-item"><span class="wn-ico purple"><svg><use href="#ni-check"></use></svg></span><div><div class="wn-name">Seus dados preservados e um guia para começar</div><p class="wn-desc">Os saldos anteriores foram preservados como <b>posição inicial</b>, sem somar receitas antigas novamente. Na primeira visita à Carteira, você verá um guia; depois, pode reler em <b>Como funciona?</b>. No celular, Relatório e Metas ficam no menu <b>Mais</b>.</p></div></div>
 </div>
-
+<button class="btn-primary onboarding-ok" onclick="fecharWhatsNew()" type="button">Entendi, vamos lá</button>
+</div>
+</div>
 <!-- Explicação na primeira visita à Carteira; pode ser consultada novamente. -->
-<div id="carteiraAjudaOverlay" class="wn-overlay" onclick="fecharAjudaCarteiraFora(event)">
-  <div class="wn-modal cart-help-modal" role="dialog" aria-modal="true" aria-labelledby="carteiraAjudaTitulo" aria-describedby="carteiraAjudaSub" tabindex="-1">
-    <div class="wn-head"><h2 class="wn-title" id="carteiraAjudaTitulo">Como usar sua Carteira</h2></div>
-    <p class="wn-sub" id="carteiraAjudaSub">Um guia rápido para não contar o mesmo dinheiro duas vezes.</p>
-    <ol class="cart-help-steps">
-      <li><strong>Cadastre onde seu dinheiro está.</strong><p>Crie suas contas e aplicações. No cadastro, informe quanto colocou e quanto tem hoje: esses valores serão a posição inicial.</p></li>
-      <li><strong>Escolha onde entram suas receitas.</strong><p>Em Receitas, o destino é opcional. Se escolher uma aplicação, o saldo será atualizado automaticamente. Rendimento aumenta o resultado no saldo; renda fixa e extra aumentam também a base.</p></li>
-      <li><strong>Mova o dinheiro sem duplicar entradas.</strong><p>Transferência ou resgate para outra aplicação só move dinheiro dentro da carteira. Não é uma nova receita. Retirada ou resgate para fora reduz o total, sem criar despesa automaticamente.</p></li>
-      <li><strong>Entenda os números.</strong><p><b>Saldo atual</b> é quanto tem hoje. <b>Base restante</b> é a parte do valor colocado que permanece nas aplicações. <b>Resultado no saldo</b> é saldo menos base, não o total de rendimentos recebidos.</p></li>
-      <li><strong>Confira o histórico.</strong><p>O resumo separa aportes, rendimentos, saídas e ajustes. Transferências aparecem como saída e entrada com o mesmo código. Ao editar um saldo, a diferença fica registrada como ajuste.</p></li>
-    </ol>
-    <div class="cart-help-example"><strong>Exemplo simples</strong><p>Você colocou R$ 1.000 e tem R$ 1.000. Ao lançar R$ 50 de rendimento vinculado, o saldo vira R$ 1.050, a base continua R$ 1.000 e o resultado no saldo passa a R$ 50.</p></div>
-    <p class="field-help">As posições são separadas por exercício. Os valores antigos não viram movimentações retroativas. Para reler, use <b>Como funciona?</b> no topo da Carteira.</p>
-    <button class="btn-primary onboarding-ok" type="button" onclick="fecharAjudaCarteira()">Entendi, começar a usar</button>
-  </div>
+<div class="wn-overlay" id="carteiraAjudaOverlay" onclick="fecharAjudaCarteiraFora(event)">
+<div aria-describedby="carteiraAjudaSub" aria-labelledby="carteiraAjudaTitulo" aria-modal="true" class="wn-modal cart-help-modal" role="dialog" tabindex="-1">
+<div class="wn-head"><h2 class="wn-title" id="carteiraAjudaTitulo">Como usar sua Carteira</h2></div>
+<p class="wn-sub" id="carteiraAjudaSub">Um guia rápido para não contar o mesmo dinheiro duas vezes.</p>
+<ol class="cart-help-steps">
+<li><strong>Cadastre onde seu dinheiro está.</strong><p>Crie suas contas e aplicações. No cadastro, informe quanto colocou e quanto tem hoje: esses valores serão a posição inicial.</p></li>
+<li><strong>Escolha onde entram suas receitas.</strong><p>Em Receitas, o destino é opcional. Se escolher uma aplicação, o saldo será atualizado automaticamente. Rendimento aumenta o resultado no saldo; renda fixa e extra aumentam também a base.</p></li>
+<li><strong>Mova o dinheiro sem duplicar entradas.</strong><p>Transferência ou resgate para outra aplicação só move dinheiro dentro da carteira. Não é uma nova receita. Retirada ou resgate para fora reduz o total, sem criar despesa automaticamente.</p></li>
+<li><strong>Entenda os números.</strong><p><b>Saldo atual</b> é quanto tem hoje. <b>Base restante</b> é a parte do valor colocado que permanece nas aplicações. <b>Resultado no saldo</b> é saldo menos base, não o total de rendimentos recebidos.</p></li>
+<li><strong>Confira o histórico.</strong><p>O resumo separa aportes, rendimentos, saídas e ajustes. Transferências aparecem como saída e entrada com o mesmo código. Ao editar um saldo, a diferença fica registrada como ajuste.</p></li>
+</ol>
+<div class="cart-help-example"><strong>Exemplo simples</strong><p>Você colocou R$ 1.000 e tem R$ 1.000. Ao lançar R$ 50 de rendimento vinculado, o saldo vira R$ 1.050, a base continua R$ 1.000 e o resultado no saldo passa a R$ 50.</p></div>
+<p class="field-help">As posições são separadas por exercício. Os valores antigos não viram movimentações retroativas. Para reler, use <b>Como funciona?</b> no topo da Carteira.</p>
+<button class="btn-primary onboarding-ok" onclick="fecharAjudaCarteira()" type="button">Entendi, começar a usar</button>
 </div>
-
-<div id="toast" class="toast" role="status" aria-live="polite"></div>
-
+</div>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="script.js"></script>
-<script src="carteira.js"></script>
-
+<script src="carteira.js"></script><script src="metas-ui.js?v=2"></script><script src="aparencia.js?v=1"></script>
 <script>if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{})</script>
 </body>
 </html>
